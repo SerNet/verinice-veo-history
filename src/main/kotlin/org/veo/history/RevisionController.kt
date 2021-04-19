@@ -18,7 +18,7 @@ package org.veo.history
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import java.net.URL
+import java.net.URI
 import java.time.Instant
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -42,26 +42,34 @@ class RevisionController(
     private val authService: AuthService
 ) {
 
-    @Operation(description = "Retrieve all revisions of the resource at given URL.")
+    @Operation(description = "Retrieve all revisions of the resource at given URI.")
     @GetMapping
-    fun getRevisions(auth: Authentication, @RequestParam("url") url: URL): List<RevisionDto> {
-        return repo.findAll(url).map {
+    fun getRevisions(auth: Authentication, @RequestParam("uri") uri: URI): List<RevisionDto> {
+        return repo.findAll(uri).map {
             mapper.toDto(it)
         }
     }
 
     @Operation(description = "Retrieve a revision with given version number.")
     @GetMapping("/version/{version}")
-    fun getRevision(auth: Authentication, @RequestParam("url") url: URL, @PathVariable("version") version: Int): RevisionDto {
-        return repo.find(url, version)?.let {
+    fun getRevision(
+        auth: Authentication,
+        @RequestParam("uri") uri: URI,
+        @PathVariable("version") version: Long
+    ): RevisionDto {
+        return repo.find(uri, version)?.let {
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }
 
     @Operation(description = "Retrieve the revision that was most recent at given point in time.")
     @GetMapping("/contemporary/{time}")
-    fun getRevision(auth: Authentication, @RequestParam("url") url: URL, @PathVariable("time") time: Instant): RevisionDto {
-        return repo.find(url, time)?.let {
+    fun getRevision(
+        auth: Authentication,
+        @RequestParam("uri") uri: URI,
+        @PathVariable("time") time: Instant
+    ): RevisionDto {
+        return repo.find(uri, time)?.let {
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }

@@ -24,7 +24,7 @@ import org.springframework.http.HttpMethod
 class RevisionMvcTest : AbstractMvcTest() {
     @Test
     fun retrievesAllMockRevisions() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions?url=https://test.dev/foo"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions?uri=/foo"))
         (result as List<*>).apply {
             size shouldBe 5
             (get(0) as Map<*, *>).apply {
@@ -57,7 +57,7 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun retrievesRevisionByVersion() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions/version/2?url=https://test.dev/foo"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions/version/2?uri=/foo"))
         (result as Map<*, *>).apply {
             get("version") shouldBe 2
             get("author") shouldBe "jj"
@@ -66,7 +66,7 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun retrievesContemporaryRevision() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?url=https://test.dev/foo"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=/foo"))
         (result as Map<*, *>).apply {
             get("version") shouldBe 3
             get("author") shouldBe "jj"

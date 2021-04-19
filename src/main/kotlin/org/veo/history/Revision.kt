@@ -16,7 +16,7 @@
  */
 package org.veo.history
 
-import java.net.URL
+import java.net.URI
 import java.time.Instant
 import java.util.UUID
 
@@ -25,11 +25,11 @@ import java.util.UUID
  */
 class Revision(
     /** Resource Location */
-    val url: URL,
+    val uri: URI,
     /** Type of change (what happened?) */
     val type: RevisionType,
     /** Incremental version number */
-    val version: Int,
+    val version: Long,
     /** Time of change. */
     val time: Instant,
     /** Username (who made the change?) */

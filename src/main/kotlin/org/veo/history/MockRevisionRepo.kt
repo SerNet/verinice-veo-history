@@ -16,7 +16,7 @@
  */
 package org.veo.history
 
-import java.net.URL
+import java.net.URI
 import java.time.Instant
 import java.util.UUID
 import org.springframework.stereotype.Component
@@ -24,9 +24,9 @@ import org.springframework.stereotype.Component
 @Component
 class MockRevisionRepo {
     private val clientId = UUID.randomUUID()
-    private val revisions = listOf(
+    private val revisions = mutableListOf(
         Revision(
-            URL("https://veo-web.develop.verinice.com/api/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
+            URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
             RevisionType.CREATION, 1,
             Instant.parse("2021-01-27T11:27:00.013621Z"), "dm", clientId, mapOf(
             "name" to "Process 1",
@@ -44,7 +44,7 @@ class MockRevisionRepo {
             "subType" to mapOf("7c087c77-6d05-4839-a819-533aaeffdc4c" to "VT"), "parts" to emptyList<Any>(),
             "id" to "85773f48-d7bb-4605-a0fe-9db6f1db5b82")),
         Revision(
-            URL("https://veo-web.develop.verinice.com/api/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
+            URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
             RevisionType.MODIFICATION, 2,
             Instant.parse("2021-01-28T11:27:00.013621Z"), "jj", clientId, mapOf(
             "name" to "Super Process 1",
@@ -63,7 +63,7 @@ class MockRevisionRepo {
             "subType" to mapOf("7c087c77-6d05-4839-a819-533aaeffdc4c" to "VT"), "parts" to emptyList<Any>(),
             "id" to "85773f48-d7bb-4605-a0fe-9db6f1db5b82")),
         Revision(
-            URL("https://veo-web.develop.verinice.com/api/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
+            URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
             RevisionType.MODIFICATION, 3,
             Instant.parse("2021-01-29T11:27:00.013621Z"), "jj", clientId, mapOf(
             "name" to "Super Process 1",
@@ -82,7 +82,7 @@ class MockRevisionRepo {
             "subType" to mapOf("7c087c77-6d05-4839-a819-533aaeffdc4c" to "VT"), "parts" to emptyList<Any>(),
             "id" to "85773f48-d7bb-4605-a0fe-9db6f1db5b82")),
         Revision(
-            URL("https://veo-web.develop.verinice.com/api/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
+            URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
             RevisionType.MODIFICATION, 4,
             Instant.parse("2021-01-30T11:27:00.013621Z"), "jk", clientId, mapOf(
             "name" to "Super Process 1",
@@ -101,15 +101,15 @@ class MockRevisionRepo {
             "subType" to emptyMap<String, Any>(), "parts" to emptyList<Any>(),
             "id" to "85773f48-d7bb-4605-a0fe-9db6f1db5b82")),
         Revision(
-            URL("https://veo-web.develop.verinice.com/api/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
+            URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
             RevisionType.SOFT_DELETION, 5,
             Instant.parse("2021-01-30T11:27:00.013621Z"), "dm", clientId, null)
     )
 
-    fun findAll(url: URL): List<Revision> = revisions
+    fun findAll(uri: URI): List<Revision> = revisions
 
-    fun find(url: URL, version: Int): Revision? = revisions.firstOrNull { it.version == version }
+    fun find(uri: URI, version: Long): Revision? = revisions.firstOrNull { it.version == version }
 
-    fun find(url: URL, time: Instant): Revision? =
+    fun find(uri: URI, time: Instant): Revision? =
         revisions.sortedByDescending { it.time }.firstOrNull { it.time <= time }
 }
