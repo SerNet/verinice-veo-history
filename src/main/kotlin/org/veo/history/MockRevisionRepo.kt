@@ -112,4 +112,8 @@ class MockRevisionRepo {
 
     fun find(uri: URI, time: Instant): Revision? =
         revisions.sortedByDescending { it.time }.firstOrNull { it.time <= time }
+
+    fun add(revision: Revision) {
+        revisions.add(revision)
+    }
 }

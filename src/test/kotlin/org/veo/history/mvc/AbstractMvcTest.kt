@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.HttpMethod
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @EnableAsync
 @ComponentScan("org.veo.history")
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 abstract class AbstractMvcTest {
 
     @Autowired

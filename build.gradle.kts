@@ -27,8 +27,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
     implementation("io.mockk:mockk:1.10.5")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
     testImplementation("org.codehaus.groovy:groovy-json:3.0.7")
