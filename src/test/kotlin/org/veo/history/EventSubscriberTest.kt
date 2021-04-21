@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 
 class EventSubscriberTest {
-    private val repoMock: MockRevisionRepo = mockk()
+    private val repoMock: RevisionRepo = mockk()
     private val sut = EventSubscriber(repoMock)
 
     private val creationMessage =

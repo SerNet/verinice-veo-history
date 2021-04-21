@@ -22,12 +22,12 @@ import java.time.Instant
 import java.util.UUID
 import org.junit.jupiter.api.Test
 
-class MockRevisionRepoTest {
-    private val sut = MockRevisionRepo()
+class RevisionRepoTest {
+    private val sut = RevisionRepo()
 
     @Test
     fun `throws when adding duplicate revisions`() {
-        // Adding different versions of the resource is OK
+        // Adding different versions of the same resource is OK
         sut.add(
             Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 12, Instant.now(), "nobody", UUID.randomUUID(),
                 emptyMap<String, String>()))
@@ -35,7 +35,12 @@ class MockRevisionRepoTest {
             Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
                 emptyMap<String, String>()))
 
-        // Adding the same version number again should cause an exception
+        // Adding the same version number of a different resource is also OK.
+        sut.add(
+            Revision(URI.create("/foo/car"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
+                emptyMap<String, String>()))
+
+        // Adding the same version number of the same resource should cause an exception.
         shouldThrow<DuplicateRevisionException> {
             sut.add(
                 Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody else",

@@ -18,6 +18,7 @@ package org.veo.history.mvc
 
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,6 +29,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.veo.history.RevisionRepo
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAsync
@@ -38,6 +40,9 @@ abstract class AbstractMvcTest {
 
     @Autowired
     protected lateinit var mvc: MockMvc
+
+    @Autowired
+    protected lateinit var revisionRepo: RevisionRepo
 
     protected fun parseBody(result: MvcResult): Any {
         return JsonSlurper().parseText(result.response.contentAsString)
@@ -53,5 +58,10 @@ abstract class AbstractMvcTest {
         return mvc
                 .perform(request)
                 .andReturn()
+    }
+
+    @AfterEach
+    protected fun tearDown() {
+        revisionRepo.clear()
     }
 }

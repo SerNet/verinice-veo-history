@@ -37,7 +37,7 @@ import org.veo.history.exceptions.ResourceNotFoundException
 @RequestMapping("/revisions")
 @SecurityRequirement(name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH)
 class RevisionController(
-    private val repo: MockRevisionRepo,
+    private val repo: RevisionRepo,
     private val mapper: RevisionMapper,
     private val authService: AuthService
 ) {

@@ -33,7 +33,7 @@ private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnProperty(value = ["veo.history.rabbitmq.subscribe"], havingValue = "true")
-class EventSubscriber(private val mockRevisionRepo: MockRevisionRepo) {
+class EventSubscriber(private val revisionRepo: RevisionRepo) {
     private val mapper = ObjectMapper()
     @RabbitListener(bindings = [QueueBinding(
         value = Queue(value = "\${veo.history.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false"),
@@ -44,7 +44,7 @@ class EventSubscriber(private val mockRevisionRepo: MockRevisionRepo) {
         log.debug { "Received entity event message with ID ${messageNode.get("id").asText()}" }
         val content = mapper.readTree(messageNode.get("content").asText())
         try {
-            mockRevisionRepo.add(Revision(
+            revisionRepo.add(Revision(
                 URI.create(content.get("uri").asText()),
                 RevisionType.valueOf(content.get("type").asText()),
                 content.get("version").asLong(),
