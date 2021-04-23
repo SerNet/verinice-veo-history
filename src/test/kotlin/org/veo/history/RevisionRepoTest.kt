@@ -17,6 +17,7 @@
 package org.veo.history
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -24,6 +25,24 @@ import org.junit.jupiter.api.Test
 
 class RevisionRepoTest {
     private val sut = RevisionRepo()
+
+    @Test
+    fun `doesn't retrieve revisions of other clients`() {
+        val revision = Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 42, Instant.now(), "douglas adams",
+            UUID.randomUUID(), null)
+        sut.add(revision)
+
+        // The real client can access the revision
+        sut.findAll(revision.uri, revision.clientId) shouldBe listOf(revision)
+        sut.find(revision.uri, revision.version, revision.clientId) shouldBe revision
+        sut.find(revision.uri, revision.time, revision.clientId) shouldBe revision
+
+        // Another client cannot access the revision
+        val rogueClientId = UUID.randomUUID()
+        sut.findAll(revision.uri, rogueClientId) shouldBe emptyList()
+        sut.find(revision.uri, revision.version, rogueClientId) shouldBe null
+        sut.find(revision.uri, revision.time, rogueClientId) shouldBe null
+    }
 
     @Test
     fun `throws when adding duplicate revisions`() {

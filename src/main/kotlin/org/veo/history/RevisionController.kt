@@ -45,7 +45,7 @@ class RevisionController(
     @Operation(description = "Retrieve all revisions of the resource at given URI.")
     @GetMapping
     fun getRevisions(auth: Authentication, @RequestParam("uri") uri: URI): List<RevisionDto> {
-        return repo.findAll(uri).map {
+        return repo.findAll(uri, authService.getClientId(auth)).map {
             mapper.toDto(it)
         }
     }
@@ -57,7 +57,7 @@ class RevisionController(
         @RequestParam("uri") uri: URI,
         @PathVariable("changeNumber") changeNumber: Long
     ): RevisionDto {
-        return repo.find(uri, changeNumber)?.let {
+        return repo.find(uri, changeNumber, authService.getClientId(auth))?.let {
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }
@@ -69,7 +69,7 @@ class RevisionController(
         @RequestParam("uri") uri: URI,
         @PathVariable("time") time: Instant
     ): RevisionDto {
-        return repo.find(uri, time)?.let {
+        return repo.find(uri, time, authService.getClientId(auth))?.let {
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }

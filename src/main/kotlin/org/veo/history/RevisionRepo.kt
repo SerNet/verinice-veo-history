@@ -18,19 +18,21 @@ package org.veo.history
 
 import java.net.URI
 import java.time.Instant
+import java.util.UUID
 import org.springframework.stereotype.Component
 
 @Component
 class RevisionRepo {
     private val revisions = mutableListOf<Revision>()
 
-    fun findAll(uri: URI): List<Revision> = revisions
-        .filter { it.uri == uri }
+    fun findAll(uri: URI, clientId: UUID): List<Revision> = revisions
+        .filter { it.clientId == clientId && it.uri == uri }
 
-    fun find(uri: URI, changeNumber: Long): Revision? = findAll(uri).firstOrNull { it.changeNumber == changeNumber }
+    fun find(uri: URI, changeNumber: Long, clientId: UUID): Revision? =
+        findAll(uri, clientId).firstOrNull { it.changeNumber == changeNumber }
 
-    fun find(uri: URI, time: Instant): Revision? =
-        findAll(uri).sortedByDescending { it.time }.firstOrNull { it.time <= time }
+    fun find(uri: URI, time: Instant, clientId: UUID): Revision? =
+        findAll(uri, clientId).sortedByDescending { it.time }.firstOrNull { it.time <= time }
 
     @Throws(DuplicateRevisionException::class)
     fun add(revision: Revision) {

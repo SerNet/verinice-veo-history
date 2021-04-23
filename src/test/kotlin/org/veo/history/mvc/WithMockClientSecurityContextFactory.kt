@@ -28,7 +28,7 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
         return SecurityContextHolder.createEmptyContext().apply {
             authentication = MockToken(
                 Jwt("test", Instant.now(), Instant.MAX,
-                    mapOf("test" to "test"), mapOf("groups" to "/veo_client:" + annotation.clientUuid)))
+                    mapOf("test" to "test"), mapOf("groups" to "/veo_client:$mockClientUuid")))
         }
     }
 
