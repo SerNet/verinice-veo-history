@@ -21,6 +21,7 @@ import java.net.URI
 import java.time.Instant
 import java.util.UUID
 import mu.KotlinLogging
+import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.Exchange
 import org.springframework.amqp.rabbit.annotation.Queue
 import org.springframework.amqp.rabbit.annotation.QueueBinding
@@ -42,14 +43,19 @@ class EventSubscriber(private val mockRevisionRepo: MockRevisionRepo) {
         val messageNode = mapper.readTree(message)
         log.debug { "Received entity event message with ID ${messageNode.get("id").asText()}" }
         val content = mapper.readTree(messageNode.get("content").asText())
-        mockRevisionRepo.add(Revision(
-            URI.create(content.get("uri").asText()),
-            RevisionType.valueOf(content.get("type").asText()),
-            content.get("version").asLong(),
-            Instant.parse(content.get("time").asText()),
-            content.get("author").asText(),
-            UUID.fromString(content.get("clientId").asText()),
-            content.get("content")
-        ))
+        try {
+            mockRevisionRepo.add(Revision(
+                URI.create(content.get("uri").asText()),
+                RevisionType.valueOf(content.get("type").asText()),
+                content.get("version").asLong(),
+                Instant.parse(content.get("time").asText()),
+                content.get("author").asText(),
+                UUID.fromString(content.get("clientId").asText()),
+                content.get("content")
+            ))
+        } catch (ex: DuplicateRevisionException) {
+            log.warn(ex) { "Ignoring duplicated entity message." }
+            throw AmqpRejectAndDontRequeueException(ex.message)
+        }
     }
 }

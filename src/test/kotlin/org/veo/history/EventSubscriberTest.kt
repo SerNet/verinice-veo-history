@@ -17,28 +17,33 @@
 package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.slot
+import java.io.IOException
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
 import org.junit.jupiter.api.Test
+import org.springframework.amqp.AmqpRejectAndDontRequeueException
 
 class EventSubscriberTest {
     private val repoMock: MockRevisionRepo = mockk()
     private val sut = EventSubscriber(repoMock)
+
+    private val creationMessage =
+        "{\"routingKey\":\"nullversioning_event\",\"content\":\"{\\\"uri\\\":\\\"/units/7e33c300-da43-4a82-b21b-fa4b89c023e5\\\",\\\"type\\\":\\\"CREATION\\\",\\\"version\\\":0,\\\"time\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"author\\\":\\\"veo-testuser1\\\",\\\"clientId\\\":\\\"21712604-ed85-4f08-aa46-1cf39607ee9e\\\",\\\"content\\\":{\\\"name\\\":\\\"My unit\\\",\\\"createdAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"createdBy\\\":\\\"veo-testuser1\\\",\\\"updatedAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"updatedBy\\\":\\\"veo-testuser1\\\",\\\"units\\\":[],\\\"domains\\\":[{\\\"displayName\\\":\\\"Placeholder domain - see issue VEO-227\\\",\\\"targetUri\\\":\\\"/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d\\\"}],\\\"id\\\":\\\"7e33c300-da43-4a82-b21b-fa4b89c023e5\\\"}}\",\"id\":10,\"timestamp\":\"2021-04-16T09:54:54.874040Z\"}"
 
     @Test
     fun `adds versioning event to repo`() {
         val revisionSlot = slot<Revision>()
         every { repoMock.add(capture(revisionSlot)) } just runs
 
-        sut.handleEntityEvent(
-            "{\"routingKey\":\"nullversioning_event\",\"content\":\"{\\\"uri\\\":\\\"/units/7e33c300-da43-4a82-b21b-fa4b89c023e5\\\",\\\"type\\\":\\\"CREATION\\\",\\\"version\\\":0,\\\"time\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"author\\\":\\\"veo-testuser1\\\",\\\"clientId\\\":\\\"21712604-ed85-4f08-aa46-1cf39607ee9e\\\",\\\"content\\\":{\\\"name\\\":\\\"My unit\\\",\\\"createdAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"createdBy\\\":\\\"veo-testuser1\\\",\\\"updatedAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"updatedBy\\\":\\\"veo-testuser1\\\",\\\"units\\\":[],\\\"domains\\\":[{\\\"displayName\\\":\\\"Placeholder domain - see issue VEO-227\\\",\\\"targetUri\\\":\\\"/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d\\\"}],\\\"id\\\":\\\"7e33c300-da43-4a82-b21b-fa4b89c023e5\\\"}}\",\"id\":10,\"timestamp\":\"2021-04-16T09:54:54.874040Z\"}")
+        sut.handleEntityEvent(creationMessage)
 
         revisionSlot.captured.apply {
             uri shouldBe URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5")
@@ -50,6 +55,24 @@ class EventSubscriberTest {
             (content as JsonNode).apply {
                 get("name").asText() shouldBe "My unit"
             }
+        }
+    }
+
+    @Test
+    fun `rejects but doesn't requeue message if it's a duplicate`() {
+        every { repoMock.add(any()) } throws DuplicateRevisionException(URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"), 0)
+
+        shouldThrow<AmqpRejectAndDontRequeueException> {
+            sut.handleEntityEvent(creationMessage)
+        }
+    }
+
+    @Test
+    fun `delegates other repo exceptions`() {
+        every { repoMock.add(any()) } throws IOException("I can't save that stuff.")
+
+        shouldThrow<IOException> {
+            sut.handleEntityEvent(creationMessage)
         }
     }
 }

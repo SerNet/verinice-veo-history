@@ -113,7 +113,11 @@ class MockRevisionRepo {
     fun find(uri: URI, time: Instant): Revision? =
         revisions.sortedByDescending { it.time }.firstOrNull { it.time <= time }
 
+    @Throws(DuplicateRevisionException::class)
     fun add(revision: Revision) {
+        if (revisions.any { it.uri == revision.uri && it.version == revision.version }) {
+            throw DuplicateRevisionException(revision.uri, revision.version)
+        }
         revisions.add(revision)
     }
 }
