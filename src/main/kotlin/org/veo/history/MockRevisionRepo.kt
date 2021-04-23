@@ -102,7 +102,7 @@ class MockRevisionRepo {
             "id" to "85773f48-d7bb-4605-a0fe-9db6f1db5b82")),
         Revision(
             URI.create("/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"),
-            RevisionType.SOFT_DELETION, 5,
+            RevisionType.HARD_DELETION, 5,
             Instant.parse("2021-01-30T11:27:00.013621Z"), "dm", clientId, null)
     )
 

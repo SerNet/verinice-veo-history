@@ -49,7 +49,7 @@ class RevisionMvcTest : AbstractMvcTest() {
             }
             (get(4) as Map<*, *>).apply {
                 get("version") shouldBe 5
-                get("type") shouldBe "SOFT_DELETION"
+                get("type") shouldBe "HARD_DELETION"
                 get("author") shouldBe "dm"
             }
         }
