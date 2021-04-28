@@ -27,15 +27,15 @@ class RevisionRepo {
     fun findAll(uri: URI): List<Revision> = revisions
         .filter { it.uri == uri }
 
-    fun find(uri: URI, version: Long): Revision? = findAll(uri).firstOrNull { it.version == version }
+    fun find(uri: URI, changeNumber: Long): Revision? = findAll(uri).firstOrNull { it.changeNumber == changeNumber }
 
     fun find(uri: URI, time: Instant): Revision? =
         findAll(uri).sortedByDescending { it.time }.firstOrNull { it.time <= time }
 
     @Throws(DuplicateRevisionException::class)
     fun add(revision: Revision) {
-        if (revisions.any { it.uri == revision.uri && it.version == revision.version }) {
-            throw DuplicateRevisionException(revision.uri, revision.version)
+        if (revisions.any { it.uri == revision.uri && it.changeNumber == revision.changeNumber }) {
+            throw DuplicateRevisionException(revision.uri, revision.changeNumber)
         }
         revisions.add(revision)
     }

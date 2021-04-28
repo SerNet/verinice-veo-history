@@ -47,7 +47,7 @@ class EventSubscriber(private val revisionRepo: RevisionRepo) {
             revisionRepo.add(Revision(
                 URI.create(content.get("uri").asText()),
                 RevisionType.valueOf(content.get("type").asText()),
-                content.get("version").asLong(),
+                content.get("changeNumber").asLong(),
                 Instant.parse(content.get("time").asText()),
                 content.get("author").asText(),
                 UUID.fromString(content.get("clientId").asText()),

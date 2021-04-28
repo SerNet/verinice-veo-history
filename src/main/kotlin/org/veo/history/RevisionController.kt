@@ -50,14 +50,14 @@ class RevisionController(
         }
     }
 
-    @Operation(description = "Retrieve a revision with given version number.")
-    @GetMapping("/version/{version}")
+    @Operation(description = "Retrieve a revision with given change number.")
+    @GetMapping("/change/{changeNumber}")
     fun getRevision(
         auth: Authentication,
         @RequestParam("uri") uri: URI,
-        @PathVariable("version") version: Long
+        @PathVariable("changeNumber") changeNumber: Long
     ): RevisionDto {
-        return repo.find(uri, version)?.let {
+        return repo.find(uri, changeNumber)?.let {
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }

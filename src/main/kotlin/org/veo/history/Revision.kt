@@ -28,8 +28,8 @@ class Revision(
     val uri: URI,
     /** Type of change (what happened?) */
     val type: RevisionType,
-    /** Incremental version number */
-    val version: Long,
+    /** Resource-specific zero-based change number */
+    val changeNumber: Long,
     /** Time of change. */
     val time: Instant,
     /** Username (who made the change?) */

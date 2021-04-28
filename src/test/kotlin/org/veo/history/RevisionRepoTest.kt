@@ -27,7 +27,7 @@ class RevisionRepoTest {
 
     @Test
     fun `throws when adding duplicate revisions`() {
-        // Adding different versions of the same resource is OK
+        // Adding different changes of the same resource is OK
         sut.add(
             Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 12, Instant.now(), "nobody", UUID.randomUUID(),
                 emptyMap<String, String>()))
@@ -35,12 +35,12 @@ class RevisionRepoTest {
             Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
                 emptyMap<String, String>()))
 
-        // Adding the same version number of a different resource is also OK.
+        // Adding the same change number of a different resource is also OK.
         sut.add(
             Revision(URI.create("/foo/car"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
                 emptyMap<String, String>()))
 
-        // Adding the same version number of the same resource should cause an exception.
+        // Adding the same change number of the same resource should cause an exception.
         shouldThrow<DuplicateRevisionException> {
             sut.add(
                 Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody else",

@@ -22,8 +22,8 @@ import org.veo.history.RevisionType
 
 @Schema(description = "An archived revision of a resource from any of the veo REST services. Revisions are created when the resource is created, modified or deleted.")
 class RevisionDto(
-    @Schema(description = "Incremental version identifier.")
-    val version: Long,
+    @Schema(description = "Resource-specific zero-based change number.")
+    val changeNumber: Long,
     @Schema(description = "Type of change that was performed.")
     val type: RevisionType,
     @Schema(description = "Time when this change was performed.")

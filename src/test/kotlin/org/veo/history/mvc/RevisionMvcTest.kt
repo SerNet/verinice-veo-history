@@ -70,27 +70,27 @@ class RevisionMvcTest : AbstractMvcTest() {
         (result as List<*>).apply {
             size shouldBe 5
             (get(0) as Map<*, *>).apply {
-                get("version") shouldBe 1
+                get("changeNumber") shouldBe 1
                 get("type") shouldBe "CREATION"
                 get("author") shouldBe "dm"
             }
             (get(1) as Map<*, *>).apply {
-                get("version") shouldBe 2
+                get("changeNumber") shouldBe 2
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
             }
             (get(2) as Map<*, *>).apply {
-                get("version") shouldBe 3
+                get("changeNumber") shouldBe 3
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
             }
             (get(3) as Map<*, *>).apply {
-                get("version") shouldBe 4
+                get("changeNumber") shouldBe 4
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jk"
             }
             (get(4) as Map<*, *>).apply {
-                get("version") shouldBe 5
+                get("changeNumber") shouldBe 5
                 get("type") shouldBe "HARD_DELETION"
                 get("author") shouldBe "dm"
             }
@@ -98,10 +98,10 @@ class RevisionMvcTest : AbstractMvcTest() {
     }
 
     @Test
-    fun retrievesRevisionByVersion() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions/version/2?uri=$resourceUri"))
+    fun retrievesRevisionByChangeNumber() {
+        val result = parseBody(request(HttpMethod.GET, "/revisions/change/2?uri=$resourceUri"))
         (result as Map<*, *>).apply {
-            get("version") shouldBe 2
+            get("changeNumber") shouldBe 2
             get("author") shouldBe "jj"
         }
     }
@@ -111,7 +111,7 @@ class RevisionMvcTest : AbstractMvcTest() {
         val result =
             parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=$resourceUri"))
         (result as Map<*, *>).apply {
-            get("version") shouldBe 3
+            get("changeNumber") shouldBe 3
             get("author") shouldBe "jj"
         }
     }
