@@ -22,6 +22,7 @@ import java.time.Instant
 import java.util.UUID
 import mu.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
+import org.springframework.amqp.rabbit.annotation.Argument
 import org.springframework.amqp.rabbit.annotation.Exchange
 import org.springframework.amqp.rabbit.annotation.Queue
 import org.springframework.amqp.rabbit.annotation.QueueBinding
@@ -36,9 +37,11 @@ private val log = KotlinLogging.logger {}
 class EventSubscriber(private val revisionRepo: RevisionRepo) {
     private val mapper = ObjectMapper()
     @RabbitListener(bindings = [QueueBinding(
-        value = Queue(value = "\${veo.history.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false"),
+        value = Queue(value = "\${veo.history.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false",
+                arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")]),
         exchange = Exchange(value = "\${veo.history.rabbitmq.exchange}", type = "topic"),
-        key = ["\${veo.history.rabbitmq.routing_key_prefix}versioning_event"])])
+        key = ["\${veo.history.rabbitmq.routing_key_prefix}versioning_event"]
+    )])
     fun handleEntityEvent(message: String) {
         val messageNode = mapper.readTree(message)
         log.debug { "Received entity event message with ID ${messageNode.get("id").asText()}" }
