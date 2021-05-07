@@ -16,6 +16,7 @@
  */
 package org.veo.history.mvc
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
 import java.net.URI
 import java.time.Instant
@@ -28,8 +29,8 @@ import org.veo.history.RevisionType
 
 @WithMockClient
 class RevisionMvcTest : AbstractMvcTest() {
-
     private val resourceUri = "/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"
+    private val om = ObjectMapper()
 
     @BeforeEach
     fun setup() {
@@ -38,23 +39,23 @@ class RevisionMvcTest : AbstractMvcTest() {
             Revision(
                 URI.create(resourceUri),
                 RevisionType.CREATION, 1,
-                Instant.parse("2021-01-27T11:27:00.013621Z"), "dm", clientId, mapOf(
-                "name" to "Process 1")),
+                Instant.parse("2021-01-27T11:27:00.013621Z"), "dm", clientId,
+                om.createObjectNode().put("name", "Process 1")),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 2,
-                Instant.parse("2021-01-28T11:27:00.013621Z"), "jj", clientId, mapOf(
-                "name" to "Super Process 1")),
+                Instant.parse("2021-01-28T11:27:00.013621Z"), "jj", clientId,
+                om.createObjectNode().put("name", "Super Process 1")),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 3,
-                Instant.parse("2021-01-29T11:27:00.013621Z"), "jj", clientId, mapOf(
-                "name" to "Mega Process 1")),
+                Instant.parse("2021-01-29T11:27:00.013621Z"), "jj", clientId,
+                om.createObjectNode().put("name", "Mega Process 1")),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 4,
-                Instant.parse("2021-01-30T11:27:00.013621Z"), "jk", clientId, mapOf(
-                "name" to "Ultra Process 1")),
+                Instant.parse("2021-01-30T11:27:00.013621Z"), "jk", clientId,
+                om.createObjectNode().put("name", "Ultra Process 1")),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.HARD_DELETION, 5,

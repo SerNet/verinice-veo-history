@@ -16,13 +16,26 @@
  */
 package org.veo.history
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.vladmihalcea.hibernate.type.json.JsonType
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.Table
+import javax.persistence.UniqueConstraint
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 
 /**
  * An archived revision of a veo REST resource.
  */
+@Entity
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("uri", "changeNumber"))])
+@TypeDef(name = "json", typeClass = JsonType::class)
 class Revision(
     /** Resource Location */
     val uri: URI,
@@ -37,5 +50,11 @@ class Revision(
     /** ID of the client the resource belonged to. Other clients must never access this revision. */
     val clientId: UUID,
     /** Resource content (JSON response body at time of change). */
-    val content: Any?
-)
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    val content: JsonNode?
+) {
+    @Id
+    @GeneratedValue
+    private var id: Long = 0
+}

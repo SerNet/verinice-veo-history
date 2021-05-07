@@ -6,6 +6,16 @@ def projectVersion
 def imageForGradleStages = 'openjdk:11-jdk'
 def dockerArgsForGradleStages = '-e GRADLE_USER_HOME=$WORKSPACE/gradle-home -v $HOME/.gradle/caches:/gradle-cache:ro -e GRADLE_RO_DEP_CACHE=/gradle-cache'
 
+def withDockerNetwork(Closure inner) {
+  try {
+    networkId = UUID.randomUUID().toString()
+    sh "docker network create ${networkId}"
+    inner.call(networkId)
+  } finally {
+    sh "docker network rm ${networkId}"
+  }
+}
+
 pipeline {
     agent none
 
@@ -47,22 +57,27 @@ pipeline {
                 sh './gradlew --no-daemon classes'
             }
         }
-        stage('Test') {
-            agent {
-                docker {
-                    image imageForGradleStages
-                    args dockerArgsForGradleStages
+        stage('Gradle test') {
+                    agent any
+                    environment {
+                        JAVA_HOME='/opt/java/openjdk'
+                    }
+                    steps {
+                        script {
+                            def veoHistoryTests = docker.build("veo_history_tests", "-f Test-Dockerfile .")
+                            withDockerNetwork{ n ->
+                                docker.image('postgres').withRun("--network ${n} --name veo-history -e POSTGRES_PASSWORD=postgres") { db ->
+                                    sh 'until pg_isready; do sleep 1; done'
+                                    veoHistoryTests.inside("--network ${n} --name veo-history-${n} --entrypoint=''") {
+                                        sh "gradle test --no-daemon -PdataSourceUrl=jdbc:postgresql://veo-history:5432/postgres -PdataSourceUsername=postgres -PdataSourcePassword=postgres"
+                                        junit testResults: 'build/test-results/test/**/*.xml'
+                                        jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-            steps {
-                // Don't fail the build here, let the junit step decide what to do if there are test failures.
-                sh script: './gradlew --no-daemon test', returnStatus: true
-                // Touch all test results (to keep junit step from complaining about old results).
-                sh script: 'find build/test-results | xargs touch'
-                junit testResults: 'build/test-results/test/**/*.xml'
-                jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
-            }
-        }
         stage('Artifacts') {
             agent {
                 docker {

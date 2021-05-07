@@ -14,10 +14,25 @@
  * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.history
+package org.veo.history.mvc
 
-import java.lang.Exception
-import java.net.URI
+import org.junit.jupiter.api.AfterEach
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.test.context.ActiveProfiles
+import org.veo.history.RevisionRepo
 
-class DuplicateRevisionException(uri: URI, changeNumber: Long, inner: Exception? = null) :
-    Throwable("Redundant revision for resource $uri with change number $changeNumber", inner)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ComponentScan("org.veo.history")
+@ActiveProfiles("test")
+abstract class AbstractSpringTest {
+
+    @Autowired
+    protected lateinit var revisionRepo: RevisionRepo
+
+    @AfterEach
+    protected fun tearDown() {
+        revisionRepo.clear()
+    }
+}

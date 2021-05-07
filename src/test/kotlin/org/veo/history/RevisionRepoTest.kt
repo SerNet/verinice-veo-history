@@ -17,54 +17,22 @@
 package org.veo.history
 
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.shouldBe
-import java.net.URI
-import java.time.Instant
-import java.util.UUID
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import org.springframework.dao.DataIntegrityViolationException
+import org.veo.history.jpa.RevisionJpaRepo
 
 class RevisionRepoTest {
-    private val sut = RevisionRepo()
+    private val jpaRepo = mockk<RevisionJpaRepo>()
+    private val sut = RevisionRepo(jpaRepo)
 
     @Test
-    fun `doesn't retrieve revisions of other clients`() {
-        val revision = Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 42, Instant.now(), "douglas adams",
-            UUID.randomUUID(), null)
-        sut.add(revision)
+    fun `wraps data integrity violation`() {
+        every { jpaRepo.save(any()) } throws DataIntegrityViolationException("")
 
-        // The real client can access the revision
-        sut.findAll(revision.uri, revision.clientId) shouldBe listOf(revision)
-        sut.find(revision.uri, revision.version, revision.clientId) shouldBe revision
-        sut.find(revision.uri, revision.time, revision.clientId) shouldBe revision
-
-        // Another client cannot access the revision
-        val rogueClientId = UUID.randomUUID()
-        sut.findAll(revision.uri, rogueClientId) shouldBe emptyList()
-        sut.find(revision.uri, revision.version, rogueClientId) shouldBe null
-        sut.find(revision.uri, revision.time, rogueClientId) shouldBe null
-    }
-
-    @Test
-    fun `throws when adding duplicate revisions`() {
-        // Adding different changes of the same resource is OK
-        sut.add(
-            Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 12, Instant.now(), "nobody", UUID.randomUUID(),
-                emptyMap<String, String>()))
-        sut.add(
-            Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
-                emptyMap<String, String>()))
-
-        // Adding the same change number of a different resource is also OK.
-        sut.add(
-            Revision(URI.create("/foo/car"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody", UUID.randomUUID(),
-                emptyMap<String, String>()))
-
-        // Adding the same change number of the same resource should cause an exception.
         shouldThrow<DuplicateRevisionException> {
-            sut.add(
-                Revision(URI.create("/foo/bar"), RevisionType.MODIFICATION, 13, Instant.now(), "anybody else",
-                    UUID.randomUUID(),
-                    emptyMap<String, String>()))
+            sut.add(mockk(relaxed = true))
         }
     }
 }
