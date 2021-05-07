@@ -74,21 +74,33 @@ class RevisionMvcTest : AbstractMvcTest() {
                 get("changeNumber") shouldBe 1
                 get("type") shouldBe "CREATION"
                 get("author") shouldBe "dm"
+                (get("content") as Map<*, *>).apply {
+                    get("name") shouldBe "Process 1"
+                }
             }
             (get(1) as Map<*, *>).apply {
                 get("changeNumber") shouldBe 2
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
+                (get("content") as Map<*, *>).apply {
+                    get("name") shouldBe "Super Process 1"
+                }
             }
             (get(2) as Map<*, *>).apply {
                 get("changeNumber") shouldBe 3
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
+                (get("content") as Map<*, *>).apply {
+                    get("name") shouldBe "Mega Process 1"
+                }
             }
             (get(3) as Map<*, *>).apply {
                 get("changeNumber") shouldBe 4
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jk"
+                (get("content") as Map<*, *>).apply {
+                    get("name") shouldBe "Ultra Process 1"
+                }
             }
             (get(4) as Map<*, *>).apply {
                 get("changeNumber") shouldBe 5
