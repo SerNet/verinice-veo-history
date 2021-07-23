@@ -18,11 +18,14 @@
 package org.veo.history.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
+import java.net.URI
 import java.time.Instant
 import org.veo.history.RevisionType
 
 @Schema(description = "An archived revision of a resource from any of the veo REST services. Revisions are created when the resource is created, modified or deleted.")
 class RevisionDto(
+    @Schema(description = "Location of the resource.")
+    val uri: URI,
     @Schema(description = "Resource-specific zero-based change number.")
     val changeNumber: Long,
     @Schema(description = "Type of change that was performed.")

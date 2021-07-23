@@ -23,6 +23,6 @@ import org.veo.history.dtos.RevisionDto
 @Component
 class RevisionMapper {
     fun toDto(entity: Revision): RevisionDto {
-        return RevisionDto(entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
+        return RevisionDto(entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
     }
 }
