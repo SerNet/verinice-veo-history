@@ -117,6 +117,46 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     }
 
     @Test
+    fun `finds user revisions by owner`() {
+        // Two revisions that should match
+        sut.save(
+            Revision(URI.create("/user-test/1"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T10:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+        sut.save(
+            Revision(URI.create("/user-test/1"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T11:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+        // Shouldn't match because it's the wrong author
+        sut.save(
+            Revision(URI.create("/user-test/2"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T12:00:00.000000Z"), "anotherUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+        // Shouldn't match because it's the wrong owner
+        sut.save(
+            Revision(URI.create("/user-test/3"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T13:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2"))))
+        // Shouldn't match because it's the wrong client (kind of unrealistic but just to be sure)
+        sut.save(
+            Revision(URI.create("/user-test/4"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T14:00:00.000000Z"), "thisUser", UUID.randomUUID(),
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+
+        val result = sut.findLatestByAuthorAndOwner("thisUser", "/owner/1", clientId)
+
+        result.size shouldBe 2
+        result.forEach {
+            it.clientId shouldBe clientId
+            it.author shouldBe "thisUser"
+            it.content?.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
+        }
+        result[0].let {
+            it.uri shouldBe URI.create("/user-test/1")
+            it.changeNumber shouldBe 2
+        }
+        result[1].let {
+            it.uri shouldBe URI.create("/user-test/1")
+            it.changeNumber shouldBe 1
+        }
+    }
+
+    @Test
     fun `finds revision by name in content`() {
         val name = "one"
         val result = sut.find(name, clientId)

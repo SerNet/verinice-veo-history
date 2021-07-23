@@ -41,22 +41,30 @@ class RevisionMvcTest : AbstractMvcTest() {
                 URI.create(resourceUri),
                 RevisionType.CREATION, 1,
                 Instant.parse("2021-01-27T11:27:00.013621Z"), "dm", clientId,
-                om.createObjectNode().put("name", "Process 1")),
+                om.createObjectNode()
+                    .put("name", "Process 1")
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 2,
                 Instant.parse("2021-01-28T11:27:00.013621Z"), "jj", clientId,
-                om.createObjectNode().put("name", "Super Process 1")),
+                om.createObjectNode()
+                    .put("name", "Super Process 1")
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 3,
                 Instant.parse("2021-01-29T11:27:00.013621Z"), "jj", clientId,
-                om.createObjectNode().put("name", "Mega Process 1")),
+                om.createObjectNode()
+                    .put("name", "Mega Process 1")
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 4,
                 Instant.parse("2021-01-30T11:27:00.013621Z"), "jk", clientId,
-                om.createObjectNode().put("name", "Ultra Process 1")),
+                om.createObjectNode()
+                    .put("name", "Ultra Process 1")
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.HARD_DELETION, 5,
@@ -127,6 +135,21 @@ class RevisionMvcTest : AbstractMvcTest() {
         (result as Map<*, *>).apply {
             get("changeNumber") shouldBe 3
             get("author") shouldBe "jj"
+        }
+    }
+
+    @Test
+    @WithMockClient("jj")
+    fun retrievesLatestRevisionsByCurrentUser() {
+        val result = parseBody(request(HttpMethod.GET, "/revisions/my-latest?owner=/owners/1"))
+        (result as List<*>).apply {
+            size shouldBe 2
+            forEach {
+                (it as Map<*, *>).apply {
+                    get("author") shouldBe "jj"
+                    get("uri") shouldBe resourceUri
+                }
+            }
         }
     }
 }

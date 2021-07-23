@@ -20,6 +20,7 @@ package org.veo.history
 import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
 
@@ -30,10 +31,20 @@ class AuthService {
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun getClientId(authentication: Authentication): UUID {
+        return getToken(authentication)
+            .getClaimAsStringList("groups")
+            ?.let { extractClientId(it) }
+            ?: throw IllegalArgumentException("JWT does not contain group claims.")
+    }
+
+    fun getUsername(auth: Authentication): String {
+        return getToken(auth).getClaimAsString("preferred_username")
+            ?: throw IllegalArgumentException("JWT does not contain user name.")
+    }
+
+    private fun getToken(authentication: Authentication): Jwt {
         if (authentication is JwtAuthenticationToken) {
-            return authentication.token.getClaimAsStringList("groups")
-                    ?.let { extractClientId(it) }
-                    ?: throw IllegalArgumentException("JWT does not contain group claims.")
+            return authentication.token
         }
         throw IllegalArgumentException("Principal is not a JWT.")
     }

@@ -42,4 +42,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
     /** JSON query example */
     @Query("SELECT * FROM revision WHERE content ->> 'name' = :name AND client_id = :clientId", nativeQuery = true)
     fun find(name: String, clientId: UUID): List<Revision>
+
+    @Query("SELECT * FROM revision WHERE client_id = :clientId and author = :author and content -> 'owner' ->> 'targetUri' = :ownerTargetUri ORDER by time DESC LIMIT 10", nativeQuery = true)
+    fun findLatestByAuthorAndOwner(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
 }

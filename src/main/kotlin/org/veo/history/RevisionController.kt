@@ -74,4 +74,14 @@ class RevisionController(
             mapper.toDto(it)
         } ?: throw ResourceNotFoundException()
     }
+
+    @Operation(description = "Retrieve latest revisions created by the authenticated user.")
+    @GetMapping("/my-latest")
+    fun getLatestUserRevisions(
+        auth: Authentication,
+        @RequestParam("owner") ownerTargetUri: URI
+    ): List<RevisionDto> {
+        return repo.findLatestByAuthorAndOwner(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
+            .map { mapper.toDto(it) }
+    }
 }
