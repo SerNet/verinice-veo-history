@@ -86,7 +86,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew --no-daemon build -x test'
+                sh './gradlew --no-daemon -PciBuildNumer=$BUILD_NUMBER -PciJobName=$JOB_NAME build -x test'
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             }
         }

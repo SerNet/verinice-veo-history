@@ -103,3 +103,16 @@ license {
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
             .inputStream.bufferedReader().readText().trim()
 }
+
+springBoot {
+    buildInfo {
+        properties {
+            if (rootProject.hasProperty("ciBuildNumer")) {
+                additional = mapOf(
+                    "ci.buildnumber" to rootProject.properties["ciBuildNumer"],
+                    "ci.jobname" to rootProject.properties["ciJobName"]
+                )
+            }
+        }
+    }
+}
