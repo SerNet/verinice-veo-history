@@ -10,6 +10,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "1.5.0"
     id("com.diffplug.spotless") version "5.9.0"
     id("org.cadixdev.licenser") version "0.5.1"
+    id("com.gorylenko.gradle-git-properties") version "2.3.1"
     jacoco
 }
 
