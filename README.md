@@ -47,3 +47,14 @@ spotless code format & adds missing license headers to new files:
 
 The Kotlin lint configuration does not allow wildcard imports. Spotless cannot fix wildcard imports automatically, so
 you should setup your IDE to avoid them.
+
+## Database migrations
+Veo-history uses [flyway](https://github.com/flyway/flyway/) for DB migrations. It runs kotlin migration scripts from [org.veo.history.migrations](src/main/kotlin/org/veo/history/migrations) when starting the service / spring test environment before JPA is initialized.
+
+### Creating a migration
+1. Modify DB model code (JPA entity classes).
+2. `./gradlew bootRun`. The service might complain that the DB doesn't match the model but will silently generate the update DDL in `schema.local.sql`.
+3. Copy SQL from `schema.local.sql`.
+4. Create a new migration script (e.g. `src/main/kotlin/org/veo/history/migrations/V3__add_fancy_new_columns.kt`) and let it execute the SQL you copied (see existing migration scripts).
+5. Append a semicolon to every SQL command
+6. Add some DML to your migration if necessary.
