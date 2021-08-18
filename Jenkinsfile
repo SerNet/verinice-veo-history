@@ -92,7 +92,7 @@ pipeline {
             }
             steps {
                 script {
-                    def dockerImage = docker.build("eu.gcr.io/veo-projekt/veo-history:git-${env.GIT_COMMIT}", "--label org.opencontainers.image.version='$projectVersion' --label org.opencontainers.image.revision='$env.GIT_COMMIT' .")
+                    def dockerImage = docker.build("eu.gcr.io/veo-projekt/veo-history:git-${env.GIT_COMMIT}", "--build-arg VEO_HISTORY_VERSION='$projectVersion' --label org.opencontainers.image.version='$projectVersion' --label org.opencontainers.image.revision='$env.GIT_COMMIT' .")
                     // Finally, we'll push the image with several tags:
                     // Pushing multiple tags is cheap, as all the layers are reused.
                     withDockerRegistry(credentialsId: 'gcr:verinice-projekt@gcr', url: 'https://eu.gcr.io') {
