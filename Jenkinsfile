@@ -59,17 +59,13 @@ pipeline {
         }
         stage('Gradle test') {
                     agent any
-                    environment {
-                        JAVA_HOME='/opt/java/openjdk'
-                    }
                     steps {
                         script {
-                            def veoHistoryTests = docker.build("veo_history_tests", "-f Test-Dockerfile .")
                             withDockerNetwork{ n ->
-                                docker.image('postgres').withRun("--network ${n} --name veo-history -e POSTGRES_PASSWORD=postgres") { db ->
+                                docker.image('postgres:11.7-alpine').withRun("--network ${n} --name database-${n} -e POSTGRES_USER=verinice -e POSTGRES_PASSWORD=verinice") { db ->
                                     sh 'until pg_isready; do sleep 1; done'
-                                    veoHistoryTests.inside("${dockerArgsForGradleStages} --network ${n} --name veo-history-${n} --entrypoint=''") {
-                                        sh "gradle test --no-daemon -PdataSourceUrl=jdbc:postgresql://veo-history:5432/postgres -PdataSourceUsername=postgres -PdataSourcePassword=postgres"
+                                    docker.image(imageForGradleStages).inside("${dockerArgsForGradleStages} --network ${n} -e SPRING_DATASOURCE_URL=jdbc:postgresql://database-${n}:5432/postgres -e SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver") {
+                                        sh "./gradlew test --no-daemon"
                                         junit testResults: 'build/test-results/test/**/*.xml'
                                         jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
                                     }
