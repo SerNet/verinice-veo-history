@@ -68,7 +68,7 @@ pipeline {
                             withDockerNetwork{ n ->
                                 docker.image('postgres').withRun("--network ${n} --name veo-history -e POSTGRES_PASSWORD=postgres") { db ->
                                     sh 'until pg_isready; do sleep 1; done'
-                                    veoHistoryTests.inside("--network ${n} --name veo-history-${n} --entrypoint=''") {
+                                    veoHistoryTests.inside("${dockerArgsForGradleStages} --network ${n} --name veo-history-${n} --entrypoint=''") {
                                         sh "gradle test --no-daemon -PdataSourceUrl=jdbc:postgresql://veo-history:5432/postgres -PdataSourceUsername=postgres -PdataSourcePassword=postgres"
                                         junit testResults: 'build/test-results/test/**/*.xml'
                                         jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
@@ -133,7 +133,7 @@ pipeline {
                       highTags: 'FIXME',
                       ignoreCase: true,
                       normalTags: 'TODO',
-                      excludePattern: 'Jenkinsfile, gradle-home/**, .gradle/**, buildSrc/.gradle/**, */build/**, **/*.pdf, **/*.png, **/*.jpg, **/*.vna'
+                      excludePattern: 'Jenkinsfile, gradle/wrapper/**, gradle-home/**, .gradle/**, buildSrc/.gradle/**, build/**, **/*.pdf, **/*.png, **/*.jpg, **/*.vna'
                     )
                   ]
                 )
