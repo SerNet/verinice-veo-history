@@ -55,15 +55,6 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    findProperty("dataSourceUrl")?.let {
-        systemProperty("spring.datasource.url", it)
-    }
-    findProperty("dataSourceUsername")?.let {
-        systemProperty("spring.datasource.username", it)
-    }
-    findProperty("dataSourcePassword")?.let {
-        systemProperty("spring.datasource.password", it)
-    }
 }
 
 tasks.withType<KotlinCompile> {
