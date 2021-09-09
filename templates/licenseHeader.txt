@@ -1,4 +1,4 @@
-verinice.veo reporting
+verinice.veo history
 Copyright (C) ${year}  ${author}
 
 This program is free software: you can redistribute it and/or modify

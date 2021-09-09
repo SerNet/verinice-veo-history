@@ -1,5 +1,5 @@
 /**
- * verinice.veo reporting
+ * verinice.veo history
  * Copyright (C) 2020  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
