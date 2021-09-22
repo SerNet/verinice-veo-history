@@ -22,6 +22,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -45,7 +47,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                 .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+                .hasRole("veo-user")
 
                 .and()
                 .sessionManagement()
@@ -53,6 +55,12 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                 .and()
                 .oauth2ResourceServer()
                 .jwt()
+                .jwtAuthenticationConverter(JwtAuthenticationConverter().apply {
+                    setJwtGrantedAuthoritiesConverter(JwtGrantedAuthoritiesConverter().apply {
+                        setAuthoritiesClaimName("roles")
+                        setAuthorityPrefix("ROLE_")
+                    })
+                })
     }
 
     @Bean

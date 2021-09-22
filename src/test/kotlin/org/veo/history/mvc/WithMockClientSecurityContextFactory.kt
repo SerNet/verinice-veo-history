@@ -18,6 +18,7 @@
 package org.veo.history.mvc
 
 import java.time.Instant
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
@@ -32,11 +33,14 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
                     mapOf("test" to "test"), mapOf(
                     "preferred_username" to annotation.username,
                     "groups" to "/veo_client:$mockClientUuid"
-                )))
+                )), listOf("veo-user"))
         }
     }
 
-    class MockToken(jwt: Jwt) : JwtAuthenticationToken(jwt) {
+    class MockToken(jwt: Jwt, val roles: List<String>) : JwtAuthenticationToken(jwt) {
+        override fun getAuthorities() =
+            roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
+
         override fun isAuthenticated(): Boolean {
             return true
         }
