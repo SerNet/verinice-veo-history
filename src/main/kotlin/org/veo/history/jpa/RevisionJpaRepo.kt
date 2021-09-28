@@ -43,6 +43,18 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
     @Query("SELECT * FROM revision WHERE content ->> 'name' = :name AND client_id = :clientId", nativeQuery = true)
     fun find(name: String, clientId: UUID): List<Revision>
 
-    @Query("SELECT * FROM revision WHERE client_id = :clientId and author = :author and content -> 'owner' ->> 'targetUri' = :ownerTargetUri ORDER by time DESC LIMIT 10", nativeQuery = true)
-    fun findLatestByAuthorAndOwner(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
+    /**
+     * Returns the latest revision for each of the 10 most recently revised resources (excluding resources that have
+     * been deleted).
+     */
+    @Query("""
+        WITH latestByResource AS (
+            SELECT distinct on (uri) * FROM revision 
+            WHERE client_id = :clientId AND author = :author AND content -> 'owner' ->> 'targetUri' = :ownerTargetUri 
+            ORDER by uri, time DESC
+        )
+
+        SELECT * FROM latestByResource WHERE type != 2 ORDER BY latestByResource.time DESC LIMIT 10;
+        """, nativeQuery = true)
+    fun findMostRecentlyChangedResources(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
 }

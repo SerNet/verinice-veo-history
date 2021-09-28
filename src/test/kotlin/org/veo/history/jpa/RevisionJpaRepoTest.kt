@@ -120,25 +120,41 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     fun `finds user revisions by owner`() {
         // Two revisions that should match
         sut.save(
-            Revision(URI.create("/user-test/1"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T10:00:00.000000Z"), "thisUser", clientId,
+            Revision(URI.create("/my-new-resource"), RevisionType.CREATION, 1, Instant.parse("2021-05-04T09:00:00.000000Z"), "thisUser", clientId,
                 om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
         sut.save(
-            Revision(URI.create("/user-test/1"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T11:00:00.000000Z"), "thisUser", clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
-        // Shouldn't match because it's the wrong author
-        sut.save(
-            Revision(URI.create("/user-test/2"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T12:00:00.000000Z"), "anotherUser", clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
-        // Shouldn't match because it's the wrong owner
-        sut.save(
-            Revision(URI.create("/user-test/3"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T13:00:00.000000Z"), "thisUser", clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2"))))
-        // Shouldn't match because it's the wrong client (kind of unrealistic but just to be sure)
-        sut.save(
-            Revision(URI.create("/user-test/4"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T14:00:00.000000Z"), "thisUser", UUID.randomUUID(),
+            Revision(URI.create("/my-updated-resource"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T11:05:00.000000Z"), "thisUser", clientId,
                 om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
 
-        val result = sut.findLatestByAuthorAndOwner("thisUser", "/owner/1", clientId)
+        // Shouldn't match because it's not the latest revision of that resource
+        sut.save(
+            Revision(URI.create("/my-updated-resource"), RevisionType.CREATION, 1, Instant.parse("2021-05-04T10:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+
+        // Shouldn't match because it's the wrong author
+        sut.save(
+            Revision(URI.create("/resource-updated-by-somebody-else"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T12:00:00.000000Z"), "anotherUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+
+        // Shouldn't match because it's the wrong owner
+        sut.save(
+            Revision(URI.create("/other-owners-resource"), RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T13:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2"))))
+
+        // Shouldn't match because it's the wrong client (kind of unrealistic but just to be sure)
+        sut.save(
+            Revision(URI.create("/other-clients-resource"), RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T14:00:00.000000Z"), "thisUser", UUID.randomUUID(),
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+
+        // Shouldn't match because the resource is deleted
+        sut.save(
+            Revision(URI.create("/my-deleted-resource"), RevisionType.CREATION, 1, Instant.parse("2021-05-04T15:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+        sut.save(
+            Revision(URI.create("/my-deleted-resource"), RevisionType.HARD_DELETION, 2, Instant.parse("2021-05-04T16:00:00.000000Z"), "thisUser", clientId,
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))))
+
+        val result = sut.findMostRecentlyChangedResources("thisUser", "/owner/1", clientId)
 
         result.size shouldBe 2
         result.forEach {
@@ -147,11 +163,11 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
             it.content?.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
         }
         result[0].let {
-            it.uri shouldBe URI.create("/user-test/1")
+            it.uri shouldBe URI.create("/my-updated-resource")
             it.changeNumber shouldBe 2
         }
         result[1].let {
-            it.uri shouldBe URI.create("/user-test/1")
+            it.uri shouldBe URI.create("/my-new-resource")
             it.changeNumber shouldBe 1
         }
     }

@@ -33,8 +33,8 @@ class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
 
     fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri, time, clientId)
 
-    fun findLatestByAuthorAndOwner(author: String, ownerTargetUri: URI, clientId: UUID) =
-        jpaRepo.findLatestByAuthorAndOwner(author, ownerTargetUri.toString(), clientId)
+    fun findMostRecentlyChangedResources(author: String, ownerTargetUri: URI, clientId: UUID) =
+        jpaRepo.findMostRecentlyChangedResources(author, ownerTargetUri.toString(), clientId)
 
     @Throws(DuplicateRevisionException::class)
     fun add(revision: Revision) {

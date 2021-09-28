@@ -140,15 +140,14 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     @WithMockClient("jj")
-    fun retrievesLatestRevisionsByCurrentUser() {
+    fun retrievesMostRecentlyChangedResources() {
         val result = parseBody(request(HttpMethod.GET, "/revisions/my-latest?owner=/owners/1"))
         (result as List<*>).apply {
-            size shouldBe 2
-            forEach {
-                (it as Map<*, *>).apply {
-                    get("author") shouldBe "jj"
-                    get("uri") shouldBe resourceUri
-                }
+            size shouldBe 1
+            (first() as Map<*, *>).apply {
+                get("author") shouldBe "jj"
+                get("uri") shouldBe resourceUri
+                get("changeNumber") shouldBe 3
             }
         }
     }
