@@ -51,7 +51,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
         WITH latestByResource AS (
             SELECT distinct on (uri) * FROM revision 
             WHERE client_id = :clientId AND author = :author AND content -> 'owner' ->> 'targetUri' = :ownerTargetUri 
-            ORDER by uri, time DESC
+            ORDER by uri, change_number DESC
         )
 
         SELECT * FROM latestByResource WHERE type != 2 ORDER BY latestByResource.time DESC LIMIT 10;
