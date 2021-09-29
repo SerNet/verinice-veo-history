@@ -34,6 +34,6 @@ class RevisionDto(
     val time: Instant,
     @Schema(description = "Name of the user who authored the change.")
     val author: String,
-    @Schema(description = "Resource body at this revision. Value is null for HARD_DELETION revisions")
-    val content: Any?
+    @Schema(description = "Resource body at this revision")
+    val content: Any
 )

@@ -17,7 +17,6 @@
  */
 package org.veo.history
 
-import com.fasterxml.jackson.databind.JsonNode
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -53,9 +52,7 @@ class EventSubscriberTest {
             time shouldBe Instant.parse("2021-04-16T09:54:54.871021Z")
             author shouldBe "veo-testuser1"
             clientId shouldBe UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
-            (content as JsonNode).apply {
-                get("name").asText() shouldBe "My unit"
-            }
+            content.get("name").asText() shouldBe "My unit"
         }
     }
 

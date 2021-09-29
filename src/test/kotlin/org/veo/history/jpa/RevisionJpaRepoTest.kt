@@ -58,7 +58,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     fun `can't add duplicate revision`() {
         shouldThrow<DataIntegrityViolationException> {
             sut.saveAndFlush(
-                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, null))
+                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, om.createObjectNode()))
         }
     }
 
@@ -92,16 +92,16 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         val uri = URI.create("/contemporary-test")
         sut.save(
             Revision(uri, RevisionType.MODIFICATION, 1, Instant.parse("2021-05-04T10:00:00.000000Z"), "a", clientId,
-                null))
+                om.createObjectNode()))
         sut.save(
             Revision(uri, RevisionType.MODIFICATION, 2, Instant.parse("2021-05-04T11:00:00.000000Z"), "a", clientId,
-                null))
+                om.createObjectNode()))
         sut.save(
             Revision(uri, RevisionType.MODIFICATION, 3, Instant.parse("2021-05-04T12:00:00.000000Z"), "a", clientId,
-                null))
+                om.createObjectNode()))
         sut.save(
             Revision(uri, RevisionType.MODIFICATION, 4, Instant.parse("2021-05-04T13:00:00.000000Z"), "a", clientId,
-                null))
+                om.createObjectNode()))
 
         sut.find(uri, Instant.parse("2021-05-04T11:00:00.000000Z"), clientId)
             ?.changeNumber shouldBe 2
@@ -160,7 +160,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         result.forEach {
             it.clientId shouldBe clientId
             it.author shouldBe "thisUser"
-            it.content?.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
+            it.content.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
         }
         result[0].let {
             it.uri shouldBe URI.create("/my-updated-resource")

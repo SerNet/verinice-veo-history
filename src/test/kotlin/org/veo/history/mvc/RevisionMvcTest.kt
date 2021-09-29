@@ -68,7 +68,10 @@ class RevisionMvcTest : AbstractMvcTest() {
             Revision(
                 URI.create(resourceUri),
                 RevisionType.HARD_DELETION, 5,
-                Instant.parse("2021-01-30T11:27:00.013621Z"), "dm", clientId, null)
+                Instant.parse("2021-01-30T11:27:00.013621Z"), "dm", clientId,
+                om.createObjectNode()
+                    .put("name", "Ultra Process 1")
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")))
         ).forEach {
             revisionRepo.add(it)
         }

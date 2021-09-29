@@ -53,7 +53,7 @@ class Revision(
     /** Resource content (JSON response body at time of change). */
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
-    val content: JsonNode?
+    val content: JsonNode
 ) {
     @Id
     @GeneratedValue
