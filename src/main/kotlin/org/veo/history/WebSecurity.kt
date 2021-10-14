@@ -17,7 +17,10 @@
  */
 package org.veo.history
 
+import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -33,6 +36,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
  */
 @EnableWebSecurity
 class WebSecurity : WebSecurityConfigurerAdapter() {
+
+    @Value("\${veo.cors.origins}")
+    lateinit var origins: Array<String>
+
+    @Value("\${veo.cors.headers}")
+    lateinit var allowedHeaders: Array<String>
+
+    private val log = KotlinLogging.logger { }
+
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors()
@@ -65,9 +77,18 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
-        val source =
-                UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
+        val source = UrlBasedCorsConfigurationSource()
+        val corsConfig = CorsConfiguration()
+        corsConfig.allowedMethods = listOf("GET", "OPTIONS")
+        // Authorization is always needed, additional headers are configurable:
+        corsConfig.addAllowedHeader(HttpHeaders.AUTHORIZATION)
+        allowedHeaders
+            .onEach { log.debug("Added CORS allowed header: $it") }
+            .forEach { corsConfig.addAllowedHeader(it) }
+        origins
+            .onEach { log.debug("Added CORS origin pattern: $it") }
+            .forEach { corsConfig.addAllowedOriginPattern(it) }
+        source.registerCorsConfiguration("/**", corsConfig)
         return source
     }
 }

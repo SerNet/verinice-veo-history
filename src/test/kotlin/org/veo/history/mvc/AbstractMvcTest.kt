@@ -38,8 +38,9 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         return JsonSlurper().parseText(result.response.contentAsString)
     }
 
-    protected fun request(method: HttpMethod, url: String, body: Any? = null): MvcResult {
+    protected fun request(method: HttpMethod, url: String, body: Any? = null, headers: Map<String, List<String>> = emptyMap()): MvcResult {
         val request = MockMvcRequestBuilders.request(method, url)
+        headers.forEach { k, v -> request.header(k, v) }
         if (body != null) {
             request
                     .contentType("application/json")
