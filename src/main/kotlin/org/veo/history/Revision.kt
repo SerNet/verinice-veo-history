@@ -19,6 +19,8 @@ package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.vladmihalcea.hibernate.type.json.JsonType
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -28,8 +30,6 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
-import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 
 /**
  * An archived revision of a veo REST resource.

@@ -17,23 +17,28 @@
  */
 package org.veo.history.mvc
 
-import java.time.Instant
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.security.test.context.support.WithSecurityContextFactory
+import java.time.Instant
 
 class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMockClient> {
     override fun createSecurityContext(annotation: WithMockClient): SecurityContext {
         return SecurityContextHolder.createEmptyContext().apply {
             authentication = MockToken(
-                Jwt("test", Instant.now(), Instant.MAX,
-                    mapOf("test" to "test"), mapOf(
-                    "preferred_username" to annotation.username,
-                    "groups" to "/veo_client:$mockClientUuid"
-                )), listOf("veo-user"))
+                Jwt(
+                    "test", Instant.now(), Instant.MAX,
+                    mapOf("test" to "test"),
+                    mapOf(
+                        "preferred_username" to annotation.username,
+                        "groups" to "/veo_client:$mockClientUuid"
+                    )
+                ),
+                listOf("veo-user")
+            )
         }
     }
 

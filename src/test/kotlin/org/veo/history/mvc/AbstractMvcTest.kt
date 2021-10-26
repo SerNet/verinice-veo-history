@@ -43,11 +43,11 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         headers.forEach { k, v -> request.header(k, v) }
         if (body != null) {
             request
-                    .contentType("application/json")
-                    .content((JsonOutput.toJson(body)))
+                .contentType("application/json")
+                .content((JsonOutput.toJson(body)))
         }
         return mvc
-                .perform(request)
-                .andReturn()
+            .perform(request)
+            .andReturn()
     }
 }

@@ -22,7 +22,8 @@ import org.flywaydb.core.api.migration.Context
 
 class V2__add_content_column_non_null_constraint : BaseJavaMigration() {
     override fun migrate(context: Context) {
-        context.connection.createStatement().execute("""
+        context.connection.createStatement().execute(
+            """
 
     UPDATE revision
         SET content = lastNonDeletionRevision.content
@@ -33,6 +34,7 @@ class V2__add_content_column_non_null_constraint : BaseJavaMigration() {
 
     alter table revision alter column content set not null;
 
-""")
+"""
+        )
     }
 }

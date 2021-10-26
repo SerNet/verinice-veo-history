@@ -1,6 +1,6 @@
-import java.util.Calendar
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Calendar
 
 plugins {
     id("org.springframework.boot") version "2.5.6"
@@ -11,7 +11,7 @@ plugins {
     kotlin("plugin.spring") version ktVersion
     id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
 
-    id("com.diffplug.spotless") version "5.14.2"
+    id("com.diffplug.spotless") version "5.17.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.3.1"
     jacoco
@@ -95,12 +95,14 @@ license {
     newLine.set(false)
     skipExistingHeaders.set(true)
     exclude("**/*.properties")
-    style(closureOf<HeaderFormatRegistry> {
-        put("kt", "JAVADOC")
-    })
+    style(
+        closureOf<HeaderFormatRegistry> {
+            put("kt", "JAVADOC")
+        }
+    )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
-            .inputStream.bufferedReader().readText().trim()
+        .inputStream.bufferedReader().readText().trim()
 }
 
 springBoot {

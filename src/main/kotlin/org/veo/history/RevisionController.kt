@@ -19,8 +19,6 @@ package org.veo.history
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import java.net.URI
-import java.time.Instant
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -29,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.veo.history.dtos.RevisionDto
 import org.veo.history.exceptions.ResourceNotFoundException
+import java.net.URI
+import java.time.Instant
 
 /**
  * Provides read-only endpoints for fetching resource revisions. Only revisions that belong the authenticated user's

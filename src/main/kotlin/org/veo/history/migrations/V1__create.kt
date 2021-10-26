@@ -22,7 +22,8 @@ import org.flywaydb.core.api.migration.Context
 
 class V1__create : BaseJavaMigration() {
     override fun migrate(context: Context) {
-        context.connection.createStatement().execute("""
+        context.connection.createStatement().execute(
+            """
             
     create table revision (
        id int8 not null,
@@ -43,6 +44,7 @@ class V1__create : BaseJavaMigration() {
 
     CREATE INDEX revision_content_owner ON revision USING HASH((content -> 'owner' ->> 'targetUri'));
 
-""")
+"""
+        )
     }
 }

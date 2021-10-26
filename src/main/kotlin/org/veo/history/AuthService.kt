@@ -17,12 +17,12 @@
  */
 package org.veo.history
 
-import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 @Component
 class AuthService {
@@ -52,8 +52,8 @@ class AuthService {
     private fun extractClientId(groups: List<String>): UUID {
         logger.debug("extract client id from {}", groups)
         return groups.mapNotNull { clientGroupRegex.matchEntire(it) }
-                .also { require(it.size == 1) { "Expected 1 client for the account. Got ${it.size}." } }
-                .first()
-                .let { UUID.fromString(it.groupValues[1]) }
+            .also { require(it.size == 1) { "Expected 1 client for the account. Got ${it.size}." } }
+            .first()
+            .let { UUID.fromString(it.groupValues[1]) }
     }
 }

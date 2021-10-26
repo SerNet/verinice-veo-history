@@ -17,19 +17,21 @@
  */
 package org.veo.history
 
-import java.net.URI
-import java.time.Instant
-import java.util.UUID
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 import org.veo.history.jpa.RevisionJpaRepo
+import java.net.URI
+import java.time.Instant
+import java.util.UUID
 
 @Component
 class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
     fun findAll(uri: URI, clientId: UUID) = jpaRepo.findAll(uri, clientId)
 
-    fun find(uri: URI, changeNumber: Long, clientId: UUID) = jpaRepo.find(uri,
-        changeNumber, clientId)
+    fun find(uri: URI, changeNumber: Long, clientId: UUID) = jpaRepo.find(
+        uri,
+        changeNumber, clientId
+    )
 
     fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri, time, clientId)
 

@@ -19,14 +19,14 @@ package org.veo.history.mvc
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
-import java.net.URI
-import java.time.Instant
-import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpMethod
 import org.veo.history.Revision
 import org.veo.history.RevisionType
+import java.net.URI
+import java.time.Instant
+import java.util.UUID
 
 @WithMockClient
 class RevisionMvcTest : AbstractMvcTest() {
@@ -43,35 +43,40 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-27T11:27:00.013621Z"), "dm", clientId,
                 om.createObjectNode()
                     .put("name", "Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+            ),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 2,
                 Instant.parse("2021-01-28T11:27:00.013621Z"), "jj", clientId,
                 om.createObjectNode()
                     .put("name", "Super Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+            ),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 3,
                 Instant.parse("2021-01-29T11:27:00.013621Z"), "jj", clientId,
                 om.createObjectNode()
                     .put("name", "Mega Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+            ),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.MODIFICATION, 4,
                 Instant.parse("2021-01-30T11:27:00.013621Z"), "jk", clientId,
                 om.createObjectNode()
                     .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))),
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+            ),
             Revision(
                 URI.create(resourceUri),
                 RevisionType.HARD_DELETION, 5,
                 Instant.parse("2021-01-30T11:27:00.013621Z"), "dm", clientId,
                 om.createObjectNode()
                     .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")))
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+            )
         ).forEach {
             revisionRepo.add(it)
         }

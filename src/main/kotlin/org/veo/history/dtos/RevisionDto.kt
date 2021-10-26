@@ -18,9 +18,9 @@
 package org.veo.history.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
+import org.veo.history.RevisionType
 import java.net.URI
 import java.time.Instant
-import org.veo.history.RevisionType
 
 @Schema(description = "An archived revision of a resource from any of the veo REST services. Revisions are created when the resource is created, modified or deleted.")
 class RevisionDto(

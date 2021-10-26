@@ -63,9 +63,12 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when making a pre-flight request
         val result = request(
-            HttpMethod.OPTIONS, "/", headers = mapOf("Origin" to listOf(origin),
+            HttpMethod.OPTIONS, "/",
+            headers = mapOf(
+                "Origin" to listOf(origin),
                 "Access-Control-Request-Method" to listOf("GET"),
-                "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header"))
+                "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header")
+            )
         )
 
         // then CORS headers are returned
