@@ -32,7 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
-    implementation("org.postgresql:postgresql:42.2.23")
+    implementation("org.postgresql:postgresql:42.3.0")
     implementation("com.vladmihalcea:hibernate-types-52:2.14.0")
     implementation("org.flywaydb:flyway-core:6.5.7")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
