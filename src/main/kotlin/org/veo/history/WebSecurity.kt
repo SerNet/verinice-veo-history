@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import java.time.Duration
 
 /**
  * This class bundles custom API security configurations.
@@ -92,6 +93,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
             .onEach { log.debug("Added CORS origin pattern: $it") }
             .forEach { corsConfig.addAllowedOriginPattern(it) }
         source.registerCorsConfiguration("/**", corsConfig)
+        corsConfig.setMaxAge(Duration.ofMinutes(30))
         return source
     }
 }
