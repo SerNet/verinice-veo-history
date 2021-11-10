@@ -11,7 +11,7 @@ plugins {
     kotlin("plugin.spring") version ktVersion
     id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
 
-    id("com.diffplug.spotless") version "5.17.1"
+    id("com.diffplug.spotless") version "6.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.3.1"
     jacoco
