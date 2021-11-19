@@ -38,7 +38,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
         "SELECT * FROM revision WHERE uri = :uri AND time <= :time AND client_id = :clientId ORDER BY time DESC  LIMIT 1",
         nativeQuery = true
     )
-    fun find(uri: URI, time: Instant, clientId: UUID): Revision?
+    fun find(uri: String, time: Instant, clientId: UUID): Revision?
 
     /** JSON query example */
     @Query("SELECT * FROM revision WHERE content ->> 'name' = :name AND client_id = :clientId", nativeQuery = true)

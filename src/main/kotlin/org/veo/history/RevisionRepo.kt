@@ -33,7 +33,7 @@ class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
         changeNumber, clientId
     )
 
-    fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri, time, clientId)
+    fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri.toString(), time, clientId)
 
     fun findMostRecentlyChangedResources(author: String, ownerTargetUri: URI, clientId: UUID) =
         jpaRepo.findMostRecentlyChangedResources(author, ownerTargetUri.toString(), clientId)
