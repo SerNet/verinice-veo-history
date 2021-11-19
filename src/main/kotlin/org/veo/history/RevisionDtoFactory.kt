@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component
 import org.veo.history.dtos.RevisionDto
 
 @Component
-class RevisionMapper {
-    fun toDto(entity: Revision): RevisionDto {
+class RevisionDtoFactory {
+    fun createDto(entity: Revision): RevisionDto {
         return RevisionDto(entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
     }
 }

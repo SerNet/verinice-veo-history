@@ -39,7 +39,7 @@ import java.time.Instant
 @SecurityRequirement(name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH)
 class RevisionController(
     private val repo: RevisionRepo,
-    private val mapper: RevisionMapper,
+    private val mapper: RevisionDtoFactory,
     private val authService: AuthService
 ) {
 
@@ -47,7 +47,7 @@ class RevisionController(
     @GetMapping
     fun getRevisions(auth: Authentication, @RequestParam("uri") uri: URI): List<RevisionDto> {
         return repo.findAll(uri, authService.getClientId(auth)).map {
-            mapper.toDto(it)
+            mapper.createDto(it)
         }
     }
 
@@ -59,7 +59,7 @@ class RevisionController(
         @PathVariable("changeNumber") changeNumber: Long
     ): RevisionDto {
         return repo.find(uri, changeNumber, authService.getClientId(auth))?.let {
-            mapper.toDto(it)
+            mapper.createDto(it)
         } ?: throw ResourceNotFoundException()
     }
 
@@ -71,7 +71,7 @@ class RevisionController(
         @PathVariable("time") time: Instant
     ): RevisionDto {
         return repo.find(uri, time, authService.getClientId(auth))?.let {
-            mapper.toDto(it)
+            mapper.createDto(it)
         } ?: throw ResourceNotFoundException()
     }
 
@@ -82,6 +82,6 @@ class RevisionController(
         @RequestParam("owner") ownerTargetUri: URI
     ): List<RevisionDto> {
         return repo.findMostRecentlyChangedResources(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
-            .map { mapper.toDto(it) }
+            .map { mapper.createDto(it) }
     }
 }
