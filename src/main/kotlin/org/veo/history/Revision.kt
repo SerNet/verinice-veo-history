@@ -15,6 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
+@file:Suppress("DEPRECATION")
+
 package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
