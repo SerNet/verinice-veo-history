@@ -56,7 +56,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
             ORDER by uri, change_number DESC
         )
 
-        SELECT * FROM latestByResource WHERE type != 2 ORDER BY latestByResource.time DESC LIMIT 10;
+        SELECT * FROM latestByResource WHERE type != 'HARD_DELETION' ORDER BY latestByResource.time DESC LIMIT 10;
         """,
         nativeQuery = true
     )
