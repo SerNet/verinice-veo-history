@@ -36,7 +36,7 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-52:2.14.0")
     implementation("org.flywaydb:flyway-core:8.0.5")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.13")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
     implementation("io.mockk:mockk:1.12.1")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
