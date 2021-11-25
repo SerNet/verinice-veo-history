@@ -6,10 +6,9 @@ plugins {
     id("org.springframework.boot") version "2.6.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    val ktVersion = "1.5.21"
-    kotlin("jvm") version ktVersion
-    kotlin("plugin.spring") version ktVersion
-    id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.spring") version "1.6.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 
     id("com.diffplug.spotless") version "6.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
