@@ -15,21 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
+@file:Suppress("DEPRECATION")
+
 package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.vladmihalcea.hibernate.type.json.JsonType
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
-import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 
 /**
  * An archived revision of a veo REST resource.
@@ -41,6 +46,7 @@ class Revision(
     /** Resource Location */
     val uri: URI,
     /** Type of change (what happened?) */
+    @Enumerated(EnumType.STRING)
     val type: RevisionType,
     /** Resource-specific zero-based change number */
     val changeNumber: Long,

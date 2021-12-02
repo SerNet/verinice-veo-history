@@ -16,14 +16,14 @@
  */
 package org.veo.history.jpa
 
-import java.net.URI
-import java.time.Instant
-import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import org.veo.history.Revision
+import java.net.URI
+import java.time.Instant
+import java.util.UUID
 
 @Repository
 @Transactional
@@ -36,8 +36,9 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
 
     @Query(
         "SELECT * FROM revision WHERE uri = :uri AND time <= :time AND client_id = :clientId ORDER BY time DESC  LIMIT 1",
-        nativeQuery = true)
-    fun find(uri: URI, time: Instant, clientId: UUID): Revision?
+        nativeQuery = true
+    )
+    fun find(uri: String, time: Instant, clientId: UUID): Revision?
 
     /** JSON query example */
     @Query("SELECT * FROM revision WHERE content ->> 'name' = :name AND client_id = :clientId", nativeQuery = true)
@@ -47,14 +48,17 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
      * Returns the latest revision for each of the 10 most recently revised resources (excluding resources that have
      * been deleted).
      */
-    @Query("""
+    @Query(
+        """
         WITH latestByResource AS (
             SELECT distinct on (uri) * FROM revision 
             WHERE client_id = :clientId AND author = :author AND content -> 'owner' ->> 'targetUri' = :ownerTargetUri 
             ORDER by uri, change_number DESC
         )
 
-        SELECT * FROM latestByResource WHERE type != 2 ORDER BY latestByResource.time DESC LIMIT 10;
-        """, nativeQuery = true)
+        SELECT * FROM latestByResource WHERE type != 'HARD_DELETION' ORDER BY latestByResource.time DESC LIMIT 10;
+        """,
+        nativeQuery = true
+    )
     fun findMostRecentlyChangedResources(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
 }

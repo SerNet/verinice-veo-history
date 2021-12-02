@@ -24,12 +24,12 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.slot
+import org.junit.jupiter.api.Test
+import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import java.io.IOException
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
-import org.junit.jupiter.api.Test
-import org.springframework.amqp.AmqpRejectAndDontRequeueException
 
 class EventSubscriberTest {
     private val repoMock: RevisionRepo = mockk()

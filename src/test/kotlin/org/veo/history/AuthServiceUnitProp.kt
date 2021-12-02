@@ -27,8 +27,8 @@ import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import io.mockk.every
 import io.mockk.mockk
-import java.util.UUID
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import java.util.UUID
 
 class AuthServiceUnitProp : StringSpec({
     val sut = AuthService()

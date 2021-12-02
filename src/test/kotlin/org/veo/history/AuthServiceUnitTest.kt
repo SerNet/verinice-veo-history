@@ -21,10 +21,10 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.lang.IllegalArgumentException
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import java.lang.IllegalArgumentException
+import java.util.UUID
 
 class AuthServiceUnitTest {
     private val sut = AuthService()
@@ -34,7 +34,8 @@ class AuthServiceUnitTest {
         val auth = mockk<JwtAuthenticationToken> {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
-                        "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad")
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad"
+                )
             }
         }
 
@@ -48,8 +49,9 @@ class AuthServiceUnitTest {
         val auth = mockk<JwtAuthenticationToken> {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
-                        "keycloak-maintainer",
-                        "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad")
+                    "keycloak-maintainer",
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad"
+                )
             }
         }
 
@@ -63,8 +65,9 @@ class AuthServiceUnitTest {
         val auth = mockk<JwtAuthenticationToken> {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
-                        "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad",
-                        "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dae")
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad",
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dae"
+                )
             }
         }
 

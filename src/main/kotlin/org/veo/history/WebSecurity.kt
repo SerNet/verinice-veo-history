@@ -17,7 +17,10 @@
  */
 package org.veo.history
 
+import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -27,47 +30,70 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import java.time.Duration
 
 /**
  * This class bundles custom API security configurations.
  */
 @EnableWebSecurity
 class WebSecurity : WebSecurityConfigurerAdapter() {
+
+    @Value("\${veo.cors.origins}")
+    lateinit var origins: Array<String>
+
+    @Value("\${veo.cors.headers}")
+    lateinit var allowedHeaders: Array<String>
+
+    private val log = KotlinLogging.logger { }
+
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors()
-                .and()
-                .csrf()
-                .disable() // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
-                // swagger-ui. We cannot disable it.
-                // Make sure that no critical API can be accessed by an anonymous user!
-                // .anonymous()
-                //     .disable()
-                .authorizeRequests()
-                .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
-                .permitAll()
-                .anyRequest()
-                .hasRole("veo-user")
-
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(JwtAuthenticationConverter().apply {
-                    setJwtGrantedAuthoritiesConverter(JwtGrantedAuthoritiesConverter().apply {
-                        setAuthoritiesClaimName("roles")
-                        setAuthorityPrefix("ROLE_")
-                    })
-                })
+            .and()
+            .csrf()
+            .disable() // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
+            // swagger-ui. We cannot disable it.
+            // Make sure that no critical API can be accessed by an anonymous user!
+            // .anonymous()
+            //     .disable()
+            .authorizeRequests()
+            .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
+            .permitAll()
+            .anyRequest()
+            .hasRole("veo-user")
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .oauth2ResourceServer()
+            .jwt()
+            .jwtAuthenticationConverter(
+                JwtAuthenticationConverter().apply {
+                    setJwtGrantedAuthoritiesConverter(
+                        JwtGrantedAuthoritiesConverter().apply {
+                            setAuthoritiesClaimName("roles")
+                            setAuthorityPrefix("ROLE_")
+                        }
+                    )
+                }
+            )
     }
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
-        val source =
-                UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
+        val source = UrlBasedCorsConfigurationSource()
+        val corsConfig = CorsConfiguration()
+        corsConfig.allowedMethods = listOf("GET", "OPTIONS")
+        // Authorization is always needed, additional headers are configurable:
+        corsConfig.addAllowedHeader(HttpHeaders.AUTHORIZATION)
+        allowedHeaders
+            .onEach { log.debug("Added CORS allowed header: $it") }
+            .forEach { corsConfig.addAllowedHeader(it) }
+        origins
+            .onEach { log.debug("Added CORS origin pattern: $it") }
+            .forEach { corsConfig.addAllowedOriginPattern(it) }
+        source.registerCorsConfiguration("/**", corsConfig)
+        corsConfig.setMaxAge(Duration.ofMinutes(30))
         return source
     }
 }

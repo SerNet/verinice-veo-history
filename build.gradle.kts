@@ -1,17 +1,16 @@
-import java.util.Calendar
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Calendar
 
 plugins {
-    id("org.springframework.boot") version "2.5.3"
+    id("org.springframework.boot") version "2.6.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    val ktVersion = "1.5.21"
-    kotlin("jvm") version ktVersion
-    kotlin("plugin.spring") version ktVersion
-    id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.spring") version "1.6.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 
-    id("com.diffplug.spotless") version "5.14.2"
+    id("com.diffplug.spotless") version "6.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.3.1"
     jacoco
@@ -32,22 +31,22 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
-    implementation("org.postgresql:postgresql:42.2.23")
-    implementation("com.vladmihalcea:hibernate-types-52:2.12.1")
-    implementation("org.flywaydb:flyway-core:6.5.7")
+    implementation("org.postgresql:postgresql:42.3.1")
+    implementation("com.vladmihalcea:hibernate-types-52:2.14.0")
+    implementation("org.flywaydb:flyway-core:8.2.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
-    implementation("io.mockk:mockk:1.12.0")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.0")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
+    implementation("io.mockk:mockk:1.12.1")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
-    val kotestVersion = "4.6.1"
+    val kotestVersion = "5.0.1"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-property-jvm:$kotestVersion")
 
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.8")
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.9")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
@@ -95,12 +94,14 @@ license {
     newLine.set(false)
     skipExistingHeaders.set(true)
     exclude("**/*.properties")
-    style(closureOf<HeaderFormatRegistry> {
-        put("kt", "JAVADOC")
-    })
+    style(
+        closureOf<HeaderFormatRegistry> {
+            put("kt", "JAVADOC")
+        }
+    )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
-            .inputStream.bufferedReader().readText().trim()
+        .inputStream.bufferedReader().readText().trim()
 }
 
 springBoot {

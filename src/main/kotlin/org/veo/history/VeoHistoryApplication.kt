@@ -30,17 +30,31 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-@SecurityScheme(name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
-        `in` = SecuritySchemeIn.HEADER,
-        description = "openidconnect Login", flows = OAuthFlows(implicit = OAuthFlow(
-        authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth")))
+@SecurityScheme(
+    name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
+    `in` = SecuritySchemeIn.HEADER,
+    description = "openidconnect Login",
+    flows = OAuthFlows(
+        implicit = OAuthFlow(
+            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth"
+        )
+    )
+)
 
-@OpenAPIDefinition(info = Info(title = "verinice.veo-history API",
+@OpenAPIDefinition(
+    info = Info(
+        title = "verinice.veo-history API",
         description = "OpenAPI documentation for verinice.veo-history.",
-        license = License(name = "GNU Lesser General Public License",
-                url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"),
-        contact = Contact(url = "http://verinice.com",
-                email = "verinice@sernet.de")))
+        license = License(
+            name = "GNU Lesser General Public License",
+            url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"
+        ),
+        contact = Contact(
+            url = "http://verinice.com",
+            email = "verinice@sernet.de"
+        )
+    )
+)
 class VeoHistoryApplication {
     companion object {
         const val SECURITY_SCHEME_OAUTH = "OAuth2"

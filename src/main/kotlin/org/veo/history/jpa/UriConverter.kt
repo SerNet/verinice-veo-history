@@ -15,14 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.history
+package org.veo.history.jpa
 
-import org.springframework.stereotype.Component
-import org.veo.history.dtos.RevisionDto
+import java.net.URI
+import javax.persistence.AttributeConverter
+import javax.persistence.Converter
 
-@Component
-class RevisionMapper {
-    fun toDto(entity: Revision): RevisionDto {
-        return RevisionDto(entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
-    }
+@Converter(autoApply = true)
+class UriConverter : AttributeConverter<URI, String> {
+    override fun convertToDatabaseColumn(attribute: URI?) = attribute?.toString()
+    override fun convertToEntityAttribute(dbData: String?) = dbData?.let { URI.create(it) }
 }

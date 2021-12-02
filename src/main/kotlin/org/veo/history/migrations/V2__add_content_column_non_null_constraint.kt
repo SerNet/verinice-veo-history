@@ -22,17 +22,19 @@ import org.flywaydb.core.api.migration.Context
 
 class V2__add_content_column_non_null_constraint : BaseJavaMigration() {
     override fun migrate(context: Context) {
-        context.connection.createStatement().execute("""
-
-    UPDATE revision
-        SET content = lastNonDeletionRevision.content
-    FROM (
-      SELECT distinct ON (uri) uri, content FROM revision WHERE type != 2 ORDER BY uri, change_number DESC
-    ) AS lastNonDeletionRevision
-    WHERE revision.type = 2 AND revision.uri = lastNonDeletionRevision.uri;
-
-    alter table revision alter column content set not null;
-
-""")
+        context.connection.createStatement().use {
+            it.execute(
+                """
+                UPDATE revision
+                    SET content = lastNonDeletionRevision.content
+                FROM (
+                  SELECT distinct ON (uri) uri, content FROM revision WHERE type != 2 ORDER BY uri, change_number DESC
+                ) AS lastNonDeletionRevision
+                WHERE revision.type = 2 AND revision.uri = lastNonDeletionRevision.uri;
+            
+                alter table revision alter column content set not null;
+                """
+            )
+        }
     }
 }
