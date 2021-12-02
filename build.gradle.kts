@@ -10,7 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.0"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 
-    id("com.diffplug.spotless") version "6.0.0"
+    id("com.diffplug.spotless") version "6.0.1"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.3.1"
     jacoco
