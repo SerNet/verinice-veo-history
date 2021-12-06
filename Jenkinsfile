@@ -4,7 +4,7 @@
 
 def projectVersion
 def imageForGradleStages = 'openjdk:11-jdk'
-def dockerArgsForGradleStages = '-e GRADLE_USER_HOME=$WORKSPACE/gradle-home -v $HOME/.gradle/caches:/gradle-cache:ro -e GRADLE_RO_DEP_CACHE=/gradle-cache'
+def dockerArgsForGradleStages = '-v /data/gradle-homes/executor-$EXECUTOR_NUMBER:/gradle-home -e GRADLE_USER_HOME=/gradle-home'
 
 def withDockerNetwork(Closure inner) {
   try {
