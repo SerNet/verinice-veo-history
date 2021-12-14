@@ -8,7 +8,7 @@ plugins {
 
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.0"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.10"
 
     id("com.diffplug.spotless") version "6.0.4"
     id("org.cadixdev.licenser") version "0.6.1"
