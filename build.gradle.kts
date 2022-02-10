@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "org.veo"
-version = "0.8-SNAPSHOT"
+version = "0.8"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
