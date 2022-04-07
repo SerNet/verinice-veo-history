@@ -63,7 +63,6 @@ pipeline {
                         script {
                             withDockerNetwork{ n ->
                                 docker.image('postgres:11.7-alpine').withRun("--network ${n} --name database-${n} -e POSTGRES_USER=verinice -e POSTGRES_PASSWORD=verinice") { db ->
-                                    sh 'until pg_isready; do sleep 1; done'
                                     docker.image(imageForGradleStages).inside("${dockerArgsForGradleStages} --network ${n} -e SPRING_DATASOURCE_URL=jdbc:postgresql://database-${n}:5432/postgres -e SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver") {
                                         sh "./gradlew test --no-daemon"
                                         junit testResults: 'build/test-results/test/**/*.xml'
