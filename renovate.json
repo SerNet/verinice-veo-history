@@ -5,5 +5,13 @@
   "automergeType" : "pr",
   "reviewers" : [
     "jj"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "^org.jetbrains.kotlin"
+      ],
+      "groupName": "Kotlin"
+    }
   ]
 }
