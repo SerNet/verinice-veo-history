@@ -12,7 +12,7 @@ plugins {
 
     id("com.diffplug.spotless") version "6.5.1"
     id("org.cadixdev.licenser") version "0.6.1"
-    id("com.gorylenko.gradle-git-properties") version "2.4.0"
+    id("com.gorylenko.gradle-git-properties") version "2.4.1"
     jacoco
 }
 
