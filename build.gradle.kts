@@ -51,6 +51,8 @@ dependencies {
     }
 }
 
+extra["kotlin-coroutines.version"] = "1.5.2"
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
