@@ -10,14 +10,14 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.21"
 
-    id("com.diffplug.spotless") version "6.5.1"
+    id("com.diffplug.spotless") version "6.6.1"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     jacoco
 }
 
 group = "org.veo"
-version = "0.11"
+version = "0.12"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -31,16 +31,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
-    implementation("org.postgresql:postgresql:42.3.4")
-    implementation("com.vladmihalcea:hibernate-types-52:2.16.1")
-    implementation("org.flywaydb:flyway-core:8.5.10")
+    implementation("org.postgresql:postgresql:42.3.5")
+    implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
+    implementation("org.flywaydb:flyway-core:8.5.11")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.8")
-    implementation("io.mockk:mockk:1.12.3")
+    implementation("io.mockk:mockk:1.12.4")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
-    val kotestVersion = "5.0.3"
+    val kotestVersion = "5.3.0"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
@@ -50,6 +50,8 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 }
+
+extra["kotlin-coroutines.version"] = "1.6.0"
 
 tasks.withType<Test> {
     useJUnitPlatform()
