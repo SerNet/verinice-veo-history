@@ -23,10 +23,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
+import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -36,7 +36,7 @@ import java.time.Duration
  * This class bundles custom API security configurations.
  */
 @EnableWebSecurity
-class WebSecurity : WebSecurityConfigurerAdapter() {
+class WebSecurity {
 
     @Value("\${veo.cors.origins}")
     lateinit var origins: Array<String>
@@ -46,8 +46,9 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
 
     private val log = KotlinLogging.logger { }
 
+    @Bean
     @Throws(Exception::class)
-    override fun configure(http: HttpSecurity) {
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.cors()
 
         http.csrf().disable()
@@ -77,6 +78,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                     )
                 }
             )
+        return http.build()
     }
 
     @Bean
