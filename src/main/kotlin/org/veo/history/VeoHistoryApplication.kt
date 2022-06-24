@@ -46,8 +46,8 @@ import org.springframework.boot.runApplication
         title = "verinice.veo-history API",
         description = "OpenAPI documentation for verinice.veo-history.",
         license = License(
-            name = "GNU Lesser General Public License",
-            url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"
+            name = "GNU Affero General Public License",
+            url = "https://www.gnu.org/licenses/agpl-3.0.html.en"
         ),
         contact = Contact(
             url = "http://verinice.com",
