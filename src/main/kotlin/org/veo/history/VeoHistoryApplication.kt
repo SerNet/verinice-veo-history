@@ -31,7 +31,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @SecurityScheme(
-    name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
+    name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH,
+    type = SecuritySchemeType.OAUTH2,
     `in` = SecuritySchemeIn.HEADER,
     description = "openidconnect Login",
     flows = OAuthFlows(
@@ -40,7 +41,6 @@ import org.springframework.boot.runApplication
         )
     )
 )
-
 @OpenAPIDefinition(
     info = Info(
         title = "verinice.veo-history API",

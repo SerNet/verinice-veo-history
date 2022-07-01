@@ -30,7 +30,9 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
         return SecurityContextHolder.createEmptyContext().apply {
             authentication = MockToken(
                 Jwt(
-                    "test", Instant.now(), Instant.MAX,
+                    "test",
+                    Instant.now(),
+                    Instant.MAX,
                     mapOf("test" to "test"),
                     mapOf(
                         "preferred_username" to annotation.username,

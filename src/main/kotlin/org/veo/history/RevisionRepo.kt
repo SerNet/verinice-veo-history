@@ -30,7 +30,8 @@ class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
 
     fun find(uri: URI, changeNumber: Long, clientId: UUID) = jpaRepo.find(
         uri,
-        changeNumber, clientId
+        changeNumber,
+        clientId
     )
 
     fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri.toString(), time, clientId)

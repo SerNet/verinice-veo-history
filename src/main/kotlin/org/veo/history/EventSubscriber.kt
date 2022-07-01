@@ -37,11 +37,15 @@ private val log = KotlinLogging.logger {}
 @ConditionalOnProperty(value = ["veo.history.rabbitmq.subscribe"], havingValue = "true")
 class EventSubscriber(private val revisionRepo: RevisionRepo) {
     private val mapper = ObjectMapper()
+
     @RabbitListener(
         bindings = [
             QueueBinding(
                 value = Queue(
-                    value = "\${veo.history.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false",
+                    value = "\${veo.history.rabbitmq.queue}",
+                    exclusive = "false",
+                    durable = "true",
+                    autoDelete = "false",
                     arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")]
                 ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchange}", type = "topic"),

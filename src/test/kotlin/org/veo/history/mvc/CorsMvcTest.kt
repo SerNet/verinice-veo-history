@@ -31,7 +31,9 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when getting from the correct origin
         val result = request(
-            HttpMethod.GET, "/revisions/my-latest/?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef", headers = mapOf("Origin" to listOf(origin))
+            HttpMethod.GET,
+            "/revisions/my-latest/?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
+            headers = mapOf("Origin" to listOf(origin))
         )
 
         // the request was successful
@@ -47,7 +49,9 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when getting from the wrong origin
         val result = request(
-            HttpMethod.GET, "/revisions/my-latest/?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef", headers = mapOf("Origin" to listOf(origin))
+            HttpMethod.GET,
+            "/revisions/my-latest/?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
+            headers = mapOf("Origin" to listOf(origin))
         )
 
         // then an error is returned
@@ -63,7 +67,8 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when making a pre-flight request
         val result = request(
-            HttpMethod.OPTIONS, "/",
+            HttpMethod.OPTIONS,
+            "/",
             headers = mapOf(
                 "Origin" to listOf(origin),
                 "Access-Control-Request-Method" to listOf("GET"),
