@@ -3,7 +3,7 @@
 // - Google Container Registry Auth0, google-container-registry-auth:0.3
 
 def projectVersion
-def imageForGradleStages = 'openjdk:11-jdk'
+def imageForGradleStages = 'openjdk:17-jdk-bullseye'
 def dockerArgsForGradleStages = '-v /data/gradle-homes/executor-$EXECUTOR_NUMBER:/gradle-home -e GRADLE_USER_HOME=/gradle-home'
 
 def withDockerNetwork(Closure inner) {
@@ -26,7 +26,7 @@ pipeline {
     environment {
         // In case the build server exports a custom JAVA_HOME, we fix the JAVA_HOME
         // to the one used by the docker image.
-        JAVA_HOME='/usr/local/openjdk-11'
+        JAVA_HOME='/usr/local/openjdk-17'
         GRADLE_OPTS='-Dhttp.proxyHost=cache.sernet.private -Dhttp.proxyPort=3128 -Dhttps.proxyHost=cache.sernet.private -Dhttps.proxyPort=3128'
     }
 

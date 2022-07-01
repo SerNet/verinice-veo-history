@@ -18,7 +18,12 @@ plugins {
 
 group = "org.veo"
 version = "0.15-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -61,7 +66,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
     }
 }
 
