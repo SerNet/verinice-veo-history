@@ -6,9 +6,9 @@ plugins {
     id("org.springframework.boot") version "2.7.1"
     id("io.spring.dependency-management") version "1.0.12.RELEASE"
 
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.spring") version "1.7.0"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.7.0"
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.7.10"
 
     id("com.diffplug.spotless") version "6.8.0"
     id("org.cadixdev.licenser") version "0.6.1"
