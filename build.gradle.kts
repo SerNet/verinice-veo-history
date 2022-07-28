@@ -45,7 +45,7 @@ dependencies {
     implementation("io.mockk:mockk:1.12.5")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
-    val kotestVersion = "5.4.0"
+    val kotestVersion = "5.4.1"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
