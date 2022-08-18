@@ -4,20 +4,20 @@ import java.util.Calendar
 
 plugins {
     id("org.springframework.boot") version "2.7.2"
-    id("io.spring.dependency-management") version "1.0.12.RELEASE"
+    id("io.spring.dependency-management") version "1.0.13.RELEASE"
 
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.spring") version "1.7.10"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.7.10"
 
-    id("com.diffplug.spotless") version "6.9.0"
+    id("com.diffplug.spotless") version "6.9.1"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     jacoco
 }
 
 group = "org.veo"
-version = "0.16-SNAPSHOT"
+version = "0.16"
 
 java {
     toolchain {
@@ -36,16 +36,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
-    implementation("org.postgresql:postgresql:42.4.0")
-    implementation("com.vladmihalcea:hibernate-types-52:2.17.1")
+    implementation("org.postgresql:postgresql:42.4.1")
+    implementation("com.vladmihalcea:hibernate-types-52:2.18.0")
     implementation("org.flywaydb:flyway-core:8.5.13")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
     implementation("io.mockk:mockk:1.12.5")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
-    val kotestVersion = "5.4.1"
+    val kotestVersion = "5.4.2"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
