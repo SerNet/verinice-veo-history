@@ -54,24 +54,28 @@ class EventSubscriber(private val revisionRepo: RevisionRepo) {
         ]
     )
     fun handleEntityEvent(message: String) {
-        val messageNode = mapper.readTree(message)
-        log.debug { "Received entity event message with ID ${messageNode.get("id").asText()}" }
-        val content = mapper.readTree(messageNode.get("content").asText())
-        try {
-            revisionRepo.add(
+        mapper.readTree(message)
+            .apply { log.debug { "Received entity event message with ID ${get("id").asText()}" } }
+            .run { mapper.readTree(get("content").asText()) }
+            .run {
                 Revision(
-                    URI.create(content.get("uri").asText()),
-                    RevisionType.valueOf(content.get("type").asText()),
-                    content.get("changeNumber").asLong(),
-                    Instant.parse(content.get("time").asText()),
-                    content.get("author").asText(),
-                    UUID.fromString(content.get("clientId").asText()),
-                    content.get("content")
+                    URI.create(get("uri").asText()),
+                    RevisionType.valueOf(get("type").asText()),
+                    get("changeNumber").asLong(),
+                    Instant.parse(get("time").asText()),
+                    get("author").asText(),
+                    UUID.fromString(get("clientId").asText()),
+                    get("content")
                 )
-            )
-        } catch (ex: DuplicateRevisionException) {
-            log.warn(ex) { "Ignoring duplicated entity message." }
-            throw AmqpRejectAndDontRequeueException(ex.message)
-        }
+            }
+            .apply {
+                try {
+                    revisionRepo.add(this)
+                } catch (ex: DuplicateRevisionException) {
+                    log.debug("Duplicate revision", ex)
+                    log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
+                    throw AmqpRejectAndDontRequeueException(ex.message)
+                }
+            }
     }
 }
