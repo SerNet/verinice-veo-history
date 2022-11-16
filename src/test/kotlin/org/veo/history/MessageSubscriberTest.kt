@@ -83,7 +83,7 @@ class MessageSubscriberTest {
     }
 
     @Test
-    fun `rejects but doesn't requeue message if it's a duplicate`() {
+    fun `rejects but does not requeue message if it is a duplicate`() {
         every { repoMock.add(any()) } throws DuplicateRevisionException(URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"), 0)
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
