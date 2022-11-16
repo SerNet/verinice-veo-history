@@ -17,6 +17,7 @@
  */
 package org.veo.history
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
@@ -35,7 +36,9 @@ private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnProperty(value = ["veo.history.rabbitmq.subscribe"], havingValue = "true")
-class MessageSubscriber(private val revisionRepo: RevisionRepo) {
+class MessageSubscriber(
+    private val revisionRepo: RevisionRepo
+) {
     private val mapper = ObjectMapper()
 
     @RabbitListener(
@@ -49,33 +52,52 @@ class MessageSubscriber(private val revisionRepo: RevisionRepo) {
                     arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")]
                 ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchange}", type = "topic"),
-                key = ["\${veo.history.rabbitmq.routing_key_prefix}versioning_event"]
+                key = [
+                    "\${veo.history.rabbitmq.routing_key_prefix}versioning_event"
+                ]
             )
         ]
     )
-    fun handleEntityEvent(message: String) {
-        mapper.readTree(message)
-            .apply { log.debug { "Received entity event message with ID ${get("id").asText()}" } }
-            .run { mapper.readTree(get("content").asText()) }
-            .run {
-                Revision(
-                    URI.create(get("uri").asText()),
-                    RevisionType.valueOf(get("type").asText()),
-                    get("changeNumber").asLong(),
-                    Instant.parse(get("time").asText()),
-                    get("author").asText(),
-                    UUID.fromString(get("clientId").asText()),
-                    get("content")
-                )
-            }
-            .apply {
-                try {
-                    revisionRepo.add(this)
-                } catch (ex: DuplicateRevisionException) {
-                    log.debug("Duplicate revision", ex)
-                    log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
-                    throw AmqpRejectAndDontRequeueException(ex.message)
+    fun handleMessage(message: String) = mapper
+        .readTree(message)
+        .get("content")
+        .asText()
+        .let(mapper::readTree)
+        .let { handleMessage(it) }
+
+    @Suppress("UNUSED_EXPRESSION")
+    private fun handleMessage(content: JsonNode) {
+        content
+            .get("eventType")
+            ?.asText()
+            .let {
+                log.debug { "Received message with '$it' event" }
+                when (it) {
+                    // TODO VEO-1770 use eventType "entity_revision"
+                    else -> handleVersioning(content)
                 }
             }
     }
+
+    private fun handleVersioning(content: JsonNode) = content
+        .run {
+            Revision(
+                URI.create(get("uri").asText()),
+                RevisionType.valueOf(get("type").asText()),
+                get("changeNumber").asLong(),
+                Instant.parse(get("time").asText()),
+                get("author").asText(),
+                UUID.fromString(get("clientId").asText()),
+                get("content")
+            )
+        }
+        .apply {
+            try {
+                revisionRepo.add(this)
+            } catch (ex: DuplicateRevisionException) {
+                log.debug("Duplicate revision", ex)
+                log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
+                throw AmqpRejectAndDontRequeueException(ex.message)
+            }
+        }
 }

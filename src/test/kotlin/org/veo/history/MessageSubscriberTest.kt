@@ -17,6 +17,7 @@
  */
 package org.veo.history
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -31,19 +32,44 @@ import java.net.URI
 import java.time.Instant
 import java.util.UUID
 
+private val om = ObjectMapper()
+
 class MessageSubscriberTest {
     private val repoMock: RevisionRepo = mockk()
     private val sut = MessageSubscriber(repoMock)
 
-    private val creationMessage =
-        "{\"routingKey\":\"nullversioning_event\",\"content\":\"{\\\"uri\\\":\\\"/units/7e33c300-da43-4a82-b21b-fa4b89c023e5\\\",\\\"type\\\":\\\"CREATION\\\",\\\"changeNumber\\\":0,\\\"time\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"author\\\":\\\"veo-testuser1\\\",\\\"clientId\\\":\\\"21712604-ed85-4f08-aa46-1cf39607ee9e\\\",\\\"content\\\":{\\\"name\\\":\\\"My unit\\\",\\\"createdAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"createdBy\\\":\\\"veo-testuser1\\\",\\\"updatedAt\\\":\\\"2021-04-16T09:54:54.871021Z\\\",\\\"updatedBy\\\":\\\"veo-testuser1\\\",\\\"units\\\":[],\\\"domains\\\":[{\\\"displayName\\\":\\\"Placeholder domain - see issue VEO-227\\\",\\\"targetUri\\\":\\\"/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d\\\"}],\\\"id\\\":\\\"7e33c300-da43-4a82-b21b-fa4b89c023e5\\\"}}\",\"id\":10,\"timestamp\":\"2021-04-16T09:54:54.874040Z\"}"
+    private val creationMessage = message(
+        mapOf(
+            "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
+            "type" to "CREATION",
+            "changeNumber" to 0,
+            "time" to "2021-04-16T09:54:54.871021Z",
+            "author" to "veo-testuser1",
+            "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+            "content" to mapOf(
+                "name" to "My unit",
+                "createdAt" to "2021-04-16T09:54:54.871021Z",
+                "createdBy" to "veo-testuser1",
+                "updatedAt" to "2021-04-16T09:54:54.871021Z",
+                "updatedBy" to "veo-testuser1",
+                "units" to emptyList<Any>(),
+                "domains" to listOf(
+                    mapOf(
+                        "displayName" to "Placeholder domain - see issue VEO-227",
+                        "targetUri" to "/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d"
+                    )
+                )
+            ),
+            "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5"
+        )
+    )
 
     @Test
     fun `adds versioning event to repo`() {
         val revisionSlot = slot<Revision>()
         every { repoMock.add(capture(revisionSlot)) } just runs
 
-        sut.handleEntityEvent(creationMessage)
+        sut.handleMessage(creationMessage)
 
         revisionSlot.captured.apply {
             uri shouldBe URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5")
@@ -61,7 +87,7 @@ class MessageSubscriberTest {
         every { repoMock.add(any()) } throws DuplicateRevisionException(URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"), 0)
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
-            sut.handleEntityEvent(creationMessage)
+            sut.handleMessage(creationMessage)
         }
     }
 
@@ -70,7 +96,13 @@ class MessageSubscriberTest {
         every { repoMock.add(any()) } throws IOException("I can't save that stuff.")
 
         shouldThrow<IOException> {
-            sut.handleEntityEvent(creationMessage)
+            sut.handleMessage(creationMessage)
         }
     }
+
+    private fun message(content: Map<String, *>): String =
+        content
+            .let(om::writeValueAsString)
+            .let { mapOf("content" to it) }
+            .let(om::writeValueAsString)
 }
