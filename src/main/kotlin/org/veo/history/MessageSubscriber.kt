@@ -35,7 +35,7 @@ private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnProperty(value = ["veo.history.rabbitmq.subscribe"], havingValue = "true")
-class EventSubscriber(private val revisionRepo: RevisionRepo) {
+class MessageSubscriber(private val revisionRepo: RevisionRepo) {
     private val mapper = ObjectMapper()
 
     @RabbitListener(
