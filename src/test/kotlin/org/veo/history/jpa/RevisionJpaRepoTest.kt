@@ -315,4 +315,31 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         // Result should be empty with wrong client ID
         sut.find(name, UUID.randomUUID()).size shouldBe 0
     }
+
+    @Test
+    fun `deletes all client revisions`() {
+        // Given another client with one revision
+        val otherClientId = UUID.randomUUID()
+        sut.save(
+            Revision(
+                URI.create("/goo/star"),
+                RevisionType.CREATION,
+                1,
+                Instant.parse("2021-05-04T15:00:00.000000Z"),
+                "otherUser",
+                otherClientId,
+                om.createObjectNode()
+            )
+        )
+
+        // when deleting the original client's revisions
+        sut.deleteAllClientRevisions(clientId)
+
+        // then they are gone
+        sut.findAll(URI.create("/foo/bar"), clientId).size shouldBe 0
+        sut.findAll(URI.create("/foo/car"), clientId).size shouldBe 0
+
+        // and the other client's revision remains
+        sut.findAll(URI.create("/goo/star"), otherClientId).size shouldBe 1
+    }
 }

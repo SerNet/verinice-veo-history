@@ -18,6 +18,7 @@
 package org.veo.history.jpa
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -62,4 +63,8 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
         nativeQuery = true
     )
     fun findMostRecentlyChangedResources(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from revision  r where r.client_id = :clientId", nativeQuery = true)
+    fun deleteAllClientRevisions(clientId: UUID)
 }

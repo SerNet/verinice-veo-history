@@ -49,4 +49,5 @@ class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
     }
 
     fun clear() = jpaRepo.deleteAll()
+    fun deleteAllClientRevisions(clientId: UUID) = jpaRepo.deleteAllClientRevisions(clientId)
 }

@@ -18,13 +18,16 @@
 package org.veo.history
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import java.io.IOException
@@ -84,7 +87,10 @@ class MessageSubscriberTest {
 
     @Test
     fun `rejects but does not requeue message if it is a duplicate`() {
-        every { repoMock.add(any()) } throws DuplicateRevisionException(URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"), 0)
+        every { repoMock.add(any()) } throws DuplicateRevisionException(
+            URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"),
+            0
+        )
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
             sut.handleMessage(creationMessage)
@@ -97,6 +103,38 @@ class MessageSubscriberTest {
 
         shouldThrow<IOException> {
             sut.handleMessage(creationMessage)
+        }
+    }
+
+    @Test
+    fun `deletes client revisions`() {
+        every { repoMock.deleteAllClientRevisions(any()) } just Runs
+
+        sut.handleMessage(
+            message(
+                mapOf(
+                    "eventType" to "client_change",
+                    "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                    "type" to "DELETION"
+                )
+            )
+        )
+
+        verify { repoMock.deleteAllClientRevisions(UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")) }
+    }
+
+    @Test
+    fun `ignores client creation`() {
+        shouldNotThrowAny {
+            sut.handleMessage(
+                message(
+                    mapOf(
+                        "eventType" to "client_change",
+                        "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                        "type" to "CREATION"
+                    )
+                )
+            )
         }
     }
 

@@ -53,6 +53,7 @@ class MessageSubscriber(
                 ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchange}", type = "topic"),
                 key = [
+                    "\${veo.history.rabbitmq.subscription_routing_key_prefix}client_change",
                     "\${veo.history.rabbitmq.routing_key_prefix}versioning_event"
                 ]
             )
@@ -65,7 +66,6 @@ class MessageSubscriber(
         .let(mapper::readTree)
         .let { handleMessage(it) }
 
-    @Suppress("UNUSED_EXPRESSION")
     private fun handleMessage(content: JsonNode) {
         content
             .get("eventType")
@@ -73,10 +73,17 @@ class MessageSubscriber(
             .let {
                 log.debug { "Received message with '$it' event" }
                 when (it) {
+                    "client_change" -> handleClientChange(content)
                     // TODO VEO-1770 use eventType "entity_revision"
                     else -> handleVersioning(content)
                 }
             }
+    }
+
+    private fun handleClientChange(content: JsonNode) {
+        if (content.get("type").asText() == "DELETION") {
+            revisionRepo.deleteAllClientRevisions(content.get("clientId").let { UUID.fromString(it.asText()) })
+        }
     }
 
     private fun handleVersioning(content: JsonNode) = content
