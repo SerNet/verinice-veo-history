@@ -36,7 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.security:spring-security-test")
-    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("org.postgresql:postgresql:42.5.1")
     implementation("com.vladmihalcea:hibernate-types-52:2.20.0")
     implementation("org.flywaydb:flyway-core:9.8.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
