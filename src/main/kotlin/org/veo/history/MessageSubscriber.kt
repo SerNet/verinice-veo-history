@@ -59,12 +59,19 @@ class MessageSubscriber(
             )
         ]
     )
-    fun handleMessage(message: String) = mapper
-        .readTree(message)
-        .get("content")
-        .asText()
-        .let(mapper::readTree)
-        .let { handleMessage(it) }
+    fun handleMessage(message: String) = try {
+        mapper
+            .readTree(message)
+            .get("content")
+            .asText()
+            .let(mapper::readTree)
+            .let { handleMessage(it) }
+    } catch (ex: AmqpRejectAndDontRequeueException) {
+        throw ex
+    } catch (ex: Exception) {
+        log.error(ex) { "Handling failed for message: '$message'" }
+        throw ex
+    }
 
     private fun handleMessage(content: JsonNode) {
         content
@@ -82,7 +89,9 @@ class MessageSubscriber(
 
     private fun handleClientChange(content: JsonNode) {
         if (content.get("type").asText() == "DELETION") {
-            revisionRepo.deleteAllClientRevisions(content.get("clientId").let { UUID.fromString(it.asText()) })
+            val clientId = UUID.fromString(content.get("clientId").asText())
+            log.info { "Deleting all revisions owned by client $clientId" }
+            revisionRepo.deleteAllClientRevisions(clientId)
         }
     }
 
