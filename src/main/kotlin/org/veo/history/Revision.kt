@@ -15,33 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
-@file:Suppress("DEPRECATION")
-
 package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.vladmihalcea.hibernate.type.json.JsonType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
-import javax.persistence.UniqueConstraint
 
 /**
  * An archived revision of a veo REST resource.
  */
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("uri", "changeNumber"))])
-@TypeDef(name = "json", typeClass = JsonType::class)
 class Revision(
     /** Resource Location */
     val uri: URI,
@@ -57,7 +52,7 @@ class Revision(
     /** ID of the client the resource belonged to. Other clients must never access this revision. */
     val clientId: UUID,
     /** Resource content (JSON response body at time of change). */
-    @Type(type = "json")
+    @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     val content: JsonNode
 ) {

@@ -20,9 +20,9 @@ package org.veo.history
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
@@ -35,7 +35,7 @@ import java.time.Duration
 /**
  * This class bundles custom API security configurations.
  */
-@EnableWebSecurity
+@Configuration
 class WebSecurity {
 
     @Value("\${veo.cors.origins}")
@@ -57,8 +57,8 @@ class WebSecurity {
         // swagger-ui. We cannot disable it.
         // Make sure that no critical API can be accessed by an anonymous user!
         // .anonymous().disable()
-        http.authorizeRequests()
-            .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
+        http.authorizeHttpRequests()
+            .requestMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
             .permitAll()
             .anyRequest()
             .hasRole("veo-user")

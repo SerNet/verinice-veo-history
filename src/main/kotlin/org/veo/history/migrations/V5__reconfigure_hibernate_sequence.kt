@@ -1,6 +1,6 @@
 /**
  * verinice.veo history
- * Copyright (C) 2021  Jonas Jordan
+ * Copyright (C) 2022  Jochen Kemnade
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,14 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.history.jpa
+package org.veo.history.migrations
 
-import jakarta.persistence.AttributeConverter
-import jakarta.persistence.Converter
-import java.net.URI
+import org.flywaydb.core.api.migration.BaseJavaMigration
+import org.flywaydb.core.api.migration.Context
 
-@Converter(autoApply = true)
-class UriConverter : AttributeConverter<URI, String> {
-    override fun convertToDatabaseColumn(attribute: URI?) = attribute?.toString()
-    override fun convertToEntityAttribute(dbData: String?) = dbData?.let { URI.create(it) }
+class V5__reconfigure_hibernate_sequence : BaseJavaMigration() {
+    override fun migrate(context: Context) {
+        context.connection.createStatement().use {
+            it.execute(
+                """
+                alter sequence hibernate_sequence increment by 50;
+                alter sequence hibernate_sequence rename to revision_seq;
+                """
+            )
+        }
+    }
 }
