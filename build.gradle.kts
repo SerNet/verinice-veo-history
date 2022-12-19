@@ -41,7 +41,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:9.10.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
     implementation("io.mockk:mockk:1.13.3")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
