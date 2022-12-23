@@ -43,6 +43,7 @@ class MessageSubscriberTest {
 
     private val creationMessage = message(
         mapOf(
+            "eventType" to "entity_revision",
             "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
             "type" to "CREATION",
             "changeNumber" to 0,
