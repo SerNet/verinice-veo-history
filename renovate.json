@@ -12,6 +12,16 @@
         "^org.jetbrains.kotlin"
       ],
       "groupName": "Kotlin"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.diffplug.spotless"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "./gradlew spotlessApply"
+        ]
+      }
     }
   ]
 }
