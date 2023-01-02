@@ -36,10 +36,10 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
                     mapOf("test" to "test"),
                     mapOf(
                         "preferred_username" to annotation.username,
-                        "groups" to "/veo_client:$mockClientUuid"
-                    )
+                        "groups" to "/veo_client:$mockClientUuid",
+                    ),
                 ),
-                listOf("veo-user")
+                listOf("veo-user"),
             )
         }
     }

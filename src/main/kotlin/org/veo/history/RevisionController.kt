@@ -40,7 +40,7 @@ import java.time.Instant
 class RevisionController(
     private val repo: RevisionRepo,
     private val mapper: RevisionDtoFactory,
-    private val authService: AuthService
+    private val authService: AuthService,
 ) {
 
     @Operation(description = "Retrieve all revisions of the resource at given URI.")
@@ -56,7 +56,7 @@ class RevisionController(
     fun getRevision(
         auth: Authentication,
         @RequestParam("uri") uri: URI,
-        @PathVariable("changeNumber") changeNumber: Long
+        @PathVariable("changeNumber") changeNumber: Long,
     ): RevisionDto {
         return repo.find(uri, changeNumber, authService.getClientId(auth))?.let {
             mapper.createDto(it)
@@ -68,7 +68,7 @@ class RevisionController(
     fun getRevision(
         auth: Authentication,
         @RequestParam("uri") uri: URI,
-        @PathVariable("time") time: Instant
+        @PathVariable("time") time: Instant,
     ): RevisionDto {
         return repo.find(uri, time, authService.getClientId(auth))?.let {
             mapper.createDto(it)
@@ -79,7 +79,7 @@ class RevisionController(
     @GetMapping("/my-latest")
     fun getMostRecentlyChangedResources(
         auth: Authentication,
-        @RequestParam("owner") ownerTargetUri: URI
+        @RequestParam("owner") ownerTargetUri: URI,
     ): List<RevisionDto> {
         return repo.findMostRecentlyChangedResources(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
             .map { mapper.createDto(it) }

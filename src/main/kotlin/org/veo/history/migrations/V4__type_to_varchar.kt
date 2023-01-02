@@ -32,7 +32,7 @@ class V4__type_to_varchar : BaseJavaMigration() {
                 ALTER TABLE revision DROP COLUMN type;
                 ALTER TABLE revision RENAME COLUMN temp_type TO type;
                 ALTER TABLE revision ALTER COLUMN type SET NOT NULL;
-                """
+                """,
             )
         }
     }

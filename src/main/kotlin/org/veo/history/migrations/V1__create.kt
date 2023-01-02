@@ -43,7 +43,7 @@ class V1__create : BaseJavaMigration() {
                 create sequence hibernate_sequence start 1 increment 1;
             
                 CREATE INDEX revision_content_owner ON revision USING HASH((content -> 'owner' ->> 'targetUri'));
-                """
+                """,
             )
         }
     }

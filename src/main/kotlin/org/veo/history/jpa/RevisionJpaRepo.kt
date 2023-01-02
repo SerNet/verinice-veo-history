@@ -38,7 +38,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
 
     @Query(
         "SELECT * FROM revision WHERE uri = :uri AND time <= :time AND client_id = :clientId ORDER BY time DESC  LIMIT 1",
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun find(uri: String, time: Instant, clientId: UUID): Revision?
 
@@ -60,7 +60,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
 
         SELECT * FROM latestByResource WHERE type != 'HARD_DELETION' ORDER BY latestByResource.time DESC LIMIT 10;
         """,
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findMostRecentlyChangedResources(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
 

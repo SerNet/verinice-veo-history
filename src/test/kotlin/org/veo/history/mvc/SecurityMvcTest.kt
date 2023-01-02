@@ -27,7 +27,7 @@ import org.springframework.http.HttpMethod
 class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     fun `regular API calls are forbidden without authorization`() = listOf(
-        testStatus(HttpMethod.GET, "/revisions", 401)
+        testStatus(HttpMethod.GET, "/revisions", 401),
     )
 
     @TestFactory
@@ -36,7 +36,7 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(HttpMethod.GET, "/actuator/health/liveness", 200),
         testStatus(HttpMethod.GET, "/swagger-ui.html", 302),
         testStatus(HttpMethod.GET, "/swagger-ui/index.html", 200),
-        testStatus(HttpMethod.GET, "/v3/api-docs", 200)
+        testStatus(HttpMethod.GET, "/v3/api-docs", 200),
     )
 
     private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {

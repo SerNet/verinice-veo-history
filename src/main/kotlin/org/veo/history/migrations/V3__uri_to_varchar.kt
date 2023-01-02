@@ -30,7 +30,7 @@ class V3__uri_to_varchar : BaseJavaMigration() {
                 """
                 ALTER TABLE revision DROP constraint UK_uri_change_number;
                 ALTER TABLE revision ADD COLUMN temp_uri varchar(255);
-                """
+                """,
             )
         }
         context.connection.createStatement().use {
@@ -51,7 +51,7 @@ class V3__uri_to_varchar : BaseJavaMigration() {
                 ALTER TABLE revision RENAME COLUMN temp_uri TO uri; 
                 ALTER TABLE revision ALTER COLUMN uri SET NOT NULL;
                 ALTER TABLE revision ADD CONSTRAINT UK_uri_change_number unique (uri, change_number);
-                """
+                """,
             )
         }
     }

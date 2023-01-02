@@ -34,7 +34,7 @@ class AuthServiceUnitTest {
         val auth = mockk<JwtAuthenticationToken> {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
-                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad"
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad",
                 )
             }
         }
@@ -50,7 +50,7 @@ class AuthServiceUnitTest {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
                     "keycloak-maintainer",
-                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad"
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad",
                 )
             }
         }
@@ -66,7 +66,7 @@ class AuthServiceUnitTest {
             every { token } returns mockk {
                 every { getClaimAsStringList("groups") } returns listOf(
                     "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad",
-                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dae"
+                    "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dae",
                 )
             }
         }

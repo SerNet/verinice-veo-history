@@ -24,5 +24,5 @@ const val mockClientUuid = "21712604-ed85-4f08-aa46-1cf39607ee9e"
 @Retention(AnnotationRetention.RUNTIME)
 @WithSecurityContext(factory = WithMockClientSecurityContextFactory::class)
 annotation class WithMockClient(
-    val username: String = "mock-user"
+    val username: String = "mock-user",
 )

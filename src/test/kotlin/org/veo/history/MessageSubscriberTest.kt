@@ -59,12 +59,12 @@ class MessageSubscriberTest {
                 "domains" to listOf(
                     mapOf(
                         "displayName" to "Placeholder domain - see issue VEO-227",
-                        "targetUri" to "/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d"
-                    )
-                )
+                        "targetUri" to "/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d",
+                    ),
+                ),
             ),
-            "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5"
-        )
+            "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
+        ),
     )
 
     @Test
@@ -89,7 +89,7 @@ class MessageSubscriberTest {
     fun `rejects but does not requeue message if it is a duplicate`() {
         every { repoMock.add(any()) } throws DuplicateRevisionException(
             URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"),
-            0
+            0,
         )
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
@@ -115,9 +115,9 @@ class MessageSubscriberTest {
                 mapOf(
                     "eventType" to "client_change",
                     "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                    "type" to "DELETION"
-                )
-            )
+                    "type" to "DELETION",
+                ),
+            ),
         )
 
         verify { repoMock.deleteAllClientRevisions(UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")) }
@@ -131,9 +131,9 @@ class MessageSubscriberTest {
                     mapOf(
                         "eventType" to "client_change",
                         "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                        "type" to "CREATION"
-                    )
-                )
+                        "type" to "CREATION",
+                    ),
+                ),
             )
         }
     }

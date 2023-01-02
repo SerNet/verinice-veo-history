@@ -17,7 +17,7 @@ plugins {
     kotlin("plugin.spring") version "1.8.0"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.8.0"
 
-    id("com.diffplug.spotless") version "6.12.0"
+    id("com.diffplug.spotless") version "6.12.1"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.github.jk1.dependency-license-report") version "2.1"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
@@ -69,11 +69,11 @@ extra["kotlin-coroutines.version"] = "1.6.0"
 val licenseFile3rdParty = "LICENSE-3RD-PARTY.txt"
 licenseReport {
     renderers = arrayOf(
-        TextReportRenderer(licenseFile3rdParty)
+        TextReportRenderer(licenseFile3rdParty),
     )
     projects = arrayOf(project)
     filters = arrayOf(
-        LicenseBundleNormalizer()
+        LicenseBundleNormalizer(),
     )
 }
 
@@ -147,7 +147,7 @@ license {
     style(
         closureOf<HeaderFormatRegistry> {
             put("kt", "JAVADOC")
-        }
+        },
     )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
@@ -161,8 +161,8 @@ springBoot {
                 additional.set(
                     mapOf(
                         "ci.buildnumber" to rootProject.properties["ciBuildNumer"],
-                        "ci.jobname" to rootProject.properties["ciJobName"]
-                    )
+                        "ci.jobname" to rootProject.properties["ciJobName"],
+                    ),
                 )
             }
         }

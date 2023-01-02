@@ -33,7 +33,7 @@ class V2__add_content_column_non_null_constraint : BaseJavaMigration() {
                 WHERE revision.type = 2 AND revision.uri = lastNonDeletionRevision.uri;
             
                 alter table revision alter column content set not null;
-                """
+                """,
             )
         }
     }

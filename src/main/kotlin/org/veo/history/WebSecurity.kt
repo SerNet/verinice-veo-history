@@ -74,9 +74,9 @@ class WebSecurity {
                         JwtGrantedAuthoritiesConverter().apply {
                             setAuthoritiesClaimName("roles")
                             setAuthorityPrefix("ROLE_")
-                        }
+                        },
                     )
-                }
+                },
             )
         return http.build()
     }

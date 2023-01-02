@@ -37,7 +37,7 @@ private val log = KotlinLogging.logger {}
 @Component
 @ConditionalOnProperty(value = ["veo.history.rabbitmq.subscribe"], havingValue = "true")
 class MessageSubscriber(
-    private val revisionRepo: RevisionRepo
+    private val revisionRepo: RevisionRepo,
 ) {
     private val mapper = ObjectMapper()
 
@@ -49,17 +49,17 @@ class MessageSubscriber(
                     exclusive = "false",
                     durable = "true",
                     autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")]
+                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")],
                 ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchange}", type = "topic"),
                 key = [
                     "\${veo.history.rabbitmq.subscription_routing_key_prefix}client_change",
                     "\${veo.history.rabbitmq.routing_key_prefix}entity_revision",
                     // TODO VEO-1830 stop supporting old routing key
-                    "\${veo.history.rabbitmq.routing_key_prefix}versioning_event"
-                ]
-            )
-        ]
+                    "\${veo.history.rabbitmq.routing_key_prefix}versioning_event",
+                ],
+            ),
+        ],
     )
     fun handleMessage(message: String) = try {
         mapper
@@ -106,7 +106,7 @@ class MessageSubscriber(
                 Instant.parse(get("time").asText()),
                 get("author").asText(),
                 UUID.fromString(get("clientId").asText()),
-                get("content")
+                get("content"),
             )
         }
         .apply {

@@ -35,5 +35,5 @@ class RevisionDto(
     @Schema(description = "Name of the user who authored the change.")
     val author: String,
     @Schema(description = "Resource body at this revision")
-    val content: Any
+    val content: Any,
 )

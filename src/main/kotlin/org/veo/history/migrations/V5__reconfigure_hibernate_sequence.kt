@@ -27,7 +27,7 @@ class V5__reconfigure_hibernate_sequence : BaseJavaMigration() {
                 """
                 alter sequence hibernate_sequence increment by 50;
                 alter sequence hibernate_sequence rename to revision_seq;
-                """
+                """,
             )
         }
     }

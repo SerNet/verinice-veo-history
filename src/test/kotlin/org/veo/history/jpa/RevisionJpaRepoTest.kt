@@ -49,8 +49,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "a",
                 clientId,
-                om.createObjectNode().put("name", "one")
-            )
+                om.createObjectNode().put("name", "one"),
+            ),
         )
         sut.save(
             Revision(
@@ -60,8 +60,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "b",
                 clientId,
-                om.createObjectNode().put("name", "one")
-            )
+                om.createObjectNode().put("name", "one"),
+            ),
         )
         sut.save(
             Revision(
@@ -71,8 +71,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "c",
                 clientId,
-                om.createObjectNode().put("name", "two")
-            )
+                om.createObjectNode().put("name", "two"),
+            ),
         )
         sut.save(
             Revision(
@@ -82,8 +82,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "d",
                 clientId,
-                om.createObjectNode().put("name", "two")
-            )
+                om.createObjectNode().put("name", "two"),
+            ),
         )
     }
 
@@ -91,7 +91,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     fun `can't add duplicate revision`() {
         shouldThrow<DataIntegrityViolationException> {
             sut.saveAndFlush(
-                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, om.createObjectNode())
+                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, om.createObjectNode()),
             )
         }
     }
@@ -132,8 +132,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T10:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode()
-            )
+                om.createObjectNode(),
+            ),
         )
         sut.save(
             Revision(
@@ -143,8 +143,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T11:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode()
-            )
+                om.createObjectNode(),
+            ),
         )
         sut.save(
             Revision(
@@ -154,8 +154,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T12:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode()
-            )
+                om.createObjectNode(),
+            ),
         )
         sut.save(
             Revision(
@@ -165,8 +165,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T13:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode()
-            )
+                om.createObjectNode(),
+            ),
         )
 
         val uriAsString = uri.toString()
@@ -194,8 +194,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T09:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
         sut.save(
             Revision(
@@ -205,8 +205,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T11:05:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
 
         // Shouldn't match because it's not the latest revision of that resource
@@ -218,8 +218,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T10:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
 
         // Shouldn't match because it's the wrong author
@@ -231,8 +231,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T12:00:00.000000Z"),
                 "anotherUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
 
         // Shouldn't match because it's the wrong owner
@@ -244,8 +244,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T13:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2")),
+            ),
         )
 
         // Shouldn't match because it's the wrong client (kind of unrealistic but just to be sure)
@@ -257,8 +257,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T14:00:00.000000Z"),
                 "thisUser",
                 UUID.randomUUID(),
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
 
         // Shouldn't match because the resource is deleted
@@ -270,8 +270,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T15:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
         sut.save(
             Revision(
@@ -281,8 +281,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T16:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1"))
-            )
+                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+            ),
         )
 
         val result = sut.findMostRecentlyChangedResources("thisUser", "/owner/1", clientId)
@@ -328,8 +328,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T15:00:00.000000Z"),
                 "otherUser",
                 otherClientId,
-                om.createObjectNode()
-            )
+                om.createObjectNode(),
+            ),
         )
 
         // when deleting the original client's revisions

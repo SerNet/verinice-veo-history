@@ -46,7 +46,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 clientId,
                 om.createObjectNode()
                     .put("name", "Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -57,7 +57,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 clientId,
                 om.createObjectNode()
                     .put("name", "Super Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -68,7 +68,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 clientId,
                 om.createObjectNode()
                     .put("name", "Mega Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -79,7 +79,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 clientId,
                 om.createObjectNode()
                     .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -90,8 +90,8 @@ class RevisionMvcTest : AbstractMvcTest() {
                 clientId,
                 om.createObjectNode()
                     .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1"))
-            )
+                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+            ),
         ).forEach {
             revisionRepo.add(it)
         }

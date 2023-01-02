@@ -33,7 +33,7 @@ class CorsMvcTest : AbstractMvcTest() {
         val result = request(
             HttpMethod.GET,
             "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
-            headers = mapOf("Origin" to listOf(origin))
+            headers = mapOf("Origin" to listOf(origin)),
         )
 
         // the request was successful
@@ -51,7 +51,7 @@ class CorsMvcTest : AbstractMvcTest() {
         val result = request(
             HttpMethod.GET,
             "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
-            headers = mapOf("Origin" to listOf(origin))
+            headers = mapOf("Origin" to listOf(origin)),
         )
 
         // then an error is returned
@@ -72,8 +72,8 @@ class CorsMvcTest : AbstractMvcTest() {
             headers = mapOf(
                 "Origin" to listOf(origin),
                 "Access-Control-Request-Method" to listOf("GET"),
-                "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header")
-            )
+                "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header"),
+            ),
         )
 
         // then CORS headers are returned
