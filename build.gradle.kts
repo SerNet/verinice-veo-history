@@ -1,3 +1,7 @@
+import com.diffplug.spotless.FormatterStep
+import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.render.TextReportRenderer
 import com.github.jk1.license.task.ReportTask
@@ -120,6 +124,18 @@ spotless {
     }
     kotlinGradle {
         ktlint()
+    }
+    json {
+        target("**/*.json")
+        addStep(object : FormatterStep {
+            override fun getName() = "format json"
+            override fun format(rawUnix: String, file: File): String {
+                val om = ObjectMapper()
+                return om.writer()
+                    .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
+                    .writeValueAsString(om.readValue(rawUnix, Map::class.java))
+            }
+        })
     }
 }
 

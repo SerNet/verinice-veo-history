@@ -6,39 +6,39 @@
   "reviewers" : [
     "jj"
   ],
-  "packageRules": [
+  "packageRules" : [
     {
-      "matchPackagePatterns": [
+      "matchPackagePatterns" : [
         "^org.jetbrains.kotlin"
       ],
-      "groupName": "Kotlin"
+      "groupName" : "Kotlin"
     },
     {
-      "matchPackagePatterns": [
+      "matchPackagePatterns" : [
         "^com.diffplug.spotless"
       ],
-      "postUpgradeTasks": {
-        "commands": [
+      "postUpgradeTasks" : {
+        "commands" : [
           "./gradlew spotlessApply"
         ]
       }
     },
     {
-      "matchPackagePatterns": [
+      "matchPackagePatterns" : [
         "^com.github.jk1.dependency-license-report$",
         "^io.kotest:",
         "^gradle$"
       ],
-      "postUpgradeTasks": {}
+      "postUpgradeTasks" : { }
     }
   ],
-  "postUpgradeTasks": {
-    "commands": [
+  "postUpgradeTasks" : {
+    "commands" : [
       "./gradlew generateLicenseReport"
     ],
-    "fileFilters": [
+    "fileFilters" : [
       "LICENSE-3RD-PARTY.txt"
     ],
-    "executionMode": "update"
+    "executionMode" : "update"
   }
 }
