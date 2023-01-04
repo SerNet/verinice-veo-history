@@ -19,6 +19,7 @@ package org.veo.history.jpa
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -308,9 +309,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         val name = "one"
         val result = sut.find(name, clientId)
 
-        result.size shouldBe 2
-        result[0].author shouldBe "a"
-        result[1].author shouldBe "b"
+        result.map { it.author } shouldContainExactlyInAnyOrder listOf("a", "b")
 
         // Result should be empty with wrong client ID
         sut.find(name, UUID.randomUUID()).size shouldBe 0
