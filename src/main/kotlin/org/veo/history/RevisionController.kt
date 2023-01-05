@@ -26,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.veo.history.dtos.RevisionDto
+import org.veo.history.dtos.RevisionPageDto
 import org.veo.history.exceptions.ResourceNotFoundException
 import java.net.URI
 import java.time.Instant
+import java.util.UUID
 
 /**
  * Provides read-only endpoints for fetching resource revisions. Only revisions that belong the authenticated user's
@@ -84,4 +86,15 @@ class RevisionController(
         return repo.findMostRecentlyChangedResources(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
             .map { mapper.createDto(it) }
     }
+
+    @Operation(description = "Retrieve all revisions using seek pagination")
+    @GetMapping("/paged")
+    fun getPaged(
+        auth: Authentication,
+        @RequestParam("size")
+        size: Int?,
+        @RequestParam("afterId") afterId: UUID?,
+    ): RevisionPageDto = repo
+        .findAll(size ?: 20, afterId, authService.getClientId(auth))
+        .let(mapper::createPageDto)
 }

@@ -58,8 +58,12 @@ class Revision(
     val content: JsonNode,
 ) {
     @Id
+    @Column(name = "id")
     @GeneratedValue
-    private var id: Long = 0
+    private var _id: Long = 0
+
+    /** Incremental ID for internal use. Should NOT be exposed on the public API. */
+    val id: Long get() = _id
 
     /** Unique key to be used on the public API to reference revisions. */
     val uuid: UUID = randomUUID()

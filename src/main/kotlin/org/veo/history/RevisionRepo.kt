@@ -17,15 +17,20 @@
  */
 package org.veo.history
 
+import jakarta.persistence.EntityManager
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 import org.veo.history.jpa.RevisionJpaRepo
+import org.veo.history.jpa.RevisionPage
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
 
 @Component
-class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
+class RevisionRepo(
+    private val jpaRepo: RevisionJpaRepo,
+    private val entityManager: EntityManager,
+) {
     fun findAll(uri: URI, clientId: UUID) = jpaRepo.findAll(uri, clientId)
 
     fun find(uri: URI, changeNumber: Long, clientId: UUID) = jpaRepo.find(
@@ -50,4 +55,20 @@ class RevisionRepo(private val jpaRepo: RevisionJpaRepo) {
 
     fun clear() = jpaRepo.deleteAll()
     fun deleteAllClientRevisions(clientId: UUID) = jpaRepo.deleteAllClientRevisions(clientId)
+    fun findAll(size: Int, afterUuid: UUID?, clientId: UUID): RevisionPage {
+        val afterRevision = afterUuid?.let { jpaRepo.getByUuid(it, clientId) }
+        return RevisionPage(
+            entityManager
+                .createQuery("select count(r.id) from Revision r where r.clientId = :clientId")
+                .setParameter("clientId", clientId)
+                .singleResult as Long,
+            entityManager
+                .createQuery("select r from Revision r where r.clientId = :clientId and r.id > :afterId order by r.id")
+                .setParameter("clientId", clientId)
+                .setParameter("afterId", afterRevision?.id ?: -1)
+                .setMaxResults(size)
+                .resultList
+                .map { it as Revision },
+        )
+    }
 }

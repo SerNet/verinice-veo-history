@@ -1,6 +1,6 @@
 /**
  * verinice.veo history
- * Copyright (C) 2021  Jonas Jordan
+ * Copyright (C) 2023  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,25 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.history
+package org.veo.history.jpa
 
-import io.kotest.assertions.throwables.shouldThrow
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.Test
-import org.springframework.dao.DataIntegrityViolationException
-import org.veo.history.jpa.RevisionJpaRepo
+import org.veo.history.Revision
 
-class RevisionRepoTest {
-    private val jpaRepo = mockk<RevisionJpaRepo>()
-    private val sut = RevisionRepo(jpaRepo, mockk())
-
-    @Test
-    fun `wraps data integrity violation`() {
-        every { jpaRepo.save(any()) } throws DataIntegrityViolationException("")
-
-        shouldThrow<DuplicateRevisionException> {
-            sut.add(mockk(relaxed = true))
-        }
-    }
-}
+class RevisionPage(
+    val totalItemCount: Long,
+    val items: List<Revision>,
+)
