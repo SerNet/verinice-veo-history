@@ -67,4 +67,7 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from revision  r where r.client_id = :clientId", nativeQuery = true)
     fun deleteAllClientRevisions(clientId: UUID)
+
+    @Query("select r from Revision r where r.uuid = :revisionUuid and r.clientId = :clientId")
+    fun getByUuid(revisionUuid: UUID, clientId: UUID): Revision
 }

@@ -31,6 +31,7 @@ import org.hibernate.annotations.Type
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
+import java.util.UUID.randomUUID
 
 /**
  * An archived revision of a veo REST resource.
@@ -59,4 +60,7 @@ class Revision(
     @Id
     @GeneratedValue
     private var id: Long = 0
+
+    /** Unique key to be used on the public API to reference revisions. */
+    val uuid: UUID = randomUUID()
 }
