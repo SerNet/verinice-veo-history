@@ -47,6 +47,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.5.1")
     implementation("com.vladmihalcea:hibernate-types-60:2.21.1")
     implementation("org.flywaydb:flyway-core")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")

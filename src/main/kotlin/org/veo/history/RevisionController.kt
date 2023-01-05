@@ -19,7 +19,9 @@ package org.veo.history
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import jakarta.validation.constraints.Max
 import org.springframework.security.core.Authentication
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -39,6 +41,7 @@ import java.util.UUID
 @RestController
 @RequestMapping("/revisions")
 @SecurityRequirement(name = VeoHistoryApplication.SECURITY_SCHEME_OAUTH)
+@Validated
 class RevisionController(
     private val repo: RevisionRepo,
     private val mapper: RevisionDtoFactory,
@@ -92,6 +95,7 @@ class RevisionController(
     fun getPaged(
         auth: Authentication,
         @RequestParam("size")
+        @Max(value = 10000)
         size: Int?,
         @RequestParam("afterId") afterId: UUID?,
     ): RevisionPageDto = repo
