@@ -29,13 +29,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @EnableAsync
 @AutoConfigureMockMvc
 abstract class AbstractMvcTest : AbstractSpringTest() {
-    private val objectMapper = ObjectMapper()
+    protected val om = ObjectMapper()
 
     @Autowired
     protected lateinit var mvc: MockMvc
 
     protected fun parseBody(result: MvcResult): Any {
-        return objectMapper.readValue(result.response.contentAsString, Object::class.java)
+        return om.readValue(result.response.contentAsString, Object::class.java)
     }
 
     protected fun request(method: HttpMethod, url: String, body: Any? = null, headers: Map<String, List<String>> = emptyMap()): MvcResult {
@@ -44,7 +44,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         if (body != null) {
             request
                 .contentType("application/json")
-                .content(objectMapper.writer().writeValueAsString(body))
+                .content(om.writer().writeValueAsString(body))
         }
         return mvc
             .perform(request)

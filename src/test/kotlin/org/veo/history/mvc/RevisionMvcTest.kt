@@ -17,7 +17,6 @@
  */
 package org.veo.history.mvc
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +30,6 @@ import java.util.UUID
 @WithMockClient
 class RevisionMvcTest : AbstractMvcTest() {
     private val resourceUri = "/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"
-    private val om = ObjectMapper()
 
     @BeforeEach
     fun setup() {
