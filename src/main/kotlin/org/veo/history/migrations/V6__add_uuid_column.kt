@@ -17,11 +17,14 @@
  */
 package org.veo.history.migrations
 
+import mu.KotlinLogging.logger
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 import java.util.UUID.randomUUID
 
 class V6__add_uuid_column : BaseJavaMigration() {
+    private val log = logger {}
+
     override fun migrate(context: Context) {
         context.connection.createStatement().use {
             it.execute("alter table revision add column uuid uuid;")
@@ -36,11 +39,13 @@ class V6__add_uuid_column : BaseJavaMigration() {
         (1..count)
             .chunked(1000)
             .forEach { ids ->
+                log.info("Setting UUIDs for revision IDs ${ids.first()} - ${ids.last()}")
                 ids
                     .joinToString("") { id -> "update revision set uuid = '${randomUUID()}' where id = $id;" }
                     .let { sql -> context.connection.createStatement().use { it.execute(sql) } }
             }
 
+        log.info { "Creating constraints" }
         context.connection.createStatement().use {
             it.execute(
                 """
