@@ -32,12 +32,14 @@ class V6__add_uuid_column : BaseJavaMigration() {
                 row.getInt(1)
             }
         }
-        (1..count).forEach { id ->
-            val uuid = randomUUID().toString()
-            context.connection.createStatement().use {
-                it.execute("update revision set uuid = '$uuid' where id = $id")
+        // Split revisions into chunks and execute one long update statement per chunk to assign UUIDs.
+        (1..count)
+            .chunked(1000)
+            .forEach { ids ->
+                ids
+                    .joinToString("") { id -> "update revision set uuid = '${randomUUID()}' where id = $id;" }
+                    .let { sql -> context.connection.createStatement().use { it.execute(sql) } }
             }
-        }
 
         context.connection.createStatement().use {
             it.execute(
