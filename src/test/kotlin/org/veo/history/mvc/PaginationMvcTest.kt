@@ -17,9 +17,7 @@
  */
 package org.veo.history.mvc
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import jakarta.validation.ConstraintViolationException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpMethod.GET
@@ -159,8 +157,9 @@ class PaginationMvcTest : AbstractMvcTest() {
         request(GET, "/revisions/paged?size=200").response.status shouldBe 200
 
         // expect excessive size to cause an error
-        shouldThrow<ConstraintViolationException> {
-            request(GET, "/revisions/paged?size=10001")
+        request(GET, "/revisions/paged?size=10001").response.apply {
+            status shouldBe 422
+            contentAsString shouldBe "getPaged.size: must be less than or equal to 10000"
         }
     }
 }
