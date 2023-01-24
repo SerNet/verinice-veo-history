@@ -20,6 +20,7 @@ package org.veo.history
 import jakarta.persistence.EntityManager
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
+import org.veo.history.exceptions.ResourceNotFoundException
 import org.veo.history.jpa.RevisionJpaRepo
 import org.veo.history.jpa.RevisionPage
 import java.net.URI
@@ -56,7 +57,7 @@ class RevisionRepo(
     fun clear() = jpaRepo.deleteAll()
     fun deleteAllClientRevisions(clientId: UUID) = jpaRepo.deleteAllClientRevisions(clientId)
     fun findAll(size: Int, afterUuid: UUID?, clientId: UUID): RevisionPage {
-        val afterRevision = afterUuid?.let { jpaRepo.getByUuid(it, clientId) }
+        val afterRevision = afterUuid?.let { getRevisionById(it, clientId) }
         return RevisionPage(
             entityManager
                 .createQuery("select count(r.id) from Revision r where r.clientId = :clientId")
@@ -71,4 +72,7 @@ class RevisionRepo(
                 .map { it as Revision },
         )
     }
+
+    private fun getRevisionById(it: UUID, clientId: UUID) =
+        jpaRepo.findByUuid(it, clientId) ?: throw ResourceNotFoundException()
 }

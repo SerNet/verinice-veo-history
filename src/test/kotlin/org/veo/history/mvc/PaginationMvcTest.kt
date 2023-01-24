@@ -162,4 +162,10 @@ class PaginationMvcTest : AbstractMvcTest() {
             contentAsString shouldBe "getPaged.size: must be less than or equal to 10000"
         }
     }
+
+    @Test
+    fun `missing revision is handled`() {
+        // expect that using a non-existing revision ID causes a 404
+        request(GET, "/revisions/paged?afterId=${randomUUID()}").response.status shouldBe 404
+    }
 }
