@@ -94,11 +94,11 @@ class RevisionController(
     @GetMapping("/paged")
     fun getPaged(
         auth: Authentication,
-        @RequestParam("size")
+        @RequestParam("size", defaultValue = "20")
         @Max(value = 10000)
-        size: Int?,
+        size: Int,
         @RequestParam("afterId") afterId: UUID?,
     ): RevisionPageDto = repo
-        .findAll(size ?: 20, afterId, authService.getClientId(auth))
+        .findAll(size, afterId, authService.getClientId(auth))
         .let(mapper::createPageDto)
 }
