@@ -11503,7 +11503,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-90. Group: org.postgresql  Name: postgresql  Version: 42.5.1
+90. Group: org.postgresql  Name: postgresql  Version: 42.5.2
 
 Manifest Project URL: https://jdbc.postgresql.org/
 
@@ -20896,5 +20896,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Mon Jan 30 06:07:04 UTC 2023.
+This report was generated at Wed Feb 01 06:04:36 UTC 2023.
 
