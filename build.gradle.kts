@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Calendar
 
 plugins {
-    id("org.springframework.boot") version "3.0.2"
+    id("org.springframework.boot") version "3.0.3"
     id("io.spring.dependency-management") version "1.1.0"
 
     kotlin("jvm") version "1.8.10"
@@ -174,5 +174,14 @@ if (rootProject.hasProperty("ci")) {
     tasks.withType<Test> {
         // Don't let failing tests fail the build, let the junit step in the Jenkins pipeline decide what to do
         ignoreFailures = true
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.name == "spring-data-jpa" && requested.version == "3.0.2") {
+            useVersion("3.0.1")
+            because("https://github.com/spring-projects/spring-data-jpa/issues/2812")
+        }
     }
 }
