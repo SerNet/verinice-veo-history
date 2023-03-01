@@ -73,7 +73,7 @@ class MessageSubscriberTest {
         val revisionSlot = slot<Revision>()
         every { repoMock.add(capture(revisionSlot)) } just runs
 
-        sut.handleMessage(creationMessage)
+        sut.handleVeoMessage(creationMessage)
 
         revisionSlot.captured.apply {
             uri shouldBe URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5")
@@ -94,7 +94,7 @@ class MessageSubscriberTest {
         )
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
-            sut.handleMessage(creationMessage)
+            sut.handleVeoMessage(creationMessage)
         }
     }
 
@@ -103,7 +103,7 @@ class MessageSubscriberTest {
         every { repoMock.add(any()) } throws IOException("I can't save that stuff.")
 
         shouldThrow<IOException> {
-            sut.handleMessage(creationMessage)
+            sut.handleVeoMessage(creationMessage)
         }
     }
 
@@ -111,7 +111,7 @@ class MessageSubscriberTest {
     fun `deletes client revisions`() {
         every { repoMock.deleteAllClientRevisions(any()) } just Runs
 
-        sut.handleMessage(
+        sut.handleSubscriptionMessage(
             message(
                 mapOf(
                     "eventType" to "client_change",
@@ -127,13 +127,24 @@ class MessageSubscriberTest {
     @Test
     fun `ignores client creation`() {
         shouldNotThrowAny {
-            sut.handleMessage(
+            sut.handleSubscriptionMessage(
                 message(
                     mapOf(
                         "eventType" to "client_change",
                         "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
                         "type" to "CREATION",
                     ),
+                ),
+            )
+        }
+    }
+
+    @Test
+    fun `revision is not supported by subscriptions listener`() {
+        shouldThrow<NotImplementedError> {
+            sut.handleSubscriptionMessage(
+                message(
+                    mapOf("eventType" to "entity_revision"),
                 ),
             )
         }
