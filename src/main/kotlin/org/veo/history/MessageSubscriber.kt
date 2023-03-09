@@ -106,9 +106,9 @@ class MessageSubscriber(
             }
     } catch (ex: AmqpRejectAndDontRequeueException) {
         throw ex
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         log.error(ex) { "Handling failed for message: '$message'" }
-        throw ex
+        throw RuntimeException(ex)
     }
 
     private fun handleClientChange(content: JsonNode) {

@@ -20,7 +20,9 @@ package org.veo.history
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -99,12 +101,12 @@ class MessageSubscriberTest {
     }
 
     @Test
-    fun `delegates other repo exceptions`() {
+    fun `wraps other repo exceptions`() {
         every { repoMock.add(any()) } throws IOException("I can't save that stuff.")
 
-        shouldThrow<IOException> {
+        shouldThrow<RuntimeException> {
             sut.handleVeoMessage(creationMessage)
-        }
+        }.cause should instanceOf<IOException>()
     }
 
     @Test
@@ -141,13 +143,13 @@ class MessageSubscriberTest {
 
     @Test
     fun `revision is not supported by subscriptions listener`() {
-        shouldThrow<NotImplementedError> {
+        shouldThrow<RuntimeException> {
             sut.handleSubscriptionMessage(
                 message(
                     mapOf("eventType" to "entity_revision"),
                 ),
             )
-        }
+        }.cause should instanceOf<NotImplementedError>()
     }
 
     private fun message(content: Map<String, *>): String =
