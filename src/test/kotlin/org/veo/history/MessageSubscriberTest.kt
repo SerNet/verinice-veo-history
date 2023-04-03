@@ -23,6 +23,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
+import io.mockk.InternalPlatformDsl.toStr
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -32,10 +33,12 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
+import org.springframework.amqp.rabbit.annotation.RabbitListener
 import java.io.IOException
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
+import kotlin.reflect.full.functions
 
 private val om = ObjectMapper()
 
@@ -69,6 +72,13 @@ class MessageSubscriberTest {
             "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
         ),
     )
+
+    @Test
+    fun `listeners don't return anything`() {
+        MessageSubscriber::class.functions
+            .filter { it.annotations.filterIsInstance<RabbitListener>().isNotEmpty() }
+            .forEach { it.returnType.toStr() shouldBe "kotlin.Unit" }
+    }
 
     @Test
     fun `adds versioning event to repo`() {

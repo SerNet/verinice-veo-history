@@ -86,12 +86,14 @@ class MessageSubscriber(
             ),
         ],
     )
-    fun handleSubscriptionMessage(message: String) = handle(
-        message,
-        mapOf(
-            "client_change" to this::handleClientChange,
-        ),
-    )
+    fun handleSubscriptionMessage(message: String) {
+        handle(
+            message,
+            mapOf(
+                "client_change" to this::handleClientChange,
+            ),
+        )
+    }
 
     private fun handle(message: String, eventTypeHandlers: Map<String, (JsonNode) -> Any>) = try {
         mapper
