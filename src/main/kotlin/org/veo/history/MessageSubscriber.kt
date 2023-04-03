@@ -60,12 +60,14 @@ class MessageSubscriber(
             ),
         ],
     )
-    fun handleVeoMessage(message: String) = handle(
-        message,
-        mapOf(
-            "entity_revision" to this::handleVersioning,
-        ),
-    )
+    fun handleVeoMessage(message: String) {
+        handle(
+            message,
+            mapOf(
+                "entity_revision" to this::handleVersioning,
+            ),
+        )
+    }
 
     @RabbitListener(
         bindings = [
