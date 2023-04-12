@@ -51,7 +51,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-    implementation("io.mockk:mockk:1.13.4")
+    implementation("io.mockk:mockk:1.13.5")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     val kotestVersion = "5.5.5"
