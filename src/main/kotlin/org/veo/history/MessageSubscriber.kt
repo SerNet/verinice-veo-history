@@ -54,8 +54,6 @@ class MessageSubscriber(
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchanges.veo}", type = "topic"),
                 key = [
                     "\${veo.history.rabbitmq.routing_key_prefix}entity_revision",
-                    // TODO VEO-1830 stop supporting old routing key
-                    "\${veo.history.rabbitmq.routing_key_prefix}versioning_event",
                 ],
             ),
         ],
