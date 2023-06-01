@@ -19,7 +19,7 @@ plugins {
 
     id("com.diffplug.spotless") version "6.18.0"
     id("org.cadixdev.licenser") version "0.6.1"
-    id("com.github.jk1.dependency-license-report") version "2.3"
+    id("com.github.jk1.dependency-license-report") version "2.4"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     jacoco
 }
