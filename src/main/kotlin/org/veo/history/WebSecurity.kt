@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
@@ -49,35 +50,36 @@ class WebSecurity {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.cors()
+        http {
+            cors {}
+            csrf { disable() }
 
-        http.csrf().disable()
+            authorizeHttpRequests {
+                authorize("/actuator/**", permitAll)
+                authorize("/swagger-ui.html", permitAll)
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/v2/api-docs/**", permitAll)
+                authorize("/v3/api-docs/**", permitAll)
 
-        // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
-        // swagger-ui. We cannot disable it.
-        // Make sure that no critical API can be accessed by an anonymous user!
-        // .anonymous().disable()
-        http.authorizeHttpRequests()
-            .requestMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
-            .permitAll()
-            .anyRequest()
-            .hasRole("veo-user")
+                authorize(anyRequest, hasRole("veo-user"))
+            }
+            sessionManagement {
+                sessionCreationPolicy = SessionCreationPolicy.STATELESS
+            }
+            oauth2ResourceServer {
+                jwt {
+                    jwtAuthenticationConverter = JwtAuthenticationConverter().apply {
+                        setJwtGrantedAuthoritiesConverter(
+                            JwtGrantedAuthoritiesConverter().apply {
+                                setAuthoritiesClaimName("roles")
+                                setAuthorityPrefix("ROLE_")
+                            },
+                        )
+                    }
+                }
+            }
+        }
 
-        http.sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-        http.oauth2ResourceServer()
-            .jwt()
-            .jwtAuthenticationConverter(
-                JwtAuthenticationConverter().apply {
-                    setJwtGrantedAuthoritiesConverter(
-                        JwtGrantedAuthoritiesConverter().apply {
-                            setAuthoritiesClaimName("roles")
-                            setAuthorityPrefix("ROLE_")
-                        },
-                    )
-                },
-            )
         return http.build()
     }
 
