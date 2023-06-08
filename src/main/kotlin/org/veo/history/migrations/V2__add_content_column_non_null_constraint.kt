@@ -20,6 +20,7 @@ package org.veo.history.migrations
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 
+@SuppressWarnings("ClassName")
 class V2__add_content_column_non_null_constraint : BaseJavaMigration() {
     override fun migrate(context: Context) {
         context.connection.createStatement().use {

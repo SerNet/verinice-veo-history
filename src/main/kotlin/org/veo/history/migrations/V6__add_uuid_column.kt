@@ -22,6 +22,7 @@ import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 import java.util.UUID.randomUUID
 
+@SuppressWarnings("ClassName")
 class V6__add_uuid_column : BaseJavaMigration() {
     private val log = logger {}
 

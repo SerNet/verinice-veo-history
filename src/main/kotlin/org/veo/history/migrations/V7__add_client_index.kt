@@ -20,6 +20,7 @@ package org.veo.history.migrations
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 
+@SuppressWarnings("ClassName")
 class V7__add_client_index : BaseJavaMigration() {
     override fun migrate(context: Context) {
         context.connection.createStatement().use {

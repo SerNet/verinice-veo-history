@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream
 import java.io.ObjectInputStream
 import java.net.URI
 
+@SuppressWarnings("ClassName")
 class V3__uri_to_varchar : BaseJavaMigration() {
     override fun migrate(context: Context) {
         context.connection.createStatement().use {
