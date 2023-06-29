@@ -1,0 +1,138 @@
+image: gradle:8.1.1-jdk17-alpine
+
+variables:
+  ORG_GRADLE_PROJECT_ci: 'true'
+  CI_DEBUG_SERVICES: "true"
+  PROXY: $HTTPS_PROXY_HOST
+
+stages:
+  - build
+  - check
+  - docker_image
+  - deployment
+
+before_script:
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+
+build:
+  stage: build
+  script:
+    - env
+    - gradle -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
+    - echo "PROJECT_VERSION=$(./gradlew -q properties --property version| awk '/^version:/ {print $2}')" >> variables.env
+  artifacts:
+    expire_in: 1 week
+    reports:
+      dotenv: variables.env
+    paths:
+      - build/libs
+  cache:
+    - key: gradle
+      paths:
+        - .gradle
+    - key: $CI_PROJECT_PATH
+      paths:
+        - build
+      policy: push
+
+test:
+  stage: check
+  script:
+  - gradle -i test jacotura
+  - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
+  services:
+  - name: postgres:11.7-alpine
+    alias: db
+    variables:
+      POSTGRES_USER: verinice
+      POSTGRES_PASSWORD: verinice
+  variables:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+    SPRING_DATASOURCE_DRIVERCLASSNAME: org.postgresql.Driver
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/reports/cobertura.xml
+  coverage: '/([0-9]{1,3}.[0-9]*).%.covered/'
+  cache:
+    - key: gradle
+      paths:
+        - .gradle
+    - key: $CI_PROJECT_PATH
+      paths:
+        - build
+      policy: pull
+
+check:
+  stage: check
+  script:
+    - gradle -i check -x test
+  cache:
+    - key: gradle
+      paths:
+        - .gradle
+    - key: $CI_PROJECT_PATH
+      paths:
+        - build
+      policy: pull
+
+
+check_license:
+  stage: check
+  script:
+    - gradle -i generateLicenseReport
+    - git diff --exit-code --ignore-matching-lines='This report was generated at'
+    - if [ $? -ne 0 ]; then echo "LICENSE-3RD-PARTY.txt is not up to date, please re-run ./gradlew generateLicenseReport"; exit 1; fi
+  cache:
+    - key: gradle
+      paths:
+        - .gradle
+    - key: $CI_PROJECT_PATH
+      paths:
+        - build
+      policy: pull
+
+
+docker_image:
+  stage: docker_image
+  needs:
+   - build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.11.0-debug
+    entrypoint: [""]
+
+  variables:
+    IMAGE_NAME: eu.gcr.io/veo-projekt/veo-history
+    # this does not work in Gitlab < 15.7, so we need the before_script workaround
+    # GOOGLE_APPLICATION_CREDENTIALS: $GCR_ACCESS_TOKEN
+
+  before_script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GCR_ACCESS_TOKEN}
+
+  script:
+    - |-
+      DESTINATION_ARG="--destination $IMAGE_NAME:gitlab-git-${CI_COMMIT_SHA} --destination $IMAGE_NAME:pipeline-id-${CI_PIPELINE_ID}"
+      if [ -n "$CI_COMMIT_TAG" ]; then export DESTINATION_ARG="$DESTINATION_ARG --destination $IMAGE_NAME:$CI_COMMIT_TAG";
+        if [ "$CI_COMMIT_REF_NAME" = "master" ]; then export DESTINATION_ARG="$DESTINATION_ARG --destination $IMAGE_NAME:latest"; fi;
+      fi;
+      if [ "$CI_COMMIT_REF_NAME" = "develop" ]; then export DESTINATION_ARG="$DESTINATION_ARG --destination $IMAGE_NAME:develop"; fi;
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      $DESTINATION_ARG
+      --build-arg VEO_HISTORY_VERSION="${PROJECT_VERSION}"
+      --label org.opencontainers.image.version="${PROJECT_VERSION}"
+      --label org.opencontainers.image.revision=${CI_COMMIT_SHA}
+
+trigger_deployment:
+  stage: deployment
+  only:
+    - develop
+    - main
+  image: 'curlimages/curl:latest'
+  script:
+    - curl -i -k -X POST --user gitlab:$JENKINS_API_TOKEN https://bob.int.sernet.de:8443/job/verinice-veo-deployment/job/master/build

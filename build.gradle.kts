@@ -22,6 +22,7 @@ plugins {
     id("com.github.jk1.dependency-license-report") version "2.4"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     jacoco
+    id("io.github.chiragji.jacotura") version "1.1.2"
 }
 
 group = "org.veo"
@@ -138,6 +139,12 @@ spotless {
             }
         })
     }
+    yaml {
+        target(".gitlab-ci.yml")
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
 }
 
 license {
@@ -170,18 +177,25 @@ springBoot {
     }
 }
 
-if (rootProject.hasProperty("ci")) {
-    tasks.withType<Test> {
-        // Don't let failing tests fail the build, let the junit step in the Jenkins pipeline decide what to do
-        ignoreFailures = true
-    }
-}
-
 configurations.all {
     resolutionStrategy.eachDependency {
         if (requested.name == "spring-data-jpa" && requested.version == "3.0.2") {
             useVersion("3.0.1")
             because("https://github.com/spring-projects/spring-data-jpa/issues/2812")
         }
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+    }
+}
+
+jacotura {
+    properties {
+        property("jacotura.jacoco.path", "$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+        property("jacotura.cobertura.path", "$buildDir/reports/cobertura.xml")
     }
 }

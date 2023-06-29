@@ -30,7 +30,8 @@
       "matchPackagePatterns" : [
         "^com.github.jk1.dependency-license-report$",
         "^io.kotest:",
-        "^gradle$"
+        "^gradle$",
+        "^gcr.io/kaniko-project/executor$"
       ],
       "postUpgradeTasks" : { }
     }
