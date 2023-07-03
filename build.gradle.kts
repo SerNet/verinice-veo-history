@@ -6,6 +6,7 @@ import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.render.TextReportRenderer
 import com.github.jk1.license.task.ReportTask
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
+import org.eclipse.jgit.api.Git
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Calendar
 
@@ -158,8 +159,9 @@ license {
         },
     )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
-    ext["author"] = ProcessBuilder("git", "config", "user.name").start()
-        .inputStream.bufferedReader().readText().trim()
+    ext["author"] = Git.open(project.rootDir).use {
+        it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
+    }
 }
 
 springBoot {
