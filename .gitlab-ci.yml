@@ -1,4 +1,4 @@
-image: gradle:8.1.1-jdk17-alpine
+image: eclipse-temurin:17-jdk
 
 variables:
   ORG_GRADLE_PROJECT_ci: 'true'
@@ -19,7 +19,7 @@ build:
   stage: build
   script:
     - env
-    - gradle -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
+    - ./gradlew -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
     - echo "PROJECT_VERSION=$(./gradlew -q properties --property version| awk '/^version:/ {print $2}')" >> variables.env
   artifacts:
     expire_in: 1 week
@@ -39,7 +39,7 @@ build:
 test:
   stage: check
   script:
-  - gradle -i test jacotura
+  - ./gradlew -i test jacotura
   - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
   services:
   - name: postgres:11.7-alpine
@@ -70,7 +70,7 @@ test:
 check:
   stage: check
   script:
-    - gradle -i check -x test
+    - ./gradlew -i check -x test
   cache:
     - key: gradle
       paths:
