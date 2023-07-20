@@ -1037,7 +1037,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-15. Group: com.rabbitmq  Name: amqp-client  Version: 5.17.0
+15. Group: com.rabbitmq  Name: amqp-client  Version: 5.17.1
 
 Project URL: https://www.rabbitmq.com
 
@@ -1301,7 +1301,7 @@ This software is licensed under the Apache 2 license, quoted below.
 
 --------------------------------------------------------------------------------
 
-20. Group: io.micrometer  Name: micrometer-commons  Version: 1.11.1
+20. Group: io.micrometer  Name: micrometer-commons  Version: 1.11.2
 
 POM Project URL: https://github.com/micrometer-metrics/micrometer
 
@@ -1563,7 +1563,7 @@ package in the Spring Framework library, distributed by VMware, Inc:
 
 --------------------------------------------------------------------------------
 
-21. Group: io.micrometer  Name: micrometer-core  Version: 1.11.1
+21. Group: io.micrometer  Name: micrometer-core  Version: 1.11.2
 
 POM Project URL: https://github.com/micrometer-metrics/micrometer
 
@@ -1825,7 +1825,7 @@ package in the Spring Framework library, distributed by VMware, Inc:
 
 --------------------------------------------------------------------------------
 
-22. Group: io.micrometer  Name: micrometer-observation  Version: 1.11.1
+22. Group: io.micrometer  Name: micrometer-observation  Version: 1.11.2
 
 POM Project URL: https://github.com/micrometer-metrics/micrometer
 
@@ -6898,7 +6898,7 @@ The Apache Software Foundation (http://www.apache.org/).
 
 --------------------------------------------------------------------------------
 
-53. Group: org.apache.tomcat.embed  Name: tomcat-embed-core  Version: 10.1.10
+53. Group: org.apache.tomcat.embed  Name: tomcat-embed-core  Version: 10.1.11
 
 POM Project URL: https://tomcat.apache.org/
 
@@ -8664,7 +8664,7 @@ http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/index.html
 
 --------------------------------------------------------------------------------
 
-54. Group: org.apache.tomcat.embed  Name: tomcat-embed-el  Version: 10.1.10
+54. Group: org.apache.tomcat.embed  Name: tomcat-embed-el  Version: 10.1.11
 
 POM Project URL: https://tomcat.apache.org/
 
@@ -8887,7 +8887,7 @@ The Apache Software Foundation (http://www.apache.org/).
 
 --------------------------------------------------------------------------------
 
-55. Group: org.apache.tomcat.embed  Name: tomcat-embed-websocket  Version: 10.1.10
+55. Group: org.apache.tomcat.embed  Name: tomcat-embed-websocket  Version: 10.1.11
 
 POM Project URL: https://tomcat.apache.org/
 
@@ -10657,7 +10657,7 @@ POM License: GNU LESSER GENERAL PUBLIC LICENSE, Version 2.1 - https://www.gnu.or
 
 --------------------------------------------------------------------------------
 
-67. Group: org.hibernate.orm  Name: hibernate-core  Version: 6.2.5.Final
+67. Group: org.hibernate.orm  Name: hibernate-core  Version: 6.2.6.Final
 
 Manifest Project URL: https://www.hibernate.org/orm/6.2
 
@@ -10675,7 +10675,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-69. Group: org.jboss.logging  Name: jboss-logging  Version: 3.5.1.Final
+69. Group: org.jboss.logging  Name: jboss-logging  Version: 3.5.3.Final
 
 Project URL: http://www.jboss.org
 
@@ -12526,7 +12526,7 @@ Embedded license:
 
 --------------------------------------------------------------------------------
 
-95. Group: org.springframework  Name: spring-aop  Version: 6.0.10
+95. Group: org.springframework  Name: spring-aop  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -12740,9 +12740,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -12836,7 +12836,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -12850,7 +12850,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-96. Group: org.springframework  Name: spring-aspects  Version: 6.0.10
+96. Group: org.springframework  Name: spring-aspects  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -13064,9 +13064,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -13160,7 +13160,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -13174,7 +13174,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-97. Group: org.springframework  Name: spring-beans  Version: 6.0.10
+97. Group: org.springframework  Name: spring-beans  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -13388,9 +13388,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -13484,7 +13484,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -13498,7 +13498,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-98. Group: org.springframework  Name: spring-context  Version: 6.0.10
+98. Group: org.springframework  Name: spring-context  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -13712,9 +13712,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -13808,7 +13808,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -13822,7 +13822,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-99. Group: org.springframework  Name: spring-core  Version: 6.0.10
+99. Group: org.springframework  Name: spring-core  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -14036,9 +14036,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -14132,7 +14132,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -14146,7 +14146,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-100. Group: org.springframework  Name: spring-expression  Version: 6.0.10
+100. Group: org.springframework  Name: spring-expression  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -14360,9 +14360,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -14456,7 +14456,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -14470,7 +14470,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-101. Group: org.springframework  Name: spring-jcl  Version: 6.0.10
+101. Group: org.springframework  Name: spring-jcl  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -14684,9 +14684,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -14780,7 +14780,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -14794,7 +14794,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-102. Group: org.springframework  Name: spring-jdbc  Version: 6.0.10
+102. Group: org.springframework  Name: spring-jdbc  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -15008,9 +15008,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -15104,7 +15104,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -15118,7 +15118,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-103. Group: org.springframework  Name: spring-messaging  Version: 6.0.10
+103. Group: org.springframework  Name: spring-messaging  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -15332,9 +15332,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -15428,7 +15428,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -15442,7 +15442,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-104. Group: org.springframework  Name: spring-orm  Version: 6.0.10
+104. Group: org.springframework  Name: spring-orm  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -15656,9 +15656,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -15752,7 +15752,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -15766,7 +15766,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-105. Group: org.springframework  Name: spring-test  Version: 6.0.10
+105. Group: org.springframework  Name: spring-test  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -15980,9 +15980,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -16076,7 +16076,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -16090,7 +16090,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-106. Group: org.springframework  Name: spring-tx  Version: 6.0.10
+106. Group: org.springframework  Name: spring-tx  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -16304,9 +16304,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -16400,7 +16400,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -16414,7 +16414,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-107. Group: org.springframework  Name: spring-web  Version: 6.0.10
+107. Group: org.springframework  Name: spring-web  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -16628,9 +16628,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -16724,7 +16724,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -16738,7 +16738,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-108. Group: org.springframework  Name: spring-webmvc  Version: 6.0.10
+108. Group: org.springframework  Name: spring-webmvc  Version: 6.0.11
 
 POM Project URL: https://github.com/spring-projects/spring-framework
 
@@ -16952,9 +16952,9 @@ Embedded license:
 
 =======================================================================
 
-SPRING FRAMEWORK 6.0.10 SUBCOMPONENTS:
+SPRING FRAMEWORK 6.0.11 SUBCOMPONENTS:
 
-Spring Framework 6.0.10 includes a number of subcomponents
+Spring Framework 6.0.11 includes a number of subcomponents
 with separate copyright notices and license terms. The product that
 includes this file does not necessarily use all the open source
 subcomponents referred to below. Your use of the source
@@ -17048,7 +17048,7 @@ may accompany the Software.
 
                     ****************************************                    
 
-Spring Framework 6.0.10
+Spring Framework 6.0.11
 Copyright (c) 2002-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -17062,7 +17062,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-109. Group: org.springframework.amqp  Name: spring-amqp  Version: 3.0.5
+109. Group: org.springframework.amqp  Name: spring-amqp  Version: 3.0.6
 
 POM Project URL: https://github.com/spring-projects/spring-amqp
 
@@ -17276,7 +17276,7 @@ Embedded license:
 
                     ****************************************                    
 
-Spring AMQP Framework 3.0.5
+Spring AMQP Framework 3.0.6
 Copyright (c) 2010-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -17290,7 +17290,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-110. Group: org.springframework.amqp  Name: spring-rabbit  Version: 3.0.5
+110. Group: org.springframework.amqp  Name: spring-rabbit  Version: 3.0.6
 
 POM Project URL: https://github.com/spring-projects/spring-amqp
 
@@ -17504,7 +17504,7 @@ Embedded license:
 
                     ****************************************                    
 
-Spring AMQP Framework 3.0.5
+Spring AMQP Framework 3.0.6
 Copyright (c) 2010-2023 Pivotal, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -17518,7 +17518,7 @@ subcomponent's license, as noted in the license.txt file.
 
 --------------------------------------------------------------------------------
 
-111. Group: org.springframework.boot  Name: spring-boot  Version: 3.1.1
+111. Group: org.springframework.boot  Name: spring-boot  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -17732,7 +17732,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -17740,7 +17740,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-112. Group: org.springframework.boot  Name: spring-boot-actuator  Version: 3.1.1
+112. Group: org.springframework.boot  Name: spring-boot-actuator  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -17954,7 +17954,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -17962,7 +17962,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-113. Group: org.springframework.boot  Name: spring-boot-actuator-autoconfigure  Version: 3.1.1
+113. Group: org.springframework.boot  Name: spring-boot-actuator-autoconfigure  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -18176,7 +18176,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -18184,7 +18184,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-114. Group: org.springframework.boot  Name: spring-boot-autoconfigure  Version: 3.1.1
+114. Group: org.springframework.boot  Name: spring-boot-autoconfigure  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -18398,7 +18398,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -18406,7 +18406,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-115. Group: org.springframework.boot  Name: spring-boot-starter  Version: 3.1.1
+115. Group: org.springframework.boot  Name: spring-boot-starter  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -18620,7 +18620,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -18628,7 +18628,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-116. Group: org.springframework.boot  Name: spring-boot-starter-actuator  Version: 3.1.1
+116. Group: org.springframework.boot  Name: spring-boot-starter-actuator  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -18842,7 +18842,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -18850,7 +18850,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-117. Group: org.springframework.boot  Name: spring-boot-starter-amqp  Version: 3.1.1
+117. Group: org.springframework.boot  Name: spring-boot-starter-amqp  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -19064,7 +19064,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -19072,7 +19072,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-118. Group: org.springframework.boot  Name: spring-boot-starter-aop  Version: 3.1.1
+118. Group: org.springframework.boot  Name: spring-boot-starter-aop  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -19286,7 +19286,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -19294,7 +19294,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-119. Group: org.springframework.boot  Name: spring-boot-starter-data-jpa  Version: 3.1.1
+119. Group: org.springframework.boot  Name: spring-boot-starter-data-jpa  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -19508,7 +19508,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -19516,7 +19516,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-120. Group: org.springframework.boot  Name: spring-boot-starter-jdbc  Version: 3.1.1
+120. Group: org.springframework.boot  Name: spring-boot-starter-jdbc  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -19730,7 +19730,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -19738,7 +19738,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-121. Group: org.springframework.boot  Name: spring-boot-starter-json  Version: 3.1.1
+121. Group: org.springframework.boot  Name: spring-boot-starter-json  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -19952,7 +19952,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -19960,7 +19960,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-122. Group: org.springframework.boot  Name: spring-boot-starter-logging  Version: 3.1.1
+122. Group: org.springframework.boot  Name: spring-boot-starter-logging  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -20174,7 +20174,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -20182,7 +20182,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-123. Group: org.springframework.boot  Name: spring-boot-starter-oauth2-resource-server  Version: 3.1.1
+123. Group: org.springframework.boot  Name: spring-boot-starter-oauth2-resource-server  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -20396,7 +20396,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -20404,7 +20404,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-124. Group: org.springframework.boot  Name: spring-boot-starter-security  Version: 3.1.1
+124. Group: org.springframework.boot  Name: spring-boot-starter-security  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -20618,7 +20618,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -20626,7 +20626,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-125. Group: org.springframework.boot  Name: spring-boot-starter-tomcat  Version: 3.1.1
+125. Group: org.springframework.boot  Name: spring-boot-starter-tomcat  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -20840,7 +20840,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -20848,7 +20848,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-126. Group: org.springframework.boot  Name: spring-boot-starter-web  Version: 3.1.1
+126. Group: org.springframework.boot  Name: spring-boot-starter-web  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-boot
 
@@ -21062,7 +21062,7 @@ Embedded license:
    limitations under the License.
                     ****************************************                    
 
-Spring Boot 3.1.1
+Spring Boot 3.1.2
 Copyright (c) 2012-2023 VMware, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0
@@ -21070,7 +21070,7 @@ This product is licensed to you under the Apache License, Version 2.0
 the License.
 --------------------------------------------------------------------------------
 
-127. Group: org.springframework.data  Name: spring-data-commons  Version: 3.1.1
+127. Group: org.springframework.data  Name: spring-data-commons  Version: 3.1.2
 
 POM Project URL: https://spring.io/projects/spring-data
 
@@ -21298,7 +21298,7 @@ physical medium.  This offer to obtain a copy of the Source Files is valid for t
 years from the date you acquired this Software product.
                     ****************************************                    
 
-Spring Data Commons 3.1.1 (2023.0.1)
+Spring Data Commons 3.1.2 (2023.0.2)
 Copyright (c) [2010-2021] Pivotal Software, Inc.
 
 This product is licensed to you under the Apache License, Version 2.0 (the "License").
@@ -21348,9 +21348,10 @@ conditions of the subcomponent's license, as noted in the LICENSE file.
 
 
 
+
 --------------------------------------------------------------------------------
 
-128. Group: org.springframework.data  Name: spring-data-jpa  Version: 3.1.1
+128. Group: org.springframework.data  Name: spring-data-jpa  Version: 3.1.2
 
 POM Project URL: https://projects.spring.io/spring-data-jpa
 
@@ -21655,7 +21656,7 @@ the License.
 
 --------------------------------------------------------------------------------
 
-130. Group: org.springframework.security  Name: spring-security-config  Version: 6.1.1
+130. Group: org.springframework.security  Name: spring-security-config  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21663,7 +21664,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-131. Group: org.springframework.security  Name: spring-security-core  Version: 6.1.1
+131. Group: org.springframework.security  Name: spring-security-core  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21671,7 +21672,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-132. Group: org.springframework.security  Name: spring-security-crypto  Version: 6.1.1
+132. Group: org.springframework.security  Name: spring-security-crypto  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21679,7 +21680,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-133. Group: org.springframework.security  Name: spring-security-oauth2-core  Version: 6.1.1
+133. Group: org.springframework.security  Name: spring-security-oauth2-core  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21687,7 +21688,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-134. Group: org.springframework.security  Name: spring-security-oauth2-jose  Version: 6.1.1
+134. Group: org.springframework.security  Name: spring-security-oauth2-jose  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21695,7 +21696,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-135. Group: org.springframework.security  Name: spring-security-oauth2-resource-server  Version: 6.1.1
+135. Group: org.springframework.security  Name: spring-security-oauth2-resource-server  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21703,7 +21704,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-136. Group: org.springframework.security  Name: spring-security-test  Version: 6.1.1
+136. Group: org.springframework.security  Name: spring-security-test  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21711,7 +21712,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-137. Group: org.springframework.security  Name: spring-security-web  Version: 6.1.1
+137. Group: org.springframework.security  Name: spring-security-web  Version: 6.1.2
 
 POM Project URL: https://spring.io/projects/spring-security
 
@@ -21738,5 +21739,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Thu Jul 13 13:43:29 CEST 2023.
+This report was generated at Thu Jul 20 11:56:59 UTC 2023.
 
