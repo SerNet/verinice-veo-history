@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "org.veo"
-version = "0.30.0-SNAPSHOT"
+version = "0.30.0"
 
 java {
     toolchain {
