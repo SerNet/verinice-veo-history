@@ -6,6 +6,9 @@
   "reviewers" : [
     "jj"
   ],
+  "ignoreDeps" : [
+    "postgres"
+  ],
   "packageRules" : [
     {
       "matchPackagePatterns" : [
