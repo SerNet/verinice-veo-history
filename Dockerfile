@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.source=https://github.com/verinice/verinice-veo-h
 
 USER nonroot
 
-ENV JAVA_TOOL_OPTIONS "-Djdk.serialFilter=maxbytes=0"
+ENV JDK_JAVA_OPTIONS "-Djdk.serialFilter=maxbytes=0"
 
 COPY --chown=nonroot:nonroot build/libs/veo-history-${VEO_HISTORY_VERSION}.jar /app/veo-history.jar
 
