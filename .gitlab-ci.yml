@@ -21,6 +21,7 @@ build:
     - env
     - ./gradlew -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
     - echo "PROJECT_VERSION=$(./gradlew -q properties --property version| awk '/^version:/ {print $2}')" >> variables.env
+  interruptible: true
   artifacts:
     expire_in: 1 week
     reports:
@@ -41,6 +42,7 @@ test:
   script:
   - ./gradlew -i test jacotura
   - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
+  interruptible: true
   services:
   - name: postgres:11.7-alpine
     alias: db
@@ -71,6 +73,7 @@ check:
   stage: check
   script:
     - ./gradlew -i check -x test
+  interruptible: true
   cache:
     - key: gradle
       paths:
@@ -87,6 +90,7 @@ check_license:
     - cp LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
     - ./gradlew -i generateLicenseReport
     - diff --ignore-matching-lines='This report was generated at' LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
+  interruptible: true
   cache:
     - key: gradle
       paths:
@@ -127,6 +131,8 @@ docker_image:
       --build-arg VEO_HISTORY_VERSION="${PROJECT_VERSION}"
       --label org.opencontainers.image.version="${PROJECT_VERSION}"
       --label org.opencontainers.image.revision=${CI_COMMIT_SHA}
+
+  interruptible: true
 
 trigger_deployment:
   stage: deployment
