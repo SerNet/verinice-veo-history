@@ -33,7 +33,7 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        val clientId = UUID.fromString(mockClientUuid)
+        val clientId = UUID.fromString(MOCK_CLIENT_UUID)
         listOf(
             Revision(
                 URI.create(resourceUri),

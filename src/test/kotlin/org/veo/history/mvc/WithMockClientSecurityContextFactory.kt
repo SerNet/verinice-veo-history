@@ -28,25 +28,25 @@ import java.time.Instant
 class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMockClient> {
     override fun createSecurityContext(annotation: WithMockClient): SecurityContext {
         return SecurityContextHolder.createEmptyContext().apply {
-            authentication = MockToken(
-                Jwt(
-                    "test",
-                    Instant.now(),
-                    Instant.MAX,
-                    mapOf("test" to "test"),
-                    mapOf(
-                        "preferred_username" to annotation.username,
-                        "groups" to "/veo_client:$mockClientUuid",
+            authentication =
+                MockToken(
+                    Jwt(
+                        "test",
+                        Instant.now(),
+                        Instant.MAX,
+                        mapOf("test" to "test"),
+                        mapOf(
+                            "preferred_username" to annotation.username,
+                            "groups" to "/veo_client:$MOCK_CLIENT_UUID",
+                        ),
                     ),
-                ),
-                listOf("veo-user"),
-            )
+                    listOf("veo-user"),
+                )
         }
     }
 
     class MockToken(jwt: Jwt, val roles: List<String>) : JwtAuthenticationToken(jwt) {
-        override fun getAuthorities() =
-            roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
+        override fun getAuthorities() = roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
 
         override fun isAuthenticated(): Boolean {
             return true

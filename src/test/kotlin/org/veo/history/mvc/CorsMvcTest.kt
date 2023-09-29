@@ -23,18 +23,18 @@ import org.springframework.http.HttpMethod
 
 @WithMockClient()
 class CorsMvcTest : AbstractMvcTest() {
-
     @Test
     fun `get my latest revisions with correct origin header`() {
         // given
         val origin = "https://valid.verinice.example"
 
         // when getting from the correct origin
-        val result = request(
-            HttpMethod.GET,
-            "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
-            headers = mapOf("Origin" to listOf(origin)),
-        )
+        val result =
+            request(
+                HttpMethod.GET,
+                "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
+                headers = mapOf("Origin" to listOf(origin)),
+            )
 
         // the request was successful
         result.response.status shouldBe 200
@@ -48,11 +48,12 @@ class CorsMvcTest : AbstractMvcTest() {
         val origin = "https://invalid.notverinice.example"
 
         // when getting from the wrong origin
-        val result = request(
-            HttpMethod.GET,
-            "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
-            headers = mapOf("Origin" to listOf(origin)),
-        )
+        val result =
+            request(
+                HttpMethod.GET,
+                "/revisions/my-latest?owner=/units/deadbeef-5ca6-4935-ad01-c0ffe936beef",
+                headers = mapOf("Origin" to listOf(origin)),
+            )
 
         // then an error is returned
         result.response.status shouldBe 403
@@ -66,15 +67,17 @@ class CorsMvcTest : AbstractMvcTest() {
         val origin = "https://valid.verinice.example"
 
         // when making a pre-flight request
-        val result = request(
-            HttpMethod.OPTIONS,
-            "/",
-            headers = mapOf(
-                "Origin" to listOf(origin),
-                "Access-Control-Request-Method" to listOf("GET"),
-                "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header"),
-            ),
-        )
+        val result =
+            request(
+                HttpMethod.OPTIONS,
+                "/",
+                headers =
+                    mapOf(
+                        "Origin" to listOf(origin),
+                        "Access-Control-Request-Method" to listOf("GET"),
+                        "Access-Control-Request-Headers" to listOf("Authorization", "X-Ample", "X-Custom-Header"),
+                    ),
+            )
 
         // then CORS headers are returned
         result.response.getHeader("Access-Control-Allow-Origin") shouldBe origin

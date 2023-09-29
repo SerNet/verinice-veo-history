@@ -30,7 +30,7 @@ import java.util.UUID.randomUUID
 
 @WithMockClient
 class PaginationMvcTest : AbstractMvcTest() {
-    val clientId: UUID = UUID.fromString(mockClientUuid)
+    val clientId: UUID = UUID.fromString(MOCK_CLIENT_UUID)
 
     @BeforeEach
     fun setup() {
@@ -137,7 +137,17 @@ class PaginationMvcTest : AbstractMvcTest() {
     fun `a default page size is applied`() {
         // given many additional revisions
         (1..100).forEach { i ->
-            revisionRepo.add(Revision(URI.create("/important-resource"), RevisionType.MODIFICATION, i.toLong(), Instant.now(), "jj", clientId, om.createObjectNode()))
+            revisionRepo.add(
+                Revision(
+                    URI.create("/important-resource"),
+                    RevisionType.MODIFICATION,
+                    i.toLong(),
+                    Instant.now(),
+                    "jj",
+                    clientId,
+                    om.createObjectNode(),
+                ),
+            )
         }
 
         // expect that a limited amount is retrieved

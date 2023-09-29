@@ -44,13 +44,14 @@ class MessageSubscriber(
     @RabbitListener(
         bindings = [
             QueueBinding(
-                value = Queue(
-                    value = "\${veo.history.rabbitmq.queues.veo}",
-                    exclusive = "false",
-                    durable = "true",
-                    autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")],
-                ),
+                value =
+                    Queue(
+                        value = "\${veo.history.rabbitmq.queues.veo}",
+                        exclusive = "false",
+                        durable = "true",
+                        autoDelete = "false",
+                        arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")],
+                    ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchanges.veo}", type = "topic"),
                 key = [
                     "\${veo.history.rabbitmq.routing_key_prefix}entity_revision",
@@ -70,13 +71,14 @@ class MessageSubscriber(
     @RabbitListener(
         bindings = [
             QueueBinding(
-                value = Queue(
-                    value = "\${veo.history.rabbitmq.queues.veo-subscriptions}",
-                    exclusive = "false",
-                    durable = "true",
-                    autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")],
-                ),
+                value =
+                    Queue(
+                        value = "\${veo.history.rabbitmq.queues.veo-subscriptions}",
+                        exclusive = "false",
+                        durable = "true",
+                        autoDelete = "false",
+                        arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.history.rabbitmq.dlx}")],
+                    ),
                 exchange = Exchange(value = "\${veo.history.rabbitmq.exchanges.veo-subscriptions}", type = "topic"),
                 key = [
                     "\${veo.history.rabbitmq.routing_key_prefix}client_change",
@@ -93,7 +95,10 @@ class MessageSubscriber(
         )
     }
 
-    private fun handle(message: String, eventTypeHandlers: Map<String, (JsonNode) -> Any>) = try {
+    private fun handle(
+        message: String,
+        eventTypeHandlers: Map<String, (JsonNode) -> Any>,
+    ) = try {
         mapper
             .readTree(message)
             .get("content")
@@ -121,25 +126,26 @@ class MessageSubscriber(
         }
     }
 
-    private fun handleVersioning(content: JsonNode) = content
-        .run {
-            Revision(
-                URI.create(get("uri").asText()),
-                RevisionType.valueOf(get("type").asText()),
-                get("changeNumber").asLong(),
-                Instant.parse(get("time").asText()),
-                get("author").asText(),
-                UUID.fromString(get("clientId").asText()),
-                get("content"),
-            )
-        }
-        .apply {
-            try {
-                revisionRepo.add(this)
-            } catch (ex: DuplicateRevisionException) {
-                log.debug("Duplicate revision", ex)
-                log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
-                throw AmqpRejectAndDontRequeueException(ex.message)
+    private fun handleVersioning(content: JsonNode) =
+        content
+            .run {
+                Revision(
+                    URI.create(get("uri").asText()),
+                    RevisionType.valueOf(get("type").asText()),
+                    get("changeNumber").asLong(),
+                    Instant.parse(get("time").asText()),
+                    get("author").asText(),
+                    UUID.fromString(get("clientId").asText()),
+                    get("content"),
+                )
             }
-        }
+            .apply {
+                try {
+                    revisionRepo.add(this)
+                } catch (ex: DuplicateRevisionException) {
+                    log.debug("Duplicate revision", ex)
+                    log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
+                    throw AmqpRejectAndDontRequeueException(ex.message)
+                }
+            }
 }

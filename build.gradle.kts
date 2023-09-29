@@ -18,7 +18,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.10"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.9.10"
 
-    id("com.diffplug.spotless") version "6.21.0"
+    id("com.diffplug.spotless") version "6.22.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.github.jk1.dependency-license-report") version "2.5"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
@@ -72,13 +72,15 @@ extra["kotlin-coroutines.version"] = "1.6.0"
 
 val licenseFile3rdParty = "LICENSE-3RD-PARTY.txt"
 licenseReport {
-    renderers = arrayOf(
-        TextReportRenderer(licenseFile3rdParty),
-    )
+    renderers =
+        arrayOf(
+            TextReportRenderer(licenseFile3rdParty),
+        )
     projects = arrayOf(project)
-    filters = arrayOf(
-        LicenseBundleNormalizer(),
-    )
+    filters =
+        arrayOf(
+            LicenseBundleNormalizer(),
+        )
 }
 
 val reportTask = tasks.getByName("generateLicenseReport") as ReportTask
@@ -131,15 +133,21 @@ spotless {
     }
     json {
         target("**/*.json")
-        addStep(object : FormatterStep {
-            override fun getName() = "format json"
-            override fun format(rawUnix: String, file: File): String {
-                val om = ObjectMapper()
-                return om.writer()
-                    .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
-                    .writeValueAsString(om.readValue(rawUnix, Map::class.java))
-            }
-        })
+        addStep(
+            object : FormatterStep {
+                override fun getName() = "format json"
+
+                override fun format(
+                    rawUnix: String,
+                    file: File,
+                ): String {
+                    val om = ObjectMapper()
+                    return om.writer()
+                        .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
+                        .writeValueAsString(om.readValue(rawUnix, Map::class.java))
+                }
+            },
+        )
     }
     yaml {
         target(".gitlab-ci.yml")
@@ -160,9 +168,10 @@ license {
         },
     )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
-    ext["author"] = Git.open(project.rootDir).use {
-        it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
-    }
+    ext["author"] =
+        Git.open(project.rootDir).use {
+            it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
+        }
 }
 
 springBoot {

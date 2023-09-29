@@ -24,5 +24,6 @@ import java.net.URI
 @Converter(autoApply = true)
 class UriConverter : AttributeConverter<URI, String> {
     override fun convertToDatabaseColumn(attribute: URI?) = attribute?.toString()
+
     override fun convertToEntityAttribute(dbData: String?) = dbData?.let { URI.create(it) }
 }

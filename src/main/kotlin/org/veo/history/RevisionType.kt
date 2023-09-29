@@ -18,5 +18,7 @@
 package org.veo.history
 
 enum class RevisionType {
-    CREATION, MODIFICATION, HARD_DELETION
+    CREATION,
+    MODIFICATION,
+    HARD_DELETION,
 }

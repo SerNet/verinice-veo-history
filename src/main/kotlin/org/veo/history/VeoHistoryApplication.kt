@@ -35,25 +35,30 @@ import org.springframework.boot.runApplication
     type = SecuritySchemeType.OAUTH2,
     `in` = SecuritySchemeIn.HEADER,
     description = "openidconnect Login",
-    flows = OAuthFlows(
-        implicit = OAuthFlow(
-            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+    flows =
+        OAuthFlows(
+            implicit =
+                OAuthFlow(
+                    authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+                ),
         ),
-    ),
 )
 @OpenAPIDefinition(
-    info = Info(
-        title = "verinice.veo-history API",
-        description = "OpenAPI documentation for verinice.veo-history.",
-        license = License(
-            name = "GNU Affero General Public License",
-            url = "https://www.gnu.org/licenses/agpl-3.0.html.en",
+    info =
+        Info(
+            title = "verinice.veo-history API",
+            description = "OpenAPI documentation for verinice.veo-history.",
+            license =
+                License(
+                    name = "GNU Affero General Public License",
+                    url = "https://www.gnu.org/licenses/agpl-3.0.html.en",
+                ),
+            contact =
+                Contact(
+                    url = "http://verinice.com",
+                    email = "verinice@sernet.de",
+                ),
         ),
-        contact = Contact(
-            url = "http://verinice.com",
-            email = "verinice@sernet.de",
-        ),
-    ),
 )
 class VeoHistoryApplication {
     companion object {

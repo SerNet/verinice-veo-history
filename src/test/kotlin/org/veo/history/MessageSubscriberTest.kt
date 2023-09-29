@@ -46,32 +46,35 @@ class MessageSubscriberTest {
     private val repoMock: RevisionRepo = mockk()
     private val sut = MessageSubscriber(repoMock)
 
-    private val creationMessage = message(
-        mapOf(
-            "eventType" to "entity_revision",
-            "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
-            "type" to "CREATION",
-            "changeNumber" to 0,
-            "time" to "2021-04-16T09:54:54.871021Z",
-            "author" to "veo-testuser1",
-            "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-            "content" to mapOf(
-                "name" to "My unit",
-                "createdAt" to "2021-04-16T09:54:54.871021Z",
-                "createdBy" to "veo-testuser1",
-                "updatedAt" to "2021-04-16T09:54:54.871021Z",
-                "updatedBy" to "veo-testuser1",
-                "units" to emptyList<Any>(),
-                "domains" to listOf(
+    private val creationMessage =
+        message(
+            mapOf(
+                "eventType" to "entity_revision",
+                "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
+                "type" to "CREATION",
+                "changeNumber" to 0,
+                "time" to "2021-04-16T09:54:54.871021Z",
+                "author" to "veo-testuser1",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "content" to
                     mapOf(
-                        "displayName" to "Placeholder domain - see issue VEO-227",
-                        "targetUri" to "/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d",
+                        "name" to "My unit",
+                        "createdAt" to "2021-04-16T09:54:54.871021Z",
+                        "createdBy" to "veo-testuser1",
+                        "updatedAt" to "2021-04-16T09:54:54.871021Z",
+                        "updatedBy" to "veo-testuser1",
+                        "units" to emptyList<Any>(),
+                        "domains" to
+                            listOf(
+                                mapOf(
+                                    "displayName" to "Placeholder domain - see issue VEO-227",
+                                    "targetUri" to "/domains/3f8ef603-ec02-40f9-ba4d-01b66f0ee88d",
+                                ),
+                            ),
                     ),
-                ),
+                "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
             ),
-            "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
-        ),
-    )
+        )
 
     @Test
     fun `listeners don't return anything`() {
@@ -100,10 +103,11 @@ class MessageSubscriberTest {
 
     @Test
     fun `rejects but does not requeue message if it is a duplicate`() {
-        every { repoMock.add(any()) } throws DuplicateRevisionException(
-            URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"),
-            0,
-        )
+        every { repoMock.add(any()) } throws
+            DuplicateRevisionException(
+                URI.create("/units/7e33c300-da43-4a82-b21b-fa4b89c023e5"),
+                0,
+            )
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
             sut.handleVeoMessage(creationMessage)

@@ -28,7 +28,6 @@ import org.veo.history.RevisionRepo
 @ComponentScan("org.veo.history")
 @ActiveProfiles("test")
 abstract class AbstractSpringTest {
-
     @Autowired
     protected lateinit var revisionRepo: RevisionRepo
 

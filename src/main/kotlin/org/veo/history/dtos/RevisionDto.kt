@@ -23,7 +23,11 @@ import java.net.URI
 import java.time.Instant
 import java.util.UUID
 
-@Schema(description = "An archived revision of a resource from any of the veo REST services. Revisions are created when the resource is created, modified or deleted.")
+@Schema(
+    description =
+        "An archived revision of a resource from any of the veo REST services. Revisions are created when the resource is " +
+            "created, modified or deleted.",
+)
 class RevisionDto(
     @Schema(description = "Unique revision identifier")
     val id: UUID,

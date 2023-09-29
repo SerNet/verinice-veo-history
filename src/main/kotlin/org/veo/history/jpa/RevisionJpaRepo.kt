@@ -31,20 +31,34 @@ import java.util.UUID
 @Transactional
 interface RevisionJpaRepo : JpaRepository<Revision, Long> {
     @Query("SELECT e FROM Revision e WHERE uri = :uri AND clientId = :clientId ORDER BY changeNumber")
-    fun findAll(uri: URI, clientId: UUID): List<Revision>
+    fun findAll(
+        uri: URI,
+        clientId: UUID,
+    ): List<Revision>
 
     @Query("SELECT e FROM Revision e WHERE uri = :uri AND changeNumber = :changeNumber AND clientId = :clientId")
-    fun find(uri: URI, changeNumber: Long, clientId: UUID): Revision?
+    fun find(
+        uri: URI,
+        changeNumber: Long,
+        clientId: UUID,
+    ): Revision?
 
     @Query(
         "SELECT * FROM revision WHERE uri = :uri AND time <= :time AND client_id = :clientId ORDER BY time DESC  LIMIT 1",
         nativeQuery = true,
     )
-    fun find(uri: String, time: Instant, clientId: UUID): Revision?
+    fun find(
+        uri: String,
+        time: Instant,
+        clientId: UUID,
+    ): Revision?
 
     /** JSON query example */
     @Query("SELECT * FROM revision WHERE content ->> 'name' = :name AND client_id = :clientId", nativeQuery = true)
-    fun find(name: String, clientId: UUID): List<Revision>
+    fun find(
+        name: String,
+        clientId: UUID,
+    ): List<Revision>
 
     /**
      * Returns the latest revision for each of the 10 most recently revised resources (excluding resources that have
@@ -62,12 +76,19 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
         """,
         nativeQuery = true,
     )
-    fun findMostRecentlyChangedResources(author: String, ownerTargetUri: String, clientId: UUID): List<Revision>
+    fun findMostRecentlyChangedResources(
+        author: String,
+        ownerTargetUri: String,
+        clientId: UUID,
+    ): List<Revision>
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from revision  r where r.client_id = :clientId", nativeQuery = true)
     fun deleteAllClientRevisions(clientId: UUID)
 
     @Query("select r from Revision r where r.uuid = :revisionUuid and r.clientId = :clientId")
-    fun findByUuid(revisionUuid: UUID, clientId: UUID): Revision?
+    fun findByUuid(
+        revisionUuid: UUID,
+        clientId: UUID,
+    ): Revision?
 }

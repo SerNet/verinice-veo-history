@@ -32,18 +32,32 @@ class RevisionRepo(
     private val jpaRepo: RevisionJpaRepo,
     private val entityManager: EntityManager,
 ) {
-    fun findAll(uri: URI, clientId: UUID) = jpaRepo.findAll(uri, clientId)
+    fun findAll(
+        uri: URI,
+        clientId: UUID,
+    ) = jpaRepo.findAll(uri, clientId)
 
-    fun find(uri: URI, changeNumber: Long, clientId: UUID) = jpaRepo.find(
+    fun find(
+        uri: URI,
+        changeNumber: Long,
+        clientId: UUID,
+    ) = jpaRepo.find(
         uri,
         changeNumber,
         clientId,
     )
 
-    fun find(uri: URI, time: Instant, clientId: UUID) = jpaRepo.find(uri.toString(), time, clientId)
+    fun find(
+        uri: URI,
+        time: Instant,
+        clientId: UUID,
+    ) = jpaRepo.find(uri.toString(), time, clientId)
 
-    fun findMostRecentlyChangedResources(author: String, ownerTargetUri: URI, clientId: UUID) =
-        jpaRepo.findMostRecentlyChangedResources(author, ownerTargetUri.toString(), clientId)
+    fun findMostRecentlyChangedResources(
+        author: String,
+        ownerTargetUri: URI,
+        clientId: UUID,
+    ) = jpaRepo.findMostRecentlyChangedResources(author, ownerTargetUri.toString(), clientId)
 
     @Throws(DuplicateRevisionException::class)
     fun add(revision: Revision) {
@@ -55,8 +69,14 @@ class RevisionRepo(
     }
 
     fun clear() = jpaRepo.deleteAll()
+
     fun deleteAllClientRevisions(clientId: UUID) = jpaRepo.deleteAllClientRevisions(clientId)
-    fun findAll(size: Int, afterUuid: UUID?, clientId: UUID): RevisionPage {
+
+    fun findAll(
+        size: Int,
+        afterUuid: UUID?,
+        clientId: UUID,
+    ): RevisionPage {
         val afterRevision = afterUuid?.let { getRevisionById(it, clientId) }
         return RevisionPage(
             entityManager
@@ -73,6 +93,8 @@ class RevisionRepo(
         )
     }
 
-    private fun getRevisionById(it: UUID, clientId: UUID) =
-        jpaRepo.findByUuid(it, clientId) ?: throw ResourceNotFoundException()
+    private fun getRevisionById(
+        it: UUID,
+        clientId: UUID,
+    ) = jpaRepo.findByUuid(it, clientId) ?: throw ResourceNotFoundException()
 }

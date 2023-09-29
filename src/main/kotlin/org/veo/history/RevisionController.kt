@@ -47,10 +47,12 @@ class RevisionController(
     private val mapper: RevisionDtoFactory,
     private val authService: AuthService,
 ) {
-
     @Operation(description = "Retrieve all revisions of the resource at given URI.")
     @GetMapping
-    fun getRevisions(auth: Authentication, @RequestParam("uri") uri: URI): List<RevisionDto> {
+    fun getRevisions(
+        auth: Authentication,
+        @RequestParam("uri") uri: URI,
+    ): List<RevisionDto> {
         return repo.findAll(uri, authService.getClientId(auth)).map {
             mapper.createDto(it)
         }
@@ -98,7 +100,8 @@ class RevisionController(
         @Max(value = 10000)
         size: Int,
         @RequestParam("afterId") afterId: UUID?,
-    ): RevisionPageDto = repo
-        .findAll(size, afterId, authService.getClientId(auth))
-        .let(mapper::createPageDto)
+    ): RevisionPageDto =
+        repo
+            .findAll(size, afterId, authService.getClientId(auth))
+            .let(mapper::createPageDto)
 }

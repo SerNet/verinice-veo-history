@@ -28,10 +28,11 @@ class RevisionDtoFactory {
         return RevisionDto(entity.uuid, entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
     }
 
-    fun createPageDto(page: RevisionPage): RevisionPageDto = page.run {
-        RevisionPageDto(
-            totalItemCount,
-            items.map(::createDto),
-        )
-    }
+    fun createPageDto(page: RevisionPage): RevisionPageDto =
+        page.run {
+            RevisionPageDto(
+                totalItemCount,
+                items.map(::createDto),
+            )
+        }
 }

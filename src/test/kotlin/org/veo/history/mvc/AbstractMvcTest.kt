@@ -39,7 +39,12 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         return om.readValue(result.response.contentAsString, Object::class.java)
     }
 
-    protected fun request(method: HttpMethod, url: String, body: Any? = null, headers: Map<String, List<String>> = emptyMap()): MvcResult {
+    protected fun request(
+        method: HttpMethod,
+        url: String,
+        body: Any? = null,
+        headers: Map<String, List<String>> = emptyMap(),
+    ): MvcResult {
         val request = MockMvcRequestBuilders.request(method, url)
         headers.forEach { k, v -> request.header(k, v) }
         if (body != null) {

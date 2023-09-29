@@ -30,11 +30,12 @@ class V6__add_uuid_column : BaseJavaMigration() {
         context.connection.createStatement().use {
             it.execute("alter table revision add column uuid uuid;")
         }
-        val count = context.connection.createStatement().use {
-            it.executeQuery("select id from revision order by id desc limit 1;").use { row ->
-                if (row.next()) row.getInt(1) else 0
+        val count =
+            context.connection.createStatement().use {
+                it.executeQuery("select id from revision order by id desc limit 1;").use { row ->
+                    if (row.next()) row.getInt(1) else 0
+                }
             }
-        }
         // Split revisions into chunks and execute one long update statement per chunk to assign UUIDs.
         (1..count)
             .chunked(1000)

@@ -19,7 +19,7 @@ package org.veo.history.mvc
 
 import org.springframework.security.test.context.support.WithSecurityContext
 
-const val mockClientUuid = "21712604-ed85-4f08-aa46-1cf39607ee9e"
+const val MOCK_CLIENT_UUID = "21712604-ed85-4f08-aa46-1cf39607ee9e"
 
 @Retention(AnnotationRetention.RUNTIME)
 @WithSecurityContext(factory = WithMockClientSecurityContextFactory::class)
