@@ -28,16 +28,6 @@
           "**/*"
         ]
       }
-    },
-    {
-      "matchPackagePatterns" : [
-        "^com.github.jk1.dependency-license-report$",
-        "^io.kotest:",
-        "^gradle$",
-        "^gcr.io/kaniko-project/executor$",
-        "^io.spring.dependency-management$"
-      ],
-      "postUpgradeTasks" : { }
     }
   ],
   "postUpgradeTasks" : {

@@ -89,7 +89,7 @@ check_license:
   script:
     - cp LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
     - ./gradlew -i generateLicenseReport
-    - diff --ignore-matching-lines='This report was generated at' LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
+    - diff LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
   interruptible: true
   cache:
     - key: gradle
