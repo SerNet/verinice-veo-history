@@ -26,8 +26,7 @@ import java.util.UUID
 
 @Component
 class AuthService {
-    private val uuidPattern = """[a-fA-F\d]{8}(?:-[a-fA-F\d]{4}){3}-[a-fA-F\d]{12}"""
-    private val clientGroupRegex = Regex("^/veo_client:($uuidPattern)$")
+    private val clientGroupRegex = Regex("^/veo_client:($UUID_PATTERN)$")
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun getClientId(authentication: Authentication): UUID {
