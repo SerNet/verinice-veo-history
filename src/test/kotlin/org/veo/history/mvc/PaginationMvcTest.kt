@@ -42,7 +42,7 @@ class PaginationMvcTest : AbstractMvcTest() {
                 Instant.parse("2023-01-01T01:01:00.013621Z"),
                 "dm",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
             Revision(
                 URI.create("/tech-stack"),
@@ -51,7 +51,7 @@ class PaginationMvcTest : AbstractMvcTest() {
                 Instant.parse("2023-01-01T01:02:00.013621Z"),
                 "jj",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
             Revision(
                 URI.create("/back-pack"),
@@ -60,7 +60,7 @@ class PaginationMvcTest : AbstractMvcTest() {
                 Instant.parse("2023-01-01T01:02:15.013621Z"),
                 "jj",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
             Revision(
                 URI.create("/other-clients-stuff"),
@@ -69,7 +69,7 @@ class PaginationMvcTest : AbstractMvcTest() {
                 Instant.parse("2023-01-01T01:04:15.013621Z"),
                 "gk",
                 randomUUID(),
-                om.createObjectNode(),
+                jsonObject(),
             ),
         ).forEach(revisionRepo::add)
     }
@@ -145,7 +145,7 @@ class PaginationMvcTest : AbstractMvcTest() {
                     Instant.now(),
                     "jj",
                     clientId,
-                    om.createObjectNode(),
+                    jsonObject(),
                 ),
             )
         }

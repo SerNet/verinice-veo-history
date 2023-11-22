@@ -17,7 +17,6 @@
  */
 package org.veo.history.jpa
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
@@ -34,7 +33,6 @@ import java.util.UUID
 
 class RevisionJpaRepoTest : AbstractSpringTest() {
     private val clientId = UUID.randomUUID()
-    private val om = ObjectMapper()
 
     @Autowired
     private lateinit var sut: RevisionJpaRepo
@@ -50,7 +48,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "a",
                 clientId,
-                om.createObjectNode().put("name", "one"),
+                jsonObject("name" to "one"),
             ),
         )
         sut.save(
@@ -61,7 +59,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "b",
                 clientId,
-                om.createObjectNode().put("name", "one"),
+                jsonObject("name" to "one"),
             ),
         )
         sut.save(
@@ -72,7 +70,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "c",
                 clientId,
-                om.createObjectNode().put("name", "two"),
+                jsonObject("name" to "two"),
             ),
         )
         sut.save(
@@ -83,7 +81,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.now(),
                 "d",
                 clientId,
-                om.createObjectNode().put("name", "two"),
+                jsonObject("name" to "two"),
             ),
         )
     }
@@ -92,7 +90,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     fun `can't add duplicate revision`() {
         shouldThrow<DataIntegrityViolationException> {
             sut.saveAndFlush(
-                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, om.createObjectNode()),
+                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, jsonObject()),
             )
         }
     }
@@ -133,7 +131,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T10:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
         )
         sut.save(
@@ -144,7 +142,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T11:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
         )
         sut.save(
@@ -155,7 +153,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T12:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
         )
         sut.save(
@@ -166,7 +164,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T13:00:00.000000Z"),
                 "a",
                 clientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
         )
 
@@ -195,7 +193,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T09:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
         sut.save(
@@ -206,7 +204,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T11:05:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
 
@@ -219,7 +217,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T10:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
 
@@ -232,7 +230,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T12:00:00.000000Z"),
                 "anotherUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
 
@@ -245,7 +243,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T13:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/2")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/2")),
             ),
         )
 
@@ -258,7 +256,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T14:00:00.000000Z"),
                 "thisUser",
                 UUID.randomUUID(),
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
 
@@ -271,7 +269,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T15:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
         sut.save(
@@ -282,7 +280,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T16:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                om.createObjectNode().set("owner", om.createObjectNode().put("targetUri", "/owner/1")),
+                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
             ),
         )
 
@@ -327,7 +325,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T15:00:00.000000Z"),
                 "otherUser",
                 otherClientId,
-                om.createObjectNode(),
+                jsonObject(),
             ),
         )
 

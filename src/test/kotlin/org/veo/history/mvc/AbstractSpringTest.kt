@@ -17,6 +17,8 @@
  */
 package org.veo.history.mvc
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,8 +30,14 @@ import org.veo.history.RevisionRepo
 @ComponentScan("org.veo.history")
 @ActiveProfiles("test")
 abstract class AbstractSpringTest {
+    protected val om = ObjectMapper()
+
     @Autowired
     protected lateinit var revisionRepo: RevisionRepo
+
+    protected fun jsonObject(vararg pairs: Pair<String, *>): JsonNode {
+        return om.valueToTree(mapOf(*pairs))
+    }
 
     @BeforeEach
     protected fun clearDb() {

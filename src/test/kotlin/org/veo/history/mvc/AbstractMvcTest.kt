@@ -17,7 +17,6 @@
  */
 package org.veo.history.mvc
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.ServletException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -30,8 +29,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @EnableAsync
 @AutoConfigureMockMvc
 abstract class AbstractMvcTest : AbstractSpringTest() {
-    protected val om = ObjectMapper()
-
     @Autowired
     protected lateinit var mvc: MockMvc
 

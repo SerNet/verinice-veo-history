@@ -42,9 +42,13 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-27T11:27:00.013621Z"),
                 "dm",
                 clientId,
-                om.createObjectNode()
-                    .put("name", "Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+                jsonObject(
+                    "name" to "Process 1",
+                    "owner" to
+                        mapOf(
+                            "targetUri" to "/owners/1",
+                        ),
+                ),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -53,9 +57,10 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-28T11:27:00.013621Z"),
                 "jj",
                 clientId,
-                om.createObjectNode()
-                    .put("name", "Super Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+                jsonObject(
+                    "name" to "Super Process 1",
+                    "owner" to mapOf("targetUri" to "/owners/1"),
+                ),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -64,9 +69,10 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-29T11:27:00.013621Z"),
                 "jj",
                 clientId,
-                om.createObjectNode()
-                    .put("name", "Mega Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+                jsonObject(
+                    "name" to "Mega Process 1",
+                    "owner" to mapOf("targetUri" to "/owners/1"),
+                ),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -75,9 +81,10 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
                 "jk",
                 clientId,
-                om.createObjectNode()
-                    .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+                jsonObject(
+                    "name" to "Ultra Process 1",
+                    "owner" to mapOf("targetUri" to "/owners/1"),
+                ),
             ),
             Revision(
                 URI.create(resourceUri),
@@ -86,9 +93,10 @@ class RevisionMvcTest : AbstractMvcTest() {
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
                 "dm",
                 clientId,
-                om.createObjectNode()
-                    .put("name", "Ultra Process 1")
-                    .set("owner", om.createObjectNode().put("targetUri", "/owners/1")),
+                jsonObject(
+                    "name" to "Ultra Process 1",
+                    "owner" to mapOf("targetUri" to "/owners/1"),
+                ),
             ),
         ).forEach {
             revisionRepo.add(it)
