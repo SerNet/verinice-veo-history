@@ -46,6 +46,7 @@ class RevisionController(
     private val repo: RevisionRepo,
     private val mapper: RevisionDtoFactory,
     private val authService: AuthService,
+    private val domainService: DomainService,
 ) {
     @Operation(description = "Retrieve all revisions of the resource at given URI.")
     @GetMapping
@@ -53,6 +54,10 @@ class RevisionController(
         auth: Authentication,
         @RequestParam("uri") uri: URI,
     ): List<RevisionDto> {
+        val domainSpecificResource = domainService.tryParseDomainSpecificUri(uri)
+        if (domainSpecificResource != null) {
+            return getRevisions(auth, domainSpecificResource.mainUri).map(domainSpecificResource::convert)
+        }
         return repo.findAll(uri, authService.getClientId(auth)).map {
             mapper.createDto(it)
         }
@@ -65,6 +70,10 @@ class RevisionController(
         @RequestParam("uri") uri: URI,
         @PathVariable("changeNumber") changeNumber: Long,
     ): RevisionDto {
+        val domainSpecificResource = domainService.tryParseDomainSpecificUri(uri)
+        if (domainSpecificResource != null) {
+            return domainSpecificResource.convert(getRevision(auth, domainSpecificResource.mainUri, changeNumber))
+        }
         return repo.find(uri, changeNumber, authService.getClientId(auth))?.let {
             mapper.createDto(it)
         } ?: throw ResourceNotFoundException()
@@ -77,6 +86,10 @@ class RevisionController(
         @RequestParam("uri") uri: URI,
         @PathVariable("time") time: Instant,
     ): RevisionDto {
+        val domainSpecificResource = domainService.tryParseDomainSpecificUri(uri)
+        if (domainSpecificResource != null) {
+            return domainSpecificResource.convert(getRevision(auth, domainSpecificResource.mainUri, time))
+        }
         return repo.find(uri, time, authService.getClientId(auth))?.let {
             mapper.createDto(it)
         } ?: throw ResourceNotFoundException()

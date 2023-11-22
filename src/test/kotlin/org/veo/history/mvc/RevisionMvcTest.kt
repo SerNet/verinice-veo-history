@@ -29,14 +29,17 @@ import java.util.UUID
 
 @WithMockClient
 class RevisionMvcTest : AbstractMvcTest() {
-    private val resourceUri = "/processes/85773f48-d7bb-4605-a0fe-9db6f1db5b82"
+    private val processId = "85773f48-d7bb-4605-a0fe-9db6f1db5b82"
+    private val domainIdA = "0a90f563-1019-428e-bac1-ded135434e64"
+    private val domainIdB = "6755e2c1-9654-4814-b60e-bb871d4d33dd"
+    private val processMainUri = "/processes/$processId"
 
     @BeforeEach
     fun setup() {
         val clientId = UUID.fromString(MOCK_CLIENT_UUID)
         listOf(
             Revision(
-                URI.create(resourceUri),
+                URI.create(processMainUri),
                 RevisionType.CREATION,
                 1,
                 Instant.parse("2021-01-27T11:27:00.013621Z"),
@@ -48,10 +51,18 @@ class RevisionMvcTest : AbstractMvcTest() {
                         mapOf(
                             "targetUri" to "/owners/1",
                         ),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
+                                mapOf(
+                                    "subType" to "fastProcess",
+                                    "status" to "created",
+                                ),
+                        ),
                 ),
             ),
             Revision(
-                URI.create(resourceUri),
+                URI.create(processMainUri),
                 RevisionType.MODIFICATION,
                 2,
                 Instant.parse("2021-01-28T11:27:00.013621Z"),
@@ -60,10 +71,18 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Super Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
+                                mapOf(
+                                    "subType" to "fastProcess",
+                                    "status" to "verified",
+                                ),
+                        ),
                 ),
             ),
             Revision(
-                URI.create(resourceUri),
+                URI.create(processMainUri),
                 RevisionType.MODIFICATION,
                 3,
                 Instant.parse("2021-01-29T11:27:00.013621Z"),
@@ -72,10 +91,23 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Mega Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
+                                mapOf(
+                                    "subType" to "fastProcess",
+                                    "status" to "verified",
+                                ),
+                            domainIdB to
+                                mapOf(
+                                    "subType" to "auxiliaryProcess",
+                                    "status" to "helpful",
+                                ),
+                        ),
                 ),
             ),
             Revision(
-                URI.create(resourceUri),
+                URI.create(processMainUri),
                 RevisionType.MODIFICATION,
                 4,
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
@@ -84,10 +116,23 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Ultra Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
+                                mapOf(
+                                    "subType" to "fastProcess",
+                                    "status" to "verified",
+                                ),
+                            domainIdB to
+                                mapOf(
+                                    "subType" to "auxiliaryProcess",
+                                    "status" to "obsolete",
+                                ),
+                        ),
                 ),
             ),
             Revision(
-                URI.create(resourceUri),
+                URI.create(processMainUri),
                 RevisionType.HARD_DELETION,
                 5,
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
@@ -96,6 +141,19 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Ultra Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
+                                mapOf(
+                                    "subType" to "fastProcess",
+                                    "status" to "verified",
+                                ),
+                            domainIdB to
+                                mapOf(
+                                    "subType" to "auxiliaryProcess",
+                                    "status" to "obsolete",
+                                ),
+                        ),
                 ),
             ),
         ).forEach {
@@ -105,7 +163,7 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun retrievesAllMockRevisions() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions?uri=$resourceUri"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions?uri=$processMainUri"))
         (result as List<*>).apply {
             size shouldBe 5
             (get(0) as Map<*, *>).apply {
@@ -149,8 +207,50 @@ class RevisionMvcTest : AbstractMvcTest() {
     }
 
     @Test
+    fun `retrieves all revisions in domain`() {
+        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdA/processes/$processId")
+            .let { parseBody(it) as List<*> }
+            .map { it as Map<*, *> }
+            .onEach { it["uri"] shouldBe "/domains/$domainIdA/processes/$processId" }
+            .map { it["content"] as Map<*, *> }
+            .apply {
+                size shouldBe 5
+                get(0).apply {
+                    get("name") shouldBe "Process 1"
+                    get("subType") shouldBe "fastProcess"
+                    get("status") shouldBe "created"
+                }
+                get(1).apply {
+                    get("name") shouldBe "Super Process 1"
+                    get("status") shouldBe "verified"
+                }
+            }
+
+        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdB/processes/$processId")
+            .let { parseBody(it) as List<*> }
+            .map { it as Map<*, *> }
+            .onEach { it["uri"] shouldBe "/domains/$domainIdB/processes/$processId" }
+            .map { it["content"] as Map<*, *> }
+            .apply {
+                size shouldBe 5
+                get(0).apply {
+                    get("name") shouldBe "Process 1"
+                    get("subType") shouldBe null
+                    get("status") shouldBe null
+                }
+                get(2).apply {
+                    get("subType") shouldBe "auxiliaryProcess"
+                    get("status") shouldBe "helpful"
+                }
+                get(3).apply {
+                    get("status") shouldBe "obsolete"
+                }
+            }
+    }
+
+    @Test
     fun retrievesRevisionByChangeNumber() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions/change/2?uri=$resourceUri"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions/change/2?uri=$processMainUri"))
         (result as Map<*, *>).apply {
             get("changeNumber") shouldBe 2
             get("author") shouldBe "jj"
@@ -158,13 +258,43 @@ class RevisionMvcTest : AbstractMvcTest() {
     }
 
     @Test
+    fun `retrieves revision by change number in domain`() {
+        request(HttpMethod.GET, "/revisions/change/4?uri=/domains/$domainIdA/processes/$processId")
+            .let { parseBody(it) as Map<*, *> }
+            .apply {
+                get("changeNumber") shouldBe 4
+                get("uri") shouldBe ("/domains/$domainIdA/processes/$processId")
+                get("author") shouldBe "jk"
+                (get("content") as Map<*, *>).apply {
+                    get("name") shouldBe "Ultra Process 1"
+                    get("subType") shouldBe "fastProcess"
+                    get("status") shouldBe "verified"
+                    get("domains") shouldBe null
+                }
+            }
+    }
+
+    @Test
     fun retrievesContemporaryRevision() {
         val result =
-            parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=$resourceUri"))
+            parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=$processMainUri"))
         (result as Map<*, *>).apply {
             get("changeNumber") shouldBe 3
             get("author") shouldBe "jj"
         }
+    }
+
+    @Test
+    fun `retrieves contemporary revision in domain`() {
+        request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=/domains/$domainIdB/processes/$processId")
+            .let { parseBody(it) as Map<*, *> }
+            .apply {
+                get("changeNumber") shouldBe 3
+                get("author") shouldBe "jj"
+                (get("content") as Map<*, *>).apply {
+                    get("subType") shouldBe "auxiliaryProcess"
+                }
+            }
     }
 
     @Test
@@ -175,7 +305,7 @@ class RevisionMvcTest : AbstractMvcTest() {
             size shouldBe 1
             (first() as Map<*, *>).apply {
                 get("author") shouldBe "jj"
-                get("uri") shouldBe resourceUri
+                get("uri") shouldBe processMainUri
                 get("changeNumber") shouldBe 3
             }
         }
