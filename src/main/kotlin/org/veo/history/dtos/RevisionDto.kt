@@ -17,6 +17,8 @@
  */
 package org.veo.history.dtos
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
 import org.veo.history.RevisionType
 import java.net.URI
@@ -42,5 +44,9 @@ class RevisionDto(
     @Schema(description = "Name of the user who authored the change.")
     val author: String,
     @Schema(description = "Resource body at this revision")
-    val content: Any,
-)
+    @JsonIgnore
+    private val _content: JsonNode,
+) {
+    val content: JsonNode
+        get() = _content.deepCopy() // enforce immutability
+}
