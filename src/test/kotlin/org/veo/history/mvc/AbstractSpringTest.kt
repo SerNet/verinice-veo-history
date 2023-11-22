@@ -17,7 +17,7 @@
  */
 package org.veo.history.mvc
 
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
@@ -31,8 +31,8 @@ abstract class AbstractSpringTest {
     @Autowired
     protected lateinit var revisionRepo: RevisionRepo
 
-    @AfterEach
-    protected fun tearDown() {
+    @BeforeEach
+    protected fun clearDb() {
         revisionRepo.clear()
     }
 }
