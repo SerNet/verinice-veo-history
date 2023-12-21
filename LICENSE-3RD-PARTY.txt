@@ -10448,7 +10448,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-58. Group: org.jetbrains.kotlin  Name: kotlin-reflect  Version: 1.9.21
+58. Group: org.jetbrains.kotlin  Name: kotlin-reflect  Version: 1.9.22
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10456,7 +10456,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-59. Group: org.jetbrains.kotlin  Name: kotlin-stdlib  Version: 1.9.21
+59. Group: org.jetbrains.kotlin  Name: kotlin-stdlib  Version: 1.9.22
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10464,11 +10464,11 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-60. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-common  Version: 1.9.21
+60. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-common  Version: 1.9.22
 
 No license information found
 
-61. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk7  Version: 1.9.21
+61. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk7  Version: 1.9.22
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10476,7 +10476,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-62. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk8  Version: 1.9.21
+62. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk8  Version: 1.9.22
 
 POM Project URL: https://kotlinlang.org/
 
@@ -20238,5 +20238,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Wed Dec 20 14:29:20 UTC 2023.
+This report was generated at Thu Dec 21 14:35:48 UTC 2023.
 
