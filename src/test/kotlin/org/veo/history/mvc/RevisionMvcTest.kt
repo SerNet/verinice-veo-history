@@ -51,6 +51,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                         mapOf(
                             "targetUri" to "/owners/1",
                         ),
+                    "requirementImplementations" to listOf<Any>(),
                     "domains" to
                         mapOf(
                             domainIdA to
@@ -71,6 +72,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Super Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "requirementImplementations" to listOf<Any>(),
                     "domains" to
                         mapOf(
                             domainIdA to
@@ -91,6 +93,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Mega Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "requirementImplementations" to listOf<Any>(),
                     "domains" to
                         mapOf(
                             domainIdA to
@@ -116,6 +119,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 jsonObject(
                     "name" to "Ultra Process 1",
                     "owner" to mapOf("targetUri" to "/owners/1"),
+                    "requirementImplementations" to listOf<Any>(),
                     "domains" to
                         mapOf(
                             domainIdA to
@@ -270,6 +274,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                     get("subType") shouldBe "fastProcess"
                     get("status") shouldBe "verified"
                     get("domains") shouldBe null
+                    get("requirementImplementations") shouldBe null
                 }
             }
     }

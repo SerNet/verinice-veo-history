@@ -48,6 +48,7 @@ class DomainService {
          */
         fun convert(revisionDto: RevisionDto): RevisionDto {
             val content = revisionDto.content as ObjectNode
+            content.remove("requirementImplementations")
             content.remove("domains")
                 ?.get(domainId.toString())
                 ?.let { it as ObjectNode }
