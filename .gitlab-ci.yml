@@ -5,6 +5,16 @@ variables:
   CI_DEBUG_SERVICES: "true"
   PROXY: $HTTPS_PROXY_HOST
 
+# Verification (tests and code analysis) is unnecessary on 'develop' &
+# 'master', because only verified MRs can be merged into those branches.
+.verification:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: never
+    - if: $CI_COMMIT_BRANCH == "develop"
+      when: never
+    - when: on_success
+
 stages:
   - build
   - check
@@ -17,6 +27,8 @@ before_script:
 
 build:
   stage: build
+  rules:
+    - when: on_success
   script:
     - env
     - ./gradlew -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
@@ -39,6 +51,8 @@ build:
 
 test:
   stage: check
+  rules:
+    - !reference [.verification, rules]
   script:
   - ./gradlew -i test jacotura
   - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
@@ -71,6 +85,8 @@ test:
 
 check:
   stage: check
+  rules:
+    - !reference [.verification, rules]
   script:
     - ./gradlew -i check -x test
   interruptible: true
@@ -86,6 +102,8 @@ check:
 
 check_license:
   stage: check
+  rules:
+    - !reference [.verification, rules]
   script:
     - cp LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
     - ./gradlew -i generateLicenseReport
@@ -103,6 +121,8 @@ check_license:
 
 docker_image:
   stage: docker_image
+  rules:
+    - when: on_success
   needs:
    - build
   image:
