@@ -60,7 +60,11 @@ Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
 
 4. Group: com.fasterxml.jackson  Name: jackson-bom  Version: 2.15.4
 
-No license information found
+POM Project URL: https://github.com/FasterXML/jackson-bom
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
 
 5. Group: com.fasterxml.jackson.core  Name: jackson-annotations  Version: 2.15.4
 
@@ -10436,7 +10440,11 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 60. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-common  Version: 1.9.23
 
-No license information found
+POM Project URL: https://kotlinlang.org/
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
 
 61. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk7  Version: 1.9.23
 
@@ -20212,5 +20220,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Fri Apr 12 15:31:49 UTC 2024.
+This report was generated at Mon Apr 15 10:31:44 UTC 2024.
 
