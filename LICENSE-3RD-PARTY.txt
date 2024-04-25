@@ -1,5 +1,5 @@
 
-Dependency License Report for veo-history 0.40.0
+Dependency License Report for veo-history 0.41.0-SNAPSHOT
 
 1. Group: ch.qos.logback  Name: logback-classic  Version: 1.4.14
 
@@ -20220,5 +20220,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Wed Apr 24 08:18:23 CEST 2024.
+This report was generated at Thu Apr 25 09:22:57 CEST 2024.
 
