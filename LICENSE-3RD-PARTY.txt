@@ -10422,7 +10422,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-58. Group: org.jetbrains.kotlin  Name: kotlin-reflect  Version: 1.9.24
+58. Group: org.jetbrains.kotlin  Name: kotlin-reflect  Version: 2.0.0
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10430,7 +10430,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-59. Group: org.jetbrains.kotlin  Name: kotlin-stdlib  Version: 1.9.24
+59. Group: org.jetbrains.kotlin  Name: kotlin-stdlib  Version: 2.0.0
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10438,7 +10438,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-60. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-common  Version: 1.9.24
+60. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-common  Version: 2.0.0
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10446,7 +10446,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-61. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk7  Version: 1.9.24
+61. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk7  Version: 2.0.0
 
 POM Project URL: https://kotlinlang.org/
 
@@ -10454,7 +10454,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-62. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk8  Version: 1.9.24
+62. Group: org.jetbrains.kotlin  Name: kotlin-stdlib-jdk8  Version: 2.0.0
 
 POM Project URL: https://kotlinlang.org/
 
@@ -20221,5 +20221,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Wed May 08 15:03:20 CEST 2024.
+This report was generated at Tue May 21 14:32:03 UTC 2024.
 
