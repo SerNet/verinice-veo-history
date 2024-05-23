@@ -13,7 +13,7 @@ import kotlin.text.Regex
 import kotlin.text.RegexOption
 
 plugins {
-    id("org.springframework.boot") version "3.2.5"
+    id("org.springframework.boot") version "3.3.0"
     id("io.spring.dependency-management") version "1.1.5"
 
     kotlin("jvm") version "2.0.0"
@@ -58,6 +58,7 @@ dependencies {
 
     runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
     runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
     val kotestVersion = "5.9.0"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
