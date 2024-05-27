@@ -169,7 +169,7 @@ license {
     header.set(resources.text.fromFile("templates/licenseHeader.txt"))
     newLine.set(false)
     skipExistingHeaders.set(true)
-    exclude("**/*.properties")
+    exclude("**/*.properties", "**/*.xml")
     style(
         closureOf<HeaderFormatRegistry> {
             put("kt", "JAVADOC")
