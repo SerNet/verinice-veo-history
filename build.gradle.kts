@@ -56,8 +56,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
-    runtimeOnly ("ch.qos.logback.contrib:logback-json-classic:0.1.5")
-    runtimeOnly ("ch.qos.logback.contrib:logback-jackson:0.1.5")
+    runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
+    runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
 
     val kotestVersion = "5.9.0"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
