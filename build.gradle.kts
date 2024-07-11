@@ -2,15 +2,10 @@ import com.diffplug.spotless.FormatterStep
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.jk1.license.filter.LicenseBundleNormalizer
-import com.github.jk1.license.render.TextReportRenderer
-import com.github.jk1.license.task.ReportTask
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.eclipse.jgit.api.Git
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Calendar
-import kotlin.text.Regex
-import kotlin.text.RegexOption
 
 plugins {
     id("org.springframework.boot") version "3.3.1"
@@ -22,7 +17,6 @@ plugins {
 
     id("com.diffplug.spotless") version "6.25.0"
     id("org.cadixdev.licenser") version "0.6.1"
-    id("com.github.jk1.dependency-license-report") version "2.8"
     id("com.gorylenko.gradle-git-properties") version "2.4.2"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
@@ -75,36 +69,6 @@ dependencies {
 }
 
 extra["kotlin-coroutines.version"] = "1.6.0"
-
-val licenseFile3rdParty = "LICENSE-3RD-PARTY.txt"
-licenseReport {
-    renderers =
-        arrayOf(
-            TextReportRenderer(licenseFile3rdParty),
-        )
-    projects = arrayOf(project)
-    filters =
-        arrayOf(
-            LicenseBundleNormalizer(),
-        )
-}
-
-tasks.withType<ReportTask> {
-    outputs.apply {
-        // work around for license report not being updated when the project's version number changes
-        // https://github.com/jk1/Gradle-License-Report/issues/223
-        upToDateWhen { false }
-        cacheIf { false }
-    }
-    doLast {
-        val dateLinePattern = Regex("^This report was generated at.+$", RegexOption.MULTILINE)
-        val newLicenseText = file("${config.outputDir}/$licenseFile3rdParty").readText()
-        val licenseFile = file(licenseFile3rdParty)
-        if (licenseFile.readText().replace(dateLinePattern, "") != newLicenseText.replace(dateLinePattern, "")) {
-            licenseFile.writeText(newLicenseText)
-        }
-    }
-}
 
 tasks.withType<Test> {
     useJUnitPlatform()
