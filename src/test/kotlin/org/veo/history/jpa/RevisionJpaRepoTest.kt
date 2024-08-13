@@ -90,7 +90,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
     fun `can't add duplicate revision`() {
         shouldThrow<DataIntegrityViolationException> {
             sut.saveAndFlush(
-                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, jsonObject()),
+                Revision(URI.create("/foo/car"), RevisionType.HARD_DELETION, 2, Instant.now(), "e", clientId, null),
             )
         }
     }
@@ -280,7 +280,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
                 Instant.parse("2021-05-04T16:00:00.000000Z"),
                 "thisUser",
                 clientId,
-                jsonObject("owner" to mapOf("targetUri" to "/owner/1")),
+                null,
             ),
         )
 
@@ -290,7 +290,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         result.forEach {
             it.clientId shouldBe clientId
             it.author shouldBe "thisUser"
-            it.content.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
+            it.content!!.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
         }
         result[0].let {
             it.uri shouldBe URI.create("/my-updated-resource")

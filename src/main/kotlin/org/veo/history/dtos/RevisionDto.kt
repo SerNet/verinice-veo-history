@@ -45,8 +45,8 @@ class RevisionDto(
     val author: String,
     @Schema(description = "Resource body at this revision")
     @JsonIgnore
-    private val _content: JsonNode,
+    private val _content: JsonNode?,
 ) {
-    val content: JsonNode
-        get() = _content.deepCopy() // enforce immutability
+    val content: JsonNode?
+        get() = _content?.deepCopy() // enforce immutability
 }

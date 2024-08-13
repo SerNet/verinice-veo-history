@@ -55,7 +55,7 @@ class Revision(
     /** Resource content (JSON response body at time of change). */
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb", name = "content")
-    private val _content: JsonNode,
+    private val _content: JsonNode?,
 ) {
     @Id
     @Column(name = "id")
@@ -68,6 +68,6 @@ class Revision(
     /** Unique key to be used on the public API to reference revisions. */
     val uuid: UUID = randomUUID()
 
-    val content: JsonNode
-        get() = _content.deepCopy() // enforce immutability
+    val content: JsonNode?
+        get() = _content?.deepCopy() // enforce immutability
 }

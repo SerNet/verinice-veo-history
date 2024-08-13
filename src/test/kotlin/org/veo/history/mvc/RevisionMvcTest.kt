@@ -29,17 +29,19 @@ import java.util.UUID
 
 @WithMockClient
 class RevisionMvcTest : AbstractMvcTest() {
-    private val processId = "85773f48-d7bb-4605-a0fe-9db6f1db5b82"
+    private val processIdA = "85773f48-d7bb-4605-a0fe-9db6f1db5b82"
+    private val processIdB = "7f0c4323-6402-48bb-a23d-e3580e9598cb"
     private val domainIdA = "0a90f563-1019-428e-bac1-ded135434e64"
     private val domainIdB = "6755e2c1-9654-4814-b60e-bb871d4d33dd"
-    private val processMainUri = "/processes/$processId"
+    private val processMainUriA = "/processes/$processIdA"
+    private val processMainUriB = "/processes/$processIdB"
 
     @BeforeEach
     fun setup() {
         val clientId = UUID.fromString(MOCK_CLIENT_UUID)
         listOf(
             Revision(
-                URI.create(processMainUri),
+                URI.create(processMainUriA),
                 RevisionType.CREATION,
                 1,
                 Instant.parse("2021-01-27T11:27:00.013621Z"),
@@ -63,7 +65,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 ),
             ),
             Revision(
-                URI.create(processMainUri),
+                URI.create(processMainUriA),
                 RevisionType.MODIFICATION,
                 2,
                 Instant.parse("2021-01-28T11:27:00.013621Z"),
@@ -84,7 +86,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 ),
             ),
             Revision(
-                URI.create(processMainUri),
+                URI.create(processMainUriA),
                 RevisionType.MODIFICATION,
                 3,
                 Instant.parse("2021-01-29T11:27:00.013621Z"),
@@ -110,7 +112,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 ),
             ),
             Revision(
-                URI.create(processMainUri),
+                URI.create(processMainUriA),
                 RevisionType.MODIFICATION,
                 4,
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
@@ -136,26 +138,58 @@ class RevisionMvcTest : AbstractMvcTest() {
                 ),
             ),
             Revision(
-                URI.create(processMainUri),
+                URI.create(processMainUriA),
                 RevisionType.HARD_DELETION,
                 5,
                 Instant.parse("2021-01-30T11:27:00.013621Z"),
                 "dm",
                 clientId,
+                null,
+            ),
+            Revision(
+                URI.create(processMainUriB),
+                RevisionType.CREATION,
+                1,
+                Instant.parse("2021-01-27T11:27:00.013621Z"),
+                "dm",
+                clientId,
                 jsonObject(
-                    "name" to "Ultra Process 1",
-                    "owner" to mapOf("targetUri" to "/owners/1"),
+                    "name" to "Process 2",
+                    "owner" to
+                        mapOf(
+                            "targetUri" to "/owners/1",
+                        ),
+                    "requirementImplementations" to listOf<Any>(),
                     "domains" to
                         mapOf(
                             domainIdA to
                                 mapOf(
-                                    "subType" to "fastProcess",
-                                    "status" to "verified",
+                                    "subType" to "importantProcess",
+                                    "status" to "created",
                                 ),
-                            domainIdB to
+                        ),
+                ),
+            ),
+            Revision(
+                URI.create(processMainUriB),
+                RevisionType.MODIFICATION,
+                2,
+                Instant.parse("2021-01-27T11:27:00.013621Z"),
+                "jj",
+                clientId,
+                jsonObject(
+                    "name" to "Wonderful Process",
+                    "owner" to
+                        mapOf(
+                            "targetUri" to "/owners/1",
+                        ),
+                    "requirementImplementations" to listOf<Any>(),
+                    "domains" to
+                        mapOf(
+                            domainIdA to
                                 mapOf(
-                                    "subType" to "auxiliaryProcess",
-                                    "status" to "obsolete",
+                                    "subType" to "importantProcess",
+                                    "status" to "created",
                                 ),
                         ),
                 ),
@@ -167,14 +201,14 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun retrievesAllMockRevisions() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions?uri=$processMainUri"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions?uri=$processMainUriA"))
         (result as List<*>).apply {
             size shouldBe 5
             (get(0) as Map<*, *>).apply {
                 get("changeNumber") shouldBe 1
                 get("type") shouldBe "CREATION"
                 get("author") shouldBe "dm"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("name") shouldBe "Process 1"
                 }
             }
@@ -182,7 +216,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 get("changeNumber") shouldBe 2
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("name") shouldBe "Super Process 1"
                 }
             }
@@ -190,7 +224,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 get("changeNumber") shouldBe 3
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jj"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("name") shouldBe "Mega Process 1"
                 }
             }
@@ -198,7 +232,7 @@ class RevisionMvcTest : AbstractMvcTest() {
                 get("changeNumber") shouldBe 4
                 get("type") shouldBe "MODIFICATION"
                 get("author") shouldBe "jk"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("name") shouldBe "Ultra Process 1"
                 }
             }
@@ -212,41 +246,41 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun `retrieves all revisions in domain`() {
-        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdA/processes/$processId")
+        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdA/processes/$processIdA")
             .let { parseBody(it) as List<*> }
             .map { it as Map<*, *> }
-            .onEach { it["uri"] shouldBe "/domains/$domainIdA/processes/$processId" }
-            .map { it["content"] as Map<*, *> }
+            .onEach { it["uri"] shouldBe "/domains/$domainIdA/processes/$processIdA" }
+            .map { it["content"] as Map<*, *>? }
             .apply {
                 size shouldBe 5
-                get(0).apply {
+                get(0)!!.apply {
                     get("name") shouldBe "Process 1"
                     get("subType") shouldBe "fastProcess"
                     get("status") shouldBe "created"
                 }
-                get(1).apply {
+                get(1)!!.apply {
                     get("name") shouldBe "Super Process 1"
                     get("status") shouldBe "verified"
                 }
             }
 
-        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdB/processes/$processId")
+        request(HttpMethod.GET, "/revisions?uri=/domains/$domainIdB/processes/$processIdA")
             .let { parseBody(it) as List<*> }
             .map { it as Map<*, *> }
-            .onEach { it["uri"] shouldBe "/domains/$domainIdB/processes/$processId" }
-            .map { it["content"] as Map<*, *> }
+            .onEach { it["uri"] shouldBe "/domains/$domainIdB/processes/$processIdA" }
+            .map { it["content"] as Map<*, *>? }
             .apply {
                 size shouldBe 5
-                get(0).apply {
+                get(0)!!.apply {
                     get("name") shouldBe "Process 1"
                     get("subType") shouldBe null
                     get("status") shouldBe null
                 }
-                get(2).apply {
+                get(2)!!.apply {
                     get("subType") shouldBe "auxiliaryProcess"
                     get("status") shouldBe "helpful"
                 }
-                get(3).apply {
+                get(3)!!.apply {
                     get("status") shouldBe "obsolete"
                 }
             }
@@ -254,7 +288,7 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun retrievesRevisionByChangeNumber() {
-        val result = parseBody(request(HttpMethod.GET, "/revisions/change/2?uri=$processMainUri"))
+        val result = parseBody(request(HttpMethod.GET, "/revisions/change/2?uri=$processMainUriA"))
         (result as Map<*, *>).apply {
             get("changeNumber") shouldBe 2
             get("author") shouldBe "jj"
@@ -263,13 +297,13 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun `retrieves revision by change number in domain`() {
-        request(HttpMethod.GET, "/revisions/change/4?uri=/domains/$domainIdA/processes/$processId")
-            .let { parseBody(it) as Map<*, *> }
+        request(HttpMethod.GET, "/revisions/change/4?uri=/domains/$domainIdA/processes/$processIdA")
+            .let { (parseBody(it) as Map<*, *>) }
             .apply {
                 get("changeNumber") shouldBe 4
-                get("uri") shouldBe ("/domains/$domainIdA/processes/$processId")
+                get("uri") shouldBe ("/domains/$domainIdA/processes/$processIdA")
                 get("author") shouldBe "jk"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("name") shouldBe "Ultra Process 1"
                     get("subType") shouldBe "fastProcess"
                     get("status") shouldBe "verified"
@@ -282,7 +316,7 @@ class RevisionMvcTest : AbstractMvcTest() {
     @Test
     fun retrievesContemporaryRevision() {
         val result =
-            parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=$processMainUri"))
+            parseBody(request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=$processMainUriA"))
         (result as Map<*, *>).apply {
             get("changeNumber") shouldBe 3
             get("author") shouldBe "jj"
@@ -291,12 +325,12 @@ class RevisionMvcTest : AbstractMvcTest() {
 
     @Test
     fun `retrieves contemporary revision in domain`() {
-        request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=/domains/$domainIdB/processes/$processId")
+        request(HttpMethod.GET, "/revisions/contemporary/2021-01-30T08:12:34.567890Z?uri=/domains/$domainIdB/processes/$processIdA")
             .let { parseBody(it) as Map<*, *> }
             .apply {
                 get("changeNumber") shouldBe 3
                 get("author") shouldBe "jj"
-                (get("content") as Map<*, *>).apply {
+                (get("content")!! as Map<*, *>).apply {
                     get("subType") shouldBe "auxiliaryProcess"
                 }
             }
@@ -310,8 +344,8 @@ class RevisionMvcTest : AbstractMvcTest() {
             size shouldBe 1
             (first() as Map<*, *>).apply {
                 get("author") shouldBe "jj"
-                get("uri") shouldBe processMainUri
-                get("changeNumber") shouldBe 3
+                get("uri") shouldBe processMainUriB
+                get("changeNumber") shouldBe 2
             }
         }
     }

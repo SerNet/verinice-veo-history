@@ -76,6 +76,34 @@ class MessageSubscriberTest {
             ),
         )
 
+    private val creationMessageWithoutContent =
+        message(
+            mapOf(
+                "eventType" to "entity_revision",
+                "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
+                "type" to "CREATION",
+                "changeNumber" to 0,
+                "time" to "2021-04-16T09:54:54.871021Z",
+                "author" to "veo-testuser1",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
+            ),
+        )
+
+    private val modificationMessageWithoutContent =
+        message(
+            mapOf(
+                "eventType" to "entity_revision",
+                "uri" to "/units/7e33c300-da43-4a82-b21b-fa4b89c023e5",
+                "type" to "MODIFICATION",
+                "changeNumber" to 23,
+                "time" to "2021-04-16T09:54:54.871021Z",
+                "author" to "veo-testuser1",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "id" to "7e33c300-da43-4a82-b21b-fa4b89c023e5",
+            ),
+        )
+
     @Test
     fun `listeners don't return anything`() {
         MessageSubscriber::class.functions
@@ -97,7 +125,7 @@ class MessageSubscriberTest {
             time shouldBe Instant.parse("2021-04-16T09:54:54.871021Z")
             author shouldBe "veo-testuser1"
             clientId shouldBe UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
-            content.get("name").asText() shouldBe "My unit"
+            content!!.get("name").asText() shouldBe "My unit"
         }
     }
 
@@ -111,6 +139,16 @@ class MessageSubscriberTest {
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
             sut.handleVeoMessage(creationMessage)
+        }
+    }
+
+    @Test
+    fun `rejects creation and modification messages without content`() {
+        shouldThrow<AmqpRejectAndDontRequeueException> {
+            sut.handleVeoMessage(creationMessageWithoutContent)
+        }
+        shouldThrow<AmqpRejectAndDontRequeueException> {
+            sut.handleVeoMessage(modificationMessageWithoutContent)
         }
     }
 

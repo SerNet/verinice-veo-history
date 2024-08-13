@@ -129,14 +129,21 @@ class MessageSubscriber(
     private fun handleVersioning(content: JsonNode) =
         content
             .run {
+                val revisionType = RevisionType.valueOf(get("type").asText())
+                val content = get("content")
+                if (revisionType != RevisionType.HARD_DELETION && content == null) {
+                    val uri = get("uri").asText()
+                    log.warn { "Received versioning message with type $revisionType and no content for resource $uri" }
+                    throw AmqpRejectAndDontRequeueException("content is required for revision type $revisionType")
+                }
                 Revision(
                     URI.create(get("uri").asText()),
-                    RevisionType.valueOf(get("type").asText()),
+                    revisionType,
                     get("changeNumber").asLong(),
                     Instant.parse(get("time").asText()),
                     get("author").asText(),
                     UUID.fromString(get("clientId").asText()),
-                    get("content"),
+                    content,
                 )
             }
             .apply {

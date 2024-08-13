@@ -46,6 +46,6 @@ class RevisionTest {
         (revision.content as ObjectNode).put("woo", "star")
 
         // then nothing has changed
-        revision.content.get("woo") shouldBe null
+        revision.content!!.get("woo") shouldBe null
     }
 }

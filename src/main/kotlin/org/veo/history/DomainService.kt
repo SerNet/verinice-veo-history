@@ -47,14 +47,6 @@ class DomainService {
          * Converts given revision into a domain-specific representation. URI and content are modified.
          */
         fun convert(revisionDto: RevisionDto): RevisionDto {
-            val content = revisionDto.content as ObjectNode
-            content.remove("requirementImplementations")
-            content.remove("domains")
-                ?.get(domainId.toString())
-                ?.let { it as ObjectNode }
-                ?.let { domainAssociation ->
-                    content.setAll<JsonNode>(domainAssociation)
-                }
             return RevisionDto(
                 revisionDto.id,
                 domainSpecificUri,
@@ -62,7 +54,17 @@ class DomainService {
                 revisionDto.type,
                 revisionDto.time,
                 revisionDto.author,
-                content,
+                revisionDto.content
+                    ?.let { it as ObjectNode }
+                    ?.also { content ->
+                        content.remove("requirementImplementations")
+                        content.remove("domains")
+                            ?.get(domainId.toString())
+                            ?.let { it as ObjectNode }
+                            ?.let { domainAssociation ->
+                                content.setAll<JsonNode>(domainAssociation)
+                            }
+                    },
             )
         }
     }

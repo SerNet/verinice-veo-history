@@ -67,12 +67,18 @@ interface RevisionJpaRepo : JpaRepository<Revision, Long> {
     @Query(
         """
         WITH latestByResource AS (
-            SELECT distinct on (uri) * FROM revision 
-            WHERE client_id = :clientId AND author = :author AND content -> 'owner' ->> 'targetUri' = :ownerTargetUri 
-            ORDER by uri, change_number DESC
+            SELECT DISTINCT ON (r.uri) r.*
+            FROM revision r
+            LEFT JOIN revision d
+                ON r.uri = d.uri
+                AND d.type = 'HARD_DELETION'
+            WHERE r.client_id = :clientId
+                AND r.author = :author
+                AND r.content -> 'owner' ->> 'targetUri' = :ownerTargetUri
+                AND d.uri IS NULL
+            ORDER BY r.uri, r.change_number DESC
         )
-
-        SELECT * FROM latestByResource WHERE type != 'HARD_DELETION' ORDER BY latestByResource.time DESC LIMIT 10;
+        SELECT * FROM latestByResource ORDER BY latestByResource.time DESC LIMIT 10;
         """,
         nativeQuery = true,
     )
