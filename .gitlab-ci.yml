@@ -64,7 +64,7 @@ test:
   - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
   interruptible: true
   services:
-  - name: postgres:11.7-alpine
+  - name: postgres:13.14-alpine
     alias: db
     variables:
       POSTGRES_USER: verinice
