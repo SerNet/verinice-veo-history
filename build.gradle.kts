@@ -66,6 +66,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testRuntimeOnly("org.testcontainers:postgresql")
 }
 
 extra["kotlin-coroutines.version"] = "1.6.0"

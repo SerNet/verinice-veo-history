@@ -67,8 +67,8 @@ test:
   - name: postgres:13.14-alpine
     alias: db
     variables:
-      POSTGRES_USER: verinice
-      POSTGRES_PASSWORD: verinice
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
   variables:
     SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
     SPRING_DATASOURCE_DRIVERCLASSNAME: org.postgresql.Driver
