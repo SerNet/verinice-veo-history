@@ -41,7 +41,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.postgresql:postgresql:42.7.3")
     implementation("com.vladmihalcea:hibernate-types-60:2.21.1")
     implementation("org.flywaydb:flyway-core")
     implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
@@ -50,6 +49,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
+    runtimeOnly("org.postgresql:postgresql:42.7.3")
     runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
     runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
