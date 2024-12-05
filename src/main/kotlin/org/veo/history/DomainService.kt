@@ -36,18 +36,22 @@ class DomainService {
     private val elementTypes = listOf("assets", "controls", "document", "incidents", "persons", "processes", "scenarios", "scopes")
     private val pattern = Regex("/domains/($UUID_PATTERN)(/(${elementTypes.joinToString("|")})/$UUID_PATTERN)")
 
-    fun tryParseDomainSpecificUri(uri: URI): DomainSpecificResource? {
-        return pattern.matchEntire(uri.toString())
+    fun tryParseDomainSpecificUri(uri: URI): DomainSpecificResource? =
+        pattern
+            .matchEntire(uri.toString())
             ?.groupValues
             ?.let { DomainSpecificResource(uri, URI.create(it[2]), UUID.fromString(it[1])) }
-    }
 
-    data class DomainSpecificResource(val domainSpecificUri: URI, val mainUri: URI, val domainId: UUID) {
+    data class DomainSpecificResource(
+        val domainSpecificUri: URI,
+        val mainUri: URI,
+        val domainId: UUID,
+    ) {
         /**
          * Converts given revision into a domain-specific representation. URI and content are modified.
          */
-        fun convert(revisionDto: RevisionDto): RevisionDto {
-            return RevisionDto(
+        fun convert(revisionDto: RevisionDto): RevisionDto =
+            RevisionDto(
                 revisionDto.id,
                 domainSpecificUri,
                 revisionDto.changeNumber,
@@ -58,7 +62,8 @@ class DomainService {
                     ?.let { it as ObjectNode }
                     ?.also { content ->
                         content.remove("requirementImplementations")
-                        content.remove("domains")
+                        content
+                            .remove("domains")
                             ?.get(domainId.toString())
                             ?.let { it as ObjectNode }
                             ?.let { domainAssociation ->
@@ -66,6 +71,5 @@ class DomainService {
                             }
                     },
             )
-        }
     }
 }

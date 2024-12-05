@@ -145,8 +145,7 @@ class MessageSubscriber(
                     UUID.fromString(get("clientId").asText()),
                     content,
                 )
-            }
-            .apply {
+            }.apply {
                 try {
                     revisionRepo.add(this)
                 } catch (ex: DuplicateRevisionException) {

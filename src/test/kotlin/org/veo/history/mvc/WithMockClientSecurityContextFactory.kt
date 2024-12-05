@@ -26,8 +26,8 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.time.Instant
 
 class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMockClient> {
-    override fun createSecurityContext(annotation: WithMockClient): SecurityContext {
-        return SecurityContextHolder.createEmptyContext().apply {
+    override fun createSecurityContext(annotation: WithMockClient): SecurityContext =
+        SecurityContextHolder.createEmptyContext().apply {
             authentication =
                 MockToken(
                     Jwt(
@@ -43,13 +43,13 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
                     listOf("veo-user"),
                 )
         }
-    }
 
-    class MockToken(jwt: Jwt, val roles: List<String>) : JwtAuthenticationToken(jwt) {
+    class MockToken(
+        jwt: Jwt,
+        val roles: List<String>,
+    ) : JwtAuthenticationToken(jwt) {
         override fun getAuthorities() = roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
 
-        override fun isAuthenticated(): Boolean {
-            return true
-        }
+        override fun isAuthenticated(): Boolean = true
     }
 }

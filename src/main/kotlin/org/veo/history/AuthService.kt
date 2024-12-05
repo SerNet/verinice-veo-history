@@ -29,17 +29,15 @@ class AuthService {
     private val clientGroupRegex = Regex("^/veo_client:($UUID_PATTERN)$")
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
-    fun getClientId(authentication: Authentication): UUID {
-        return getToken(authentication)
+    fun getClientId(authentication: Authentication): UUID =
+        getToken(authentication)
             .getClaimAsStringList("groups")
             ?.let { extractClientId(it) }
             ?: throw IllegalArgumentException("JWT does not contain group claims.")
-    }
 
-    fun getUsername(auth: Authentication): String {
-        return getToken(auth).getClaimAsString("preferred_username")
+    fun getUsername(auth: Authentication): String =
+        getToken(auth).getClaimAsString("preferred_username")
             ?: throw IllegalArgumentException("JWT does not contain user name.")
-    }
 
     private fun getToken(authentication: Authentication): Jwt {
         if (authentication is JwtAuthenticationToken) {
@@ -50,7 +48,8 @@ class AuthService {
 
     private fun extractClientId(groups: List<String>): UUID {
         logger.debug("extract client id from {}", groups)
-        return groups.mapNotNull { clientGroupRegex.matchEntire(it) }
+        return groups
+            .mapNotNull { clientGroupRegex.matchEntire(it) }
             .also { require(it.size == 1) { "Expected 1 client for the account. Got ${it.size}." } }
             .first()
             .let { UUID.fromString(it.groupValues[1]) }

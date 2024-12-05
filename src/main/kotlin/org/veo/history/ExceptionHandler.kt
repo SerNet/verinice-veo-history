@@ -30,7 +30,5 @@ class ExceptionHandler {
     fun handleException(
         exception: Exception,
         request: HttpServletRequest?,
-    ): ResponseEntity<String> {
-        return ResponseEntity<String>(exception.message, UNPROCESSABLE_ENTITY)
-    }
+    ): ResponseEntity<String> = ResponseEntity<String>(exception.message, UNPROCESSABLE_ENTITY)
 }

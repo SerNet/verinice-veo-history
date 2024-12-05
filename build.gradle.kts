@@ -100,10 +100,10 @@ spotless {
         endWithNewline()
     }
     kotlin {
-        ktlint()
+        ktlint("1.5.0")
     }
     kotlinGradle {
-        ktlint()
+        ktlint("1.5.0")
     }
     json {
         target("**/*.json")
@@ -116,7 +116,8 @@ spotless {
                     file: File,
                 ): String {
                     val om = ObjectMapper()
-                    return om.writer()
+                    return om
+                        .writer()
                         .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
                         .writeValueAsString(om.readValue(rawUnix, Map::class.java))
                 }

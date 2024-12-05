@@ -100,10 +100,10 @@ class RevisionController(
     fun getMostRecentlyChangedResources(
         auth: Authentication,
         @RequestParam("owner") ownerTargetUri: URI,
-    ): List<RevisionDto> {
-        return repo.findMostRecentlyChangedResources(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
+    ): List<RevisionDto> =
+        repo
+            .findMostRecentlyChangedResources(authService.getUsername(auth), ownerTargetUri, authService.getClientId(auth))
             .map { mapper.createDto(it) }
-    }
 
     @Operation(description = "Retrieve all revisions using seek pagination")
     @GetMapping("/paged")

@@ -20,5 +20,8 @@ package org.veo.history
 import java.lang.Exception
 import java.net.URI
 
-class DuplicateRevisionException(uri: URI, changeNumber: Long, inner: Exception? = null) :
-    Throwable("Redundant revision for resource $uri with change number $changeNumber", inner)
+class DuplicateRevisionException(
+    uri: URI,
+    changeNumber: Long,
+    inner: Exception? = null,
+) : Throwable("Redundant revision for resource $uri with change number $changeNumber", inner)

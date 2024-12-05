@@ -32,9 +32,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
     @Autowired
     protected lateinit var mvc: MockMvc
 
-    protected fun parseBody(result: MvcResult): Any {
-        return om.readValue(result.response.contentAsString, Object::class.java)
-    }
+    protected fun parseBody(result: MvcResult): Any = om.readValue(result.response.contentAsString, Object::class.java)
 
     protected fun request(
         method: HttpMethod,

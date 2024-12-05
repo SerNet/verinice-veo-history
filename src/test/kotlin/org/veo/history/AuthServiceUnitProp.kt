@@ -30,54 +30,55 @@ import io.mockk.mockk
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.util.UUID
 
-class AuthServiceUnitProp : StringSpec({
-    val sut = AuthService()
+class AuthServiceUnitProp :
+    StringSpec({
+        val sut = AuthService()
 
-    val uuidArb =
-        arbitrary { rs ->
-            UUID(rs.random.nextLong(), rs.random.nextLong())
+        val uuidArb =
+            arbitrary { rs ->
+                UUID(rs.random.nextLong(), rs.random.nextLong())
+            }
+
+        "parses client UUID" {
+            checkAll(uuidArb) { uuid ->
+                val auth =
+                    mockk<JwtAuthenticationToken> {
+                        every { token } returns
+                            mockk {
+                                every { getClaimAsStringList("groups") } returns listOf("/veo_client:$uuid")
+                            }
+                    }
+                val clientId = sut.getClientId(auth)
+                uuid shouldBe clientId
+            }
         }
 
-    "parses client UUID" {
-        checkAll(uuidArb) { uuid ->
-            val auth =
-                mockk<JwtAuthenticationToken> {
-                    every { token } returns
-                        mockk {
-                            every { getClaimAsStringList("groups") } returns listOf("/veo_client:$uuid")
-                        }
-                }
-            val clientId = sut.getClientId(auth)
-            uuid shouldBe clientId
+        "parses client UUID with mixed groups" {
+            checkAll(uuidArb, Arb.list(Arb.string(), 1..30)) { uuid, strs ->
+                // make sure the group doesn't start with /veo_client:
+                val groupNames = strs.map { "x$it" }
+                val auth =
+                    mockk<JwtAuthenticationToken> {
+                        every { token } returns
+                            mockk {
+                                every { getClaimAsStringList("groups") } returns groupNames + ("/veo_client:$uuid")
+                            }
+                    }
+                val clientId = sut.getClientId(auth)
+                uuid shouldBe clientId
+            }
         }
-    }
 
-    "parses client UUID with mixed groups" {
-        checkAll(uuidArb, Arb.list(Arb.string(), 1..30)) { uuid, strs ->
-            // make sure the group doesn't start with /veo_client:
-            val groupNames = strs.map { "x$it" }
-            val auth =
-                mockk<JwtAuthenticationToken> {
-                    every { token } returns
-                        mockk {
-                            every { getClaimAsStringList("groups") } returns groupNames + ("/veo_client:$uuid")
-                        }
-                }
-            val clientId = sut.getClientId(auth)
-            uuid shouldBe clientId
+        "throws exception for multiple group claims" {
+            checkAll(Arb.list(uuidArb, 2..30)) { uuids ->
+                val auth =
+                    mockk<JwtAuthenticationToken> {
+                        every { token } returns
+                            mockk {
+                                every { getClaimAsStringList("groups") } returns (uuids.map { "/veo_client:$it" })
+                            }
+                    }
+                shouldThrow<IllegalArgumentException> { sut.getClientId(auth) }
+            }
         }
-    }
-
-    "throws exception for multiple group claims" {
-        checkAll(Arb.list(uuidArb, 2..30)) { uuids ->
-            val auth =
-                mockk<JwtAuthenticationToken> {
-                    every { token } returns
-                        mockk {
-                            every { getClaimAsStringList("groups") } returns (uuids.map { "/veo_client:$it" })
-                        }
-                }
-            shouldThrow<IllegalArgumentException> { sut.getClientId(auth) }
-        }
-    }
-})
+    })

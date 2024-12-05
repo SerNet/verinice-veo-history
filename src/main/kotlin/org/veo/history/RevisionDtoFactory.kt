@@ -24,9 +24,8 @@ import org.veo.history.jpa.RevisionPage
 
 @Component
 class RevisionDtoFactory {
-    fun createDto(entity: Revision): RevisionDto {
-        return RevisionDto(entity.uuid, entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
-    }
+    fun createDto(entity: Revision): RevisionDto =
+        RevisionDto(entity.uuid, entity.uri, entity.changeNumber, entity.type, entity.time, entity.author, entity.content)
 
     fun createPageDto(page: RevisionPage): RevisionPageDto =
         page.run {

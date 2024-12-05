@@ -35,9 +35,7 @@ abstract class AbstractSpringTest {
     @Autowired
     protected lateinit var revisionRepo: RevisionRepo
 
-    protected fun jsonObject(vararg pairs: Pair<String, *>): JsonNode {
-        return om.valueToTree(mapOf(*pairs))
-    }
+    protected fun jsonObject(vararg pairs: Pair<String, *>): JsonNode = om.valueToTree(mapOf(*pairs))
 
     @BeforeEach
     protected fun clearDb() {

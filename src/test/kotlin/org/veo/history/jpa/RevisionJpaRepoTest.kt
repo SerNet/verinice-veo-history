@@ -169,13 +169,17 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         )
 
         val uriAsString = uri.toString()
-        sut.find(uriAsString, Instant.parse("2021-05-04T11:00:00.000000Z"), clientId)
+        sut
+            .find(uriAsString, Instant.parse("2021-05-04T11:00:00.000000Z"), clientId)
             ?.changeNumber shouldBe 2
-        sut.find(uriAsString, Instant.parse("2021-05-04T11:30:00.000000Z"), clientId)
+        sut
+            .find(uriAsString, Instant.parse("2021-05-04T11:30:00.000000Z"), clientId)
             ?.changeNumber shouldBe 2
-        sut.find(uriAsString, Instant.parse("2021-05-04T11:59:59.999999Z"), clientId)
+        sut
+            .find(uriAsString, Instant.parse("2021-05-04T11:59:59.999999Z"), clientId)
             ?.changeNumber shouldBe 2
-        sut.find(uriAsString, Instant.parse("2021-05-04T12:00:00.000000Z"), clientId)
+        sut
+            .find(uriAsString, Instant.parse("2021-05-04T12:00:00.000000Z"), clientId)
             ?.changeNumber shouldBe 3
 
         // Result should be empty with wrong client ID
@@ -290,7 +294,10 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         result.forEach {
             it.clientId shouldBe clientId
             it.author shouldBe "thisUser"
-            it.content!!.get("owner")?.get("targetUri")?.asText() shouldBe "/owner/1"
+            it.content!!
+                .get("owner")
+                ?.get("targetUri")
+                ?.asText() shouldBe "/owner/1"
         }
         result[0].let {
             it.uri shouldBe URI.create("/my-updated-resource")
