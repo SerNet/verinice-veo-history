@@ -9,7 +9,6 @@ import java.util.Calendar
 
 plugins {
     id("org.springframework.boot") version "3.4.1"
-    id("io.spring.dependency-management") version "1.1.7"
 
     kotlin("jvm") version "2.1.0"
     kotlin("plugin.spring") version "2.1.0"
@@ -36,6 +35,7 @@ repositories {
 }
 
 dependencies {
+    implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
