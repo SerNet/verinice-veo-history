@@ -91,7 +91,7 @@ spotless {
     format("misc") {
         target("**/*.md", "**/*.gitignore")
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
     kotlin {
@@ -108,7 +108,7 @@ spotless {
     yaml {
         target(".gitlab-ci.yml")
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 }
@@ -163,7 +163,7 @@ tasks.jacocoTestReport {
 
 jacotura {
     properties {
-        property("jacotura.jacoco.path", "$buildDir/reports/jacoco/test/jacocoTestReport.xml")
-        property("jacotura.cobertura.path", "$buildDir/reports/cobertura.xml")
+        property("jacotura.jacoco.path", "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml")
+        property("jacotura.cobertura.path", "${layout.buildDirectory}/reports/cobertura.xml")
     }
 }
