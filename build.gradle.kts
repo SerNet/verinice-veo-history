@@ -9,7 +9,7 @@ plugins {
     kotlin("plugin.spring") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.noarg") version "2.2.0"
 
-    id("com.diffplug.spotless") version "7.2.0"
+    id("com.diffplug.spotless") version "7.2.1"
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.gorylenko.gradle-git-properties") version "2.5.2"
     jacoco
