@@ -136,8 +136,8 @@ springBoot {
             if (rootProject.hasProperty("ciBuildNumber")) {
                 additional.set(
                     mapOf(
-                        "ci.buildnumber" to rootProject.properties["ciBuildNumber"],
-                        "ci.jobname" to rootProject.properties["ciJobName"],
+                        "ci.buildnumber" to rootProject.properties["ciBuildNumber"] as String,
+                        "ci.jobname" to rootProject.properties["ciJobName"] as String,
                     ),
                 )
             }
