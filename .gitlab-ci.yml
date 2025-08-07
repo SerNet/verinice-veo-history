@@ -37,7 +37,7 @@ build:
     - when: on_success
   script:
     - env
-    - ./gradlew -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
+    - ./gradlew -i -PciBuildNumber=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
     - echo "PROJECT_VERSION=$(./gradlew -q properties --property version| awk '/^version:/ {print $2}')" >> variables.env
   interruptible: true
   artifacts:

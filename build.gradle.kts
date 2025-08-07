@@ -133,10 +133,10 @@ license {
 springBoot {
     buildInfo {
         properties {
-            if (rootProject.hasProperty("ciBuildNumer")) {
+            if (rootProject.hasProperty("ciBuildNumber")) {
                 additional.set(
                     mapOf(
-                        "ci.buildnumber" to rootProject.properties["ciBuildNumer"],
+                        "ci.buildnumber" to rootProject.properties["ciBuildNumber"],
                         "ci.jobname" to rootProject.properties["ciJobName"],
                     ),
                 )
