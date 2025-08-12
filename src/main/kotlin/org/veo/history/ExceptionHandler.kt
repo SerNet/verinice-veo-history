@@ -1,5 +1,5 @@
 /**
- * verinice.veo forms
+ * verinice.veo history
  * Copyright (C) 2021  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
