@@ -40,7 +40,7 @@ class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMock
                             "groups" to "/veo_client:$MOCK_CLIENT_UUID",
                         ),
                     ),
-                    listOf("veo-user"),
+                    listOf("veo-user") + if (annotation.readWriteAllUnits) listOf("read_write_all_units") else emptyList(),
                 )
         }
 

@@ -25,4 +25,5 @@ const val MOCK_CLIENT_UUID = "21712604-ed85-4f08-aa46-1cf39607ee9e"
 @WithSecurityContext(factory = WithMockClientSecurityContextFactory::class)
 annotation class WithMockClient(
     val username: String = "mock-user",
+    val readWriteAllUnits: Boolean = false,
 )

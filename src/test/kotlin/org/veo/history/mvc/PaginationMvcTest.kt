@@ -28,7 +28,7 @@ import java.time.Instant
 import java.util.UUID
 import java.util.UUID.randomUUID
 
-@WithMockClient
+@WithMockClient(readWriteAllUnits = true)
 class PaginationMvcTest : AbstractMvcTest() {
     val clientId: UUID = UUID.fromString(MOCK_CLIENT_UUID)
 

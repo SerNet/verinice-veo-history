@@ -60,6 +60,7 @@ class WebSecurity {
                 authorize("/v2/api-docs/**", permitAll)
                 authorize("/v3/api-docs/**", permitAll)
 
+                authorize("/revisions/paged", hasRole("read_write_all_units"))
                 authorize(anyRequest, hasRole("veo-user"))
             }
             sessionManagement {

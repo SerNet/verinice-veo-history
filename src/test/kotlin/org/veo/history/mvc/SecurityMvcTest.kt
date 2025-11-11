@@ -32,6 +32,20 @@ class SecurityMvcTest : AbstractMvcTest() {
         )
 
     @TestFactory
+    @WithMockClient
+    fun `export API is forbidden for normal users`() =
+        listOf(
+            testStatus(HttpMethod.GET, "/revisions/paged", 403),
+        )
+
+    @TestFactory
+    @WithMockClient(readWriteAllUnits = true)
+    fun `export API is allowed for privileged users`() =
+        listOf(
+            testStatus(HttpMethod.GET, "/revisions/paged", 200),
+        )
+
+    @TestFactory
     fun `documentation is accessible`() =
         listOf(
             testStatus(HttpMethod.GET, "/actuator/health/readiness", 200),
