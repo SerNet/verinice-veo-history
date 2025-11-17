@@ -33,7 +33,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("com.vladmihalcea:hibernate-types-60:2.21.1")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.hibernate.validator:hibernate-validator:9.0.1.Final")
+    implementation("org.hibernate.validator:hibernate-validator")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
