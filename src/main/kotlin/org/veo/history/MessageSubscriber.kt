@@ -17,8 +17,6 @@
  */
 package org.veo.history
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.Argument
@@ -28,6 +26,8 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ObjectMapper
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -102,10 +102,10 @@ class MessageSubscriber(
         mapper
             .readTree(message)
             .get("content")
-            .asText()
+            .asString()
             .let(mapper::readTree)
             .let { content ->
-                val eventType = content.get("eventType").asText()
+                val eventType = content.get("eventType").asString()
                 log.debug { "Received message with '$eventType' event" }
                 eventTypeHandlers[eventType]
                     ?.also { handler -> handler(content) }
@@ -119,8 +119,8 @@ class MessageSubscriber(
     }
 
     private fun handleClientChange(content: JsonNode) {
-        if (content.get("type").asText() == "DELETION") {
-            val clientId = UUID.fromString(content.get("clientId").asText())
+        if (content.get("type").asString() == "DELETION") {
+            val clientId = UUID.fromString(content.get("clientId").asString())
             log.info { "Deleting all revisions owned by client $clientId" }
             revisionRepo.deleteAllClientRevisions(clientId)
         }
@@ -129,20 +129,20 @@ class MessageSubscriber(
     private fun handleVersioning(content: JsonNode) =
         content
             .run {
-                val revisionType = RevisionType.valueOf(get("type").asText())
+                val revisionType = RevisionType.valueOf(get("type").asString())
                 val content = get("content")
                 if (revisionType != RevisionType.HARD_DELETION && content == null) {
-                    val uri = get("uri").asText()
+                    val uri = get("uri").asString()
                     log.warn { "Received versioning message with type $revisionType and no content for resource $uri" }
                     throw AmqpRejectAndDontRequeueException("content is required for revision type $revisionType")
                 }
                 Revision(
-                    URI.create(get("uri").asText()),
+                    URI.create(get("uri").asString()),
                     revisionType,
                     get("changeNumber").asLong(),
-                    Instant.parse(get("time").asText()),
-                    get("author").asText(),
-                    UUID.fromString(get("clientId").asText()),
+                    Instant.parse(get("time").asString()),
+                    get("author").asString(),
+                    UUID.fromString(get("clientId").asString()),
                     content,
                 )
             }.apply {
@@ -151,7 +151,7 @@ class MessageSubscriber(
                 } catch (ex: DuplicateRevisionException) {
                     log.debug("Duplicate revision", ex)
                     log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
-                    throw AmqpRejectAndDontRequeueException(ex.message)
+                    throw AmqpRejectAndDontRequeueException(ex.message!!)
                 }
             }
 }

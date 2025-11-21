@@ -17,7 +17,6 @@
  */
 package org.veo.history
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -34,6 +33,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.RabbitListener
+import tools.jackson.databind.ObjectMapper
 import java.io.IOException
 import java.net.URI
 import java.time.Instant
@@ -126,7 +126,7 @@ class MessageSubscriberTest {
             time shouldBe Instant.parse("2021-04-16T09:54:54.871021Z")
             author shouldBe "veo-testuser1"
             clientId shouldBe UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
-            content!!.get("name").asText() shouldBe "My unit"
+            content!!.get("name").asString() shouldBe "My unit"
         }
     }
 

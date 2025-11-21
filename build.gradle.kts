@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.5.10"
+    id("org.springframework.boot") version "4.0.2"
 
     kotlin("jvm") version "2.3.10"
     kotlin("plugin.spring") version "2.3.10"
@@ -31,11 +31,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.flywaydb:flyway-core")
+    implementation("org.springframework.boot:spring-boot-starter-flyway")
     implementation("org.hibernate.validator:hibernate-validator")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.15")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     runtimeOnly("org.postgresql:postgresql")
@@ -51,11 +51,13 @@ dependencies {
 
     testImplementation("io.mockk:mockk:1.14.9")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testRuntimeOnly("org.testcontainers:postgresql")
+    testRuntimeOnly("org.testcontainers:testcontainers-postgresql")
+    testRuntimeOnly("org.springframework.boot:spring-boot-starter-security-test")
 }
 
 extra["kotlin-coroutines.version"] = "1.6.0"

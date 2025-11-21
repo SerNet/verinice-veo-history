@@ -297,7 +297,7 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
             it.content!!
                 .get("owner")
                 ?.get("targetUri")
-                ?.asText() shouldBe "/owner/1"
+                ?.asString() shouldBe "/owner/1"
         }
         result[0].let {
             it.uri shouldBe URI.create("/my-updated-resource")

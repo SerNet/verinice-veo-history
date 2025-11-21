@@ -18,9 +18,9 @@
 package org.veo.history.dtos
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
 import org.veo.history.RevisionType
+import tools.jackson.databind.JsonNode
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
