@@ -18,7 +18,6 @@
 package org.veo.history
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.vladmihalcea.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -27,7 +26,9 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
+import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.annotations.Type
+import org.hibernate.type.SqlTypes
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -53,7 +54,7 @@ class Revision(
     /** ID of the client the resource belonged to. Other clients must never access this revision. */
     val clientId: UUID,
     /** Resource content (JSON response body at time of change). */
-    @Type(JsonType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb", name = "content")
     private val _content: JsonNode?,
 ) {
