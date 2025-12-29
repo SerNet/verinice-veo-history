@@ -1,9 +1,9 @@
 plugins {
     id("org.springframework.boot") version "3.5.9"
 
-    kotlin("jvm") version "2.2.21"
-    kotlin("plugin.spring") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.noarg") version "2.2.21"
+    kotlin("jvm") version "2.3.0"
+    kotlin("plugin.spring") version "2.3.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "2.3.0"
 
     id("com.diffplug.spotless") version "8.1.0"
     id("com.gorylenko.gradle-git-properties") version "2.5.4"
