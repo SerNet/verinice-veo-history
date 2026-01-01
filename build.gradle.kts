@@ -35,7 +35,7 @@ dependencies {
     implementation("org.hibernate.validator:hibernate-validator")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.15")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     runtimeOnly("org.postgresql:postgresql")
