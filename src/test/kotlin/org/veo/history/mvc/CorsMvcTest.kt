@@ -1,4 +1,4 @@
-/**
+/*
  * verinice.veo history
  * Copyright (C) 2021  Finn Westendorf
  *

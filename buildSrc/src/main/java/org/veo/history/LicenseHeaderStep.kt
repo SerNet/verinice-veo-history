@@ -1,4 +1,4 @@
-/**
+/*
  * verinice.veo history
  * Copyright (C) 2018  Jochen Kemnade
  *
@@ -30,7 +30,7 @@ import java.util.regex.Pattern
 private const val NAME = "veoLicenseHeader"
 private const val LICENSE_HEADER_DELIMITER = "package |@file"
 private const val LICENSE_HEADER_TEMPLATE =
-    "/**\n" +
+    "/*\n" +
         " * verinice.veo history\n" +
         " * Copyright (C) \$YEAR  \$AUTHOR\n" +
         " *\n" +
@@ -56,7 +56,6 @@ class LicenseHeaderStep private constructor(
     private val author: String
     private val delimiterPattern: Pattern
 
-    /** The license that we'd like enforced. */
     init {
         require(!delimiter.contains("\n")) { "The delimiter must not contain any newlines." }
 
