@@ -43,7 +43,7 @@ dependencies {
     runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
-    val kotestVersion = "6.1.1"
+    val kotestVersion = "6.1.2"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
