@@ -40,9 +40,11 @@ import java.util.UUID.randomUUID
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("uri", "changeNumber"))])
 class Revision(
     /** Resource Location */
+    @Column(nullable = false)
     val uri: URI,
     /** Type of change (what happened?) */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     val type: RevisionType,
     /** Resource-specific zero-based change number */
     val changeNumber: Long,
@@ -66,6 +68,7 @@ class Revision(
     val id: Long get() = _id
 
     /** Unique key to be used on the public API to reference revisions. */
+    @Column(nullable = false)
     val uuid: UUID = randomUUID()
 
     val content: JsonNode?
