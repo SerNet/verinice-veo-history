@@ -17,7 +17,7 @@
  */
 package org.veo.history
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.Argument
 import org.springframework.amqp.rabbit.annotation.Exchange
@@ -149,7 +149,7 @@ class MessageSubscriber(
                 try {
                     revisionRepo.add(this)
                 } catch (ex: DuplicateRevisionException) {
-                    log.debug("Duplicate revision", ex)
+                    log.debug(ex) { "Duplicate revision" }
                     log.warn { "Ignoring duplicated versioning message: change number $changeNumber of resource $uri" }
                     throw AmqpRejectAndDontRequeueException(ex.message!!)
                 }

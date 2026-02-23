@@ -17,7 +17,7 @@
  */
 package org.veo.history
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -92,10 +92,10 @@ class WebSecurity {
         // Authorization is always needed, additional headers are configurable:
         corsConfig.addAllowedHeader(HttpHeaders.AUTHORIZATION)
         allowedHeaders
-            .onEach { log.debug("Added CORS allowed header: $it") }
+            .onEach { log.debug { "Added CORS allowed header: $it" } }
             .forEach { corsConfig.addAllowedHeader(it) }
         origins
-            .onEach { log.debug("Added CORS origin pattern: $it") }
+            .onEach { log.debug { "Added CORS origin pattern: $it" } }
             .forEach { corsConfig.addAllowedOriginPattern(it) }
         source.registerCorsConfiguration("/**", corsConfig)
         corsConfig.setMaxAge(Duration.ofMinutes(30))
