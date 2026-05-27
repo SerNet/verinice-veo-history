@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "2.3.21"
 
     id("com.diffplug.spotless") version "8.5.1"
-    id("com.gorylenko.gradle-git-properties") version "3.0.2"
+    id("com.gorylenko.gradle-git-properties") version "3.0.3"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
 }
