@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.veo"
-version = "0.72.0"
+version = "0.72.1"
 
 java {
     toolchain {
@@ -58,6 +58,23 @@ dependencies {
     }
     testRuntimeOnly("org.testcontainers:testcontainers-postgresql")
     testRuntimeOnly("org.springframework.boot:spring-boot-starter-security-test")
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.apache.tomcat.embed" && requested.version == "11.0.21") {
+            useVersion("11.0.22")
+            because("Security fixes")
+        }
+        if (requested.name == "postgresql" && requested.version == "42.7.10") {
+            useVersion("42.7.11")
+            because("Security fixes")
+        }
+        if (requested.group == "io.netty" && requested.version == "4.2.12.Final") {
+            useVersion("4.2.13.Final")
+            because("Security fixes")
+        }
+    }
 }
 
 tasks.withType<Test> {
