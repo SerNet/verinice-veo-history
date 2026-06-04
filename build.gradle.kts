@@ -60,8 +60,6 @@ dependencies {
     testRuntimeOnly("org.springframework.boot:spring-boot-starter-security-test")
 }
 
-extra["kotlin-coroutines.version"] = "1.6.0"
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
