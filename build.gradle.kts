@@ -84,7 +84,7 @@ tasks.withType<Test> {
 kotlin {
     compilerOptions {
         allWarningsAsErrors = true
-        freeCompilerArgs = listOf("-Xjsr305=strict ", "-Xannotation-default-target=param-property")
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }
 }
 
