@@ -19,7 +19,7 @@ package org.veo.history
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.ConstraintViolationException
-import org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
+import org.springframework.http.HttpStatus.UNPROCESSABLE_CONTENT
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -30,5 +30,5 @@ class ExceptionHandler {
     fun handleException(
         exception: Exception,
         request: HttpServletRequest?,
-    ): ResponseEntity<String> = ResponseEntity<String>(exception.message, UNPROCESSABLE_ENTITY)
+    ): ResponseEntity<String> = ResponseEntity<String>(exception.message, UNPROCESSABLE_CONTENT)
 }
