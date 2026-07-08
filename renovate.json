@@ -1,21 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "assignAutomerge": true,
-  "automerge": true,
-  "automergeType": "pr",
+  "extends": [
+    "config:best-practices",
+    ":automergeAll",
+    ":automergePr"
+  ],
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
   "reviewers": [
     "jj"
   ],
-  "ignoreDeps": [
-    "postgres"
-  ],
+  "assignAutomerge": true,
   "packageRules": [
-    {
-      "groupName": "Kotlin",
-      "matchPackageNames": [
-        "/^org.jetbrains.kotlin/"
-      ]
-    },
     {
       "groupName": "Spotless",
       "postUpgradeTasks": {
@@ -35,6 +32,38 @@
         "eclipse-temurin"
       ],
       "allowedVersions": "25-jdk"
+    },
+    {
+      "matchFileNames": [
+        "**/src/*/resources/application*.*"
+      ],
+      "pinDigests": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "**/src/*/resources/application*.*"
+      ],
+      "matchStrings": [
+        "jdbc:tc:postgresql:(?<currentValue>[a-zA-Z0-9.-]+):"
+      ],
+      "depNameTemplate": "postgres",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "build.gradle.kts"
+      ],
+      "matchStrings": [
+        "(?<depName>gcr\\.io\\/distroless\\/java[0-9]+-debian[0-9]+):(?<currentValue>[^'\"@\\s]+)(?:@(?<currentDigest>sha256:[a-fA-F0-9]+))?"
+      ],
+      "autoReplaceStringTemplate": "{{{depName}}}:{{#if newValue}}{{{newValue}}}{{else}}{{{currentValue}}}{{/if}}{{#if newDigest}}@{{{newDigest}}}{{/if}}",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
     }
   ]
 }
