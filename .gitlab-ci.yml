@@ -1,4 +1,4 @@
-image: eclipse-temurin:25-jdk
+image: eclipse-temurin:25-jdk@sha256:68868d04fa9cfd5f5c6abec0b5cef86d8de2bf9c62c37c7d3e4f0f80f5cfd7ff
 
 variables:
   ORG_GRADLE_PROJECT_ci: 'true'
@@ -58,7 +58,7 @@ build:
 determine-destinations:
   before_script: []
   image:
-    name: alpine/git
+    name: alpine/git@sha256:fac7bc2c12aa52bff1c78a26359990e149954a60cdd5d6e20e7e009666c73e0a
     entrypoint: [ "" ]
   stage: build
   script:
@@ -92,7 +92,7 @@ test:
   - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/reports/jacoco/test/jacocoTestReport.csv
   interruptible: true
   services:
-  - name: postgres:16.8-alpine
+  - name: postgres:16.8-alpine@sha256:3b057e1c2c6dfee60a30950096f3fab33be141dbb0fdd7af3d477083de94166c
     alias: db
     variables:
       POSTGRES_USER: test
@@ -141,7 +141,7 @@ docker_image:
    - build
    - determine-destinations
   image:
-    name: gcr.io/kaniko-project/executor:v1.24.0-debug
+    name: gcr.io/kaniko-project/executor:v1.24.0-debug@sha256:2562c4fe551399514277ffff7dcca9a3b1628c4ea38cb017d7286dc6ea52f4cd
     entrypoint: [""]
 
   variables:
