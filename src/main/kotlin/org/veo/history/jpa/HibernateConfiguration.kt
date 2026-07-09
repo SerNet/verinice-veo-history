@@ -18,6 +18,7 @@
 package org.veo.history.jpa
 
 import org.hibernate.cfg.AvailableSettings
+import org.hibernate.type.format.jackson.Jackson3JsonFormatMapper
 import org.springframework.boot.hibernate.autoconfigure.HibernatePropertiesCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,6 +29,6 @@ class HibernateConfiguration {
     @Bean
     fun hibernatePropertiesCustomizer(): HibernatePropertiesCustomizer =
         HibernatePropertiesCustomizer { hibernateProperties: MutableMap<String, Any> ->
-            hibernateProperties[AvailableSettings.JSON_FORMAT_MAPPER] = JacksonJsonFormatMapper::class.java.getName()
+            hibernateProperties[AvailableSettings.JSON_FORMAT_MAPPER] = Jackson3JsonFormatMapper::class.java.getName()
         }
 }
