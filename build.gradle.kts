@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.veo"
-version = "0.75.0"
+version = "0.76.0-SNAPSHOT"
 
 java {
     toolchain {
