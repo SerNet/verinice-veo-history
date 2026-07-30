@@ -66,8 +66,8 @@ configurations.all {
             useVersion("11.0.22")
             because("Security fixes")
         }
-        if (requested.name == "postgresql" && requested.version == "42.7.10") {
-            useVersion("42.7.11")
+        if (requested.name == "postgresql" && requested.version == "42.7.11") {
+            useVersion("42.7.12")
             because("Security fixes")
         }
         if (requested.group == "io.netty" && requested.version == "4.2.12.Final") {
