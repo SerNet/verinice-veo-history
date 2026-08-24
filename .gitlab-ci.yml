@@ -22,9 +22,9 @@ include:
 
 stages:
   - build
-  - copy
   - check
   - docker_image
+  - copy
   - deployment
 
 workflow:
