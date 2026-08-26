@@ -3,7 +3,6 @@ image: eclipse-temurin:25-jdk@sha256:e787e08ef76f4c16866108cd7f9fcd96a68eef3ac6c
 variables:
   ORG_GRADLE_PROJECT_ci: 'true'
   CI_DEBUG_SERVICES: "true"
-  PROXY: $HTTPS_PROXY_HOST
 
 include:
   - project: "veo/verinice-veo"
