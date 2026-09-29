@@ -25,6 +25,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
+import org.hibernate.annotations.Immutable
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import tools.jackson.databind.JsonNode
@@ -38,6 +39,7 @@ import java.util.UUID.randomUUID
  */
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("uri", "changeNumber"))])
+@Immutable
 class Revision(
     /** Resource Location */
     @Column(nullable = false)
