@@ -43,10 +43,10 @@ class RevisionDto(
     val time: Instant,
     @Schema(description = "Name of the user who authored the change.")
     val author: String,
-    @Schema(description = "Resource body at this revision")
     @JsonIgnore
     private val _content: JsonNode?,
 ) {
+    @get:Schema(description = "Resource body at this revision", implementation = Any::class, types = ["object", "null"])
     val content: JsonNode?
         get() = _content?.deepCopy() // enforce immutability
 }
