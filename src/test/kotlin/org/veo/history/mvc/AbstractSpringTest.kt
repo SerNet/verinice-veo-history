@@ -23,7 +23,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ActiveProfiles
 import org.veo.history.RevisionRepo
-import tools.jackson.databind.JsonNode
 import tools.jackson.databind.ObjectMapper
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -35,7 +34,7 @@ abstract class AbstractSpringTest {
     @Autowired
     protected lateinit var revisionRepo: RevisionRepo
 
-    protected fun jsonObject(vararg pairs: Pair<String, *>): JsonNode = om.valueToTree(mapOf(*pairs))
+    protected fun jsonObject(vararg pairs: Pair<String, *>): String = om.writeValueAsString(mapOf(*pairs))
 
     @BeforeEach
     protected fun clearDb() {

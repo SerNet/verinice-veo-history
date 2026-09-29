@@ -126,7 +126,7 @@ class MessageSubscriberTest {
             time shouldBe Instant.parse("2021-04-16T09:54:54.871021Z")
             author shouldBe "veo-testuser1"
             clientId shouldBe UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
-            content!!.get("name").asString() shouldBe "My unit"
+            om.readTree(content!!).get("name").asString() shouldBe "My unit"
         }
     }
 

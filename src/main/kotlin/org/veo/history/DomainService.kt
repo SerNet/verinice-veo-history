@@ -19,6 +19,7 @@ package org.veo.history
 
 import org.springframework.stereotype.Component
 import org.veo.history.dtos.RevisionDto
+import tools.jackson.databind.json.JsonMapper
 import tools.jackson.databind.node.ObjectNode
 import java.net.URI
 import java.util.UUID
@@ -58,7 +59,7 @@ class DomainService {
                 revisionDto.time,
                 revisionDto.author,
                 revisionDto.content
-                    ?.let { it as ObjectNode }
+                    ?.let { JsonMapper.shared().readTree(it) as ObjectNode }
                     ?.also { content ->
                         content.remove("requirementImplementations")
                         content
@@ -68,7 +69,7 @@ class DomainService {
                             ?.let { domainAssociation ->
                                 content.setAll(domainAssociation)
                             }
-                    },
+                    }?.let(JsonMapper.shared()::writeValueAsString),
             )
     }
 }

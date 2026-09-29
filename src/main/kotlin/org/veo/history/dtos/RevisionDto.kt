@@ -17,10 +17,9 @@
  */
 package org.veo.history.dtos
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonRawValue
 import io.swagger.v3.oas.annotations.media.Schema
 import org.veo.history.RevisionType
-import tools.jackson.databind.JsonNode
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -43,10 +42,7 @@ class RevisionDto(
     val time: Instant,
     @Schema(description = "Name of the user who authored the change.")
     val author: String,
-    @JsonIgnore
-    private val _content: JsonNode?,
-) {
-    @get:Schema(description = "Resource body at this revision", implementation = Any::class, types = ["object", "null"])
-    val content: JsonNode?
-        get() = _content?.deepCopy() // enforce immutability
-}
+    @Schema(description = "Resource body at this revision", types = ["object", "null"])
+    @get:JsonRawValue
+    val content: String?,
+)

@@ -294,7 +294,8 @@ class RevisionJpaRepoTest : AbstractSpringTest() {
         result.forEach {
             it.clientId shouldBe clientId
             it.author shouldBe "thisUser"
-            it.content!!
+            om
+                .readTree(it.content!!)
                 .get("owner")
                 ?.get("targetUri")
                 ?.asString() shouldBe "/owner/1"

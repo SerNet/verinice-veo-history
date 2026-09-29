@@ -28,7 +28,6 @@ import jakarta.persistence.UniqueConstraint
 import org.hibernate.annotations.Immutable
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
-import tools.jackson.databind.JsonNode
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -56,10 +55,13 @@ class Revision(
     val author: String,
     /** ID of the client the resource belonged to. Other clients must never access this revision. */
     val clientId: UUID,
-    /** Resource content (JSON response body at time of change). */
+    /**
+     * Resource content (JSON response body at time of change), as a serialized JSON string. Kept as a string rather
+     * than a parsed JSON tree, because a string is immutable and much more compact in memory.
+     */
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb", name = "content")
-    private val _content: JsonNode?,
+    val content: String?,
 ) {
     @Id
     @Column(name = "id")
@@ -72,7 +74,4 @@ class Revision(
     /** Unique key to be used on the public API to reference revisions. */
     @Column(nullable = false)
     val uuid: UUID = randomUUID()
-
-    val content: JsonNode?
-        get() = _content?.deepCopy() // enforce immutability
 }

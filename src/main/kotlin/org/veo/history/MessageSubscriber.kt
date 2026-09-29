@@ -27,7 +27,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import tools.jackson.databind.JsonNode
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import java.net.URI
 import java.time.Instant
 import java.util.UUID
@@ -39,7 +39,7 @@ private val log = KotlinLogging.logger {}
 class MessageSubscriber(
     private val revisionRepo: RevisionRepo,
 ) {
-    private val mapper = ObjectMapper()
+    private val mapper = JsonMapper.shared()
 
     @RabbitListener(
         bindings = [
@@ -143,7 +143,7 @@ class MessageSubscriber(
                     Instant.parse(get("time").asString()),
                     get("author").asString(),
                     UUID.fromString(get("clientId").asString()),
-                    content,
+                    content?.let(mapper::writeValueAsString),
                 )
             }.apply {
                 try {
