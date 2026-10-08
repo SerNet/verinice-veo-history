@@ -14,6 +14,12 @@
   "assignAutomerge": true,
   "packageRules": [
     {
+      "groupName": "Kotlin",
+      "matchPackageNames": [
+        "/^org.jetbrains.kotlin/"
+      ]
+    },
+    {
       "groupName": "Spotless",
       "postUpgradeTasks": {
         "commands": [
