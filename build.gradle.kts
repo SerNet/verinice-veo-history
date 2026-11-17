@@ -31,7 +31,7 @@ dependencies {
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.23.0"))
     implementation(platform("tools.jackson:jackson-bom:3.3.0"))
     constraints {
-        implementation("com.rabbitmq:amqp-client:5.37.1")
+        implementation("com.rabbitmq:amqp-client:5.38.0")
     }
 
     implementation("org.springframework.boot:spring-boot-starter-web")
