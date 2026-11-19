@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java25-debian13:nonroot@sha256:a90a5fadd78dc37b643da72dca2f744ef67eba625eca7227a5b375b548e6b1c2
+FROM gcr.io/distroless/java25-debian13:nonroot@sha256:9a868974dd82da359adf8c659d9f9a8d5249b138a733def74adbf00f64975db3
 
 ARG VEO_HISTORY_VERSION
 
