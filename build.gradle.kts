@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "4.1.2"
+    id("org.springframework.boot") version "4.2.0"
 
     kotlin("jvm") version "2.4.21"
     kotlin("plugin.spring") version "2.4.21"
@@ -44,7 +44,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.7")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springframework.boot:spring-boot-starter-rabbitmq")
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
