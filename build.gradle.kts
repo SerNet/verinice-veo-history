@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "4.1.2"
+    id("org.springframework.boot") version "4.1.3"
 
     kotlin("jvm") version "2.4.21"
     kotlin("plugin.spring") version "2.4.21"
@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.veo"
-version = "0.80.1"
+version = "0.80.2"
 
 java {
     toolchain {
